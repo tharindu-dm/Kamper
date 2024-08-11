@@ -1,9 +1,17 @@
-export default function Perks({selected, onChange}) {
+export default function Perks({ selected, onChange }) {
+  function handleCbClick(ev) {
+    const { name, checked } = ev.target;
+    if (checked) {
+      onChange([...selected, name]);
+    } else {
+      onChange(...selected.filter((selectedName) => selectedName !== name));
+    }
+  }
+  
   return (
-    
     <div className="mt-2 grid gap-2 gird-cols-2 md:grid-col-3 lg:grid-col-6">
       <label className="border p-4 flex rounded-2xl gap-2 items-center cursor-pointer">
-        <input type="checkbox" />
+        <input type="checkbox" name="wifi" onChange={handleCbClick} />
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -22,20 +30,20 @@ export default function Perks({selected, onChange}) {
         <span>Wifi</span>
       </label>
       <label className="border p-4 flex rounded-2xl gap-2 items-center cursor-pointer">
-        <input type="checkbox" />
+        <input type="checkbox" name="free-parking" onChange={handleCbClick} />
         "PLACE THE HEROICON svg icon jsx code here for each perk"
         <span>Free Parking</span>
       </label>
       <label className="border p-4 flex rounded-2xl gap-2 items-center cursor-pointer">
-        <input type="checkbox" />
+        <input type="checkbox" name="tv" onChange={handleCbClick} />
         <span>TV</span>
       </label>
       <label className="border p-4 flex rounded-2xl gap-2 items-center cursor-pointer">
-        <input type="checkbox" />
+        <input type="checkbox" name="pets" onChange={handleCbClick} />
         <span>Pets</span>
       </label>
       <label className="border p-4 flex rounded-2xl gap-2 items-center cursor-pointer">
-        <input type="checkbox" />
+        <input type="checkbox" name="priv-ent" onChange={handleCbClick} />
         <span>Private Entrance</span>
       </label>
     </div>

@@ -9,8 +9,9 @@
 05:04:36 - Single place page 
 ==========================
 
-npm install --save image-downloader //node module for downloading image to disk from a given URL
-
+> npm install --save image-downloader //node module for downloading image to disk from a given URL
+> npm install --save multer   //3:12:26 - file upload package | Multer is a node.js middleware for handling multipart/form-data, which is primarily used for uploading files. It is written on top of busboy for maximum efficiency.
+>
 
 =====================================
 # Changes to ProfilePage
