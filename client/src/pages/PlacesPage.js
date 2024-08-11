@@ -1,7 +1,51 @@
 import { Link, useParams } from "react-router-dom";
+import { useState } from "react";
+import Perk from "../components/Perk";
+import axios from "axios";
 
 export default function PlacesPage() {
   const { action } = useParams();
+
+  const [title, setTitle] = useState("");
+  const [address, setAddress] = useState("");
+  const [addedPhotos, setAddedPhotos] = useState([]);
+  const [photoLink, setPhotoLink] = useState("");
+  const [description, setDescription] = useState("");
+  const [perks, setPerks] = useState([]);
+  const [extraInfo, setExtraInfo] = useState("");
+  const [checkIn, setCheckIn] = useState("");
+  const [checkOut, setCheckOut] = useState("");
+  const [maxGuests, setMaxGuests] = useState(1);
+
+  function inputHeader(text) {
+    return <h2 className="text-2xl mt-4">{text}</h2>;
+  }
+
+  function inputDescription(text) {
+    return <p className="text-sm text-gray-500">{text}</p>;
+  }
+
+  function preInput(header, description) {
+    return (
+      <>
+        {inputHeader(header)}
+        {inputDescription(header)}
+      </>
+    );
+  }
+
+  async function addPhotByLink(ev) {
+    ev.preventDefault();
+    const { data: filename } = await axios.post("/upload-by-link", {
+      link: photoLink,
+    });
+    setAddedPhotos((prev) => {
+      return [...prev, filename];
+    });
+
+    setPhotoLink("");
+  }
+
   return (
     <div>
       {action !== "new" && (
@@ -33,31 +77,48 @@ export default function PlacesPage() {
       {action === "new" && (
         <div>
           <form>
-            <h2 className="text-2xl mt-4">Title</h2>
-            <p className="text-sm text-gray-500">
-              title for your place, should be short and catchy as in
-              advertisement
-            </p>
-            <input type="text" placeholder="title, eg: my lovely apartment" />
+            {preInput(
+              "Title",
+              "title for your place, should be short and catchy as in advertisement"
+            )}
+            <input
+              type="text"
+              placeholder="title, eg: my lovely apartment"
+              value={title}
+              onChange={(ev) => setTitle(ev.target.value)}
+            />
 
-            <h2 className="text-2xl mt-4">address</h2>
-            <p className="text-sm text-gray-500">Address to your place</p>
+            {preInput("Address", "Address to your place")}
             <input
               type="text"
               placeholder="addresss, eg: Barcelona, Philadelphia"
+              value={address}
+              onChange={(ev) => setAddress(ev.target.value)}
             />
 
-            <h2 className="text-2xl mt-4">Photos</h2>
-            <p className="text-sm text-gray-500">more the better</p>
+            {preInput("Photos", "more the better")}
             <div className="flex gap-2">
-              <input type="text" placeholder={"Add using a link....jpg"} />
-              <button className="bg-gray-200 px-4 rounded-2xl">
+              <input
+                value={photoLink}
+                onChange={(ev) => setPhotoLink(ev.target.value)}
+                type="text"
+                placeholder={"Add using a link....jpg"}
+              />
+              <button
+                onClick={addPhotByLink}
+                className="bg-gray-200 px-4 rounded-2xl"
+              >
                 Add&nbsp;photo
               </button>
             </div>
 
-            <div className="mt-3 grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
-              <button className="flex gap-1 justify-center border bg-transparent rounded-2xl p-8 text-gray-600">
+            <div className="mt-3 grid gap-2 grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
+              {addedPhotos.length > 0 && addedPhotos.map((link) => 
+                <div>
+                  <img className="rounded-2xl" src={'http://localhost:3000/uploads/'+link} alt="photo" />
+                </div>  
+                )}
+              <button className="flex items-center gap-1 justify-center border bg-transparent rounded-2xl p-2 text-gray-600">
                 Upload from your device
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -75,6 +136,59 @@ export default function PlacesPage() {
                 </svg>
               </button>
             </div>
+
+            {preInput("Description", "Description of the place")}
+            <textarea
+              value={description}
+              onChange={(ev) => setDescription(ev.target.value)}
+            />
+
+            {preInput("Perks", "Select all the perks of your place")}
+            <Perk selected={perks} onChange={setPerks} />
+
+            {preInput(
+              "Extra info.",
+              "ground rules and Extra information about the place"
+            )}
+            <textarea
+              value={extraInfo}
+              onChange={(ev) => setExtraInfo(ev.target.value)}
+            />
+
+            {preInput(
+              "Check in&out times",
+              "Add check in and check out times. make sure to keep a window between cleaning activities"
+            )}
+            <div className="grid gap-2 sm:grid-col-3">
+              <div>
+                <h3 className="mt-2 mb-1">check in time</h3>
+                <input
+                  type="text"
+                  value={checkIn}
+                  onChange={(ev) => setCheckIn(ev.target.value)}
+                />
+              </div>
+
+              <div>
+                <h3 className="mt-2 mb-1">check out time</h3>
+                <input
+                  type="text"
+                  value={checkOut}
+                  onChange={(ev) => setCheckOut(ev.target.value)}
+                />
+              </div>
+
+              <div>
+                <h3 className="mt-2 mb-1">max number of guests</h3>
+                <input
+                  type="number"
+                  value={maxGuests}
+                  onChange={(ev) => setMaxGuests(ev.target.value)}
+                />
+              </div>
+            </div>
+
+            <button className="primary mt-4"> Save </button>
           </form>
         </div>
       )}

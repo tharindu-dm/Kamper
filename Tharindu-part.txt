@@ -1,12 +1,16 @@
-02:09:15 - Places/accommodations form --- done
-02:26:40 - Upload by link --- in
-03:06:39 - Upload photos from your device functionality
+02:09:15 - Places/accommodations form 
+02:26:40 - Upload by link--- done
+03:06:39 - Upload photos from your device functionality --- in
 03:34:29 - Small bugfixes and code refactoring
 04:06:40 - Listing user places/accommodations
 04:15:58 - Editing existing places
 04:33:23 - Deleting photos and selecting main/cover photos
 04:45:52 - Listing places on the homepage
 05:04:36 - Single place page 
+==========================
+
+npm install --save image-downloader //node module for downloading image to disk from a given URL
+
 
 =====================================
 # Changes to ProfilePage
@@ -44,3 +48,11 @@ changes at 2:18:05  -  adding profile icon to  <Link>'My profile'</Link>
                             }
                             return classes;
                         }
+
+=====
+if something went wrong with perks.js and <Perks/> in PlacesPage
+remove the enclosing div in Perks.js and use it to enclose <Perks/> in PlacesPage
+and encloce perks.js contente with <>
+
+changes to api/index.js
+3:04:00 ---- app.use(); at line 18
