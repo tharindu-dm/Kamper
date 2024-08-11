@@ -1,0 +1,46 @@
+02:09:15 - Places/accommodations form --- done
+02:26:40 - Upload by link --- in
+03:06:39 - Upload photos from your device functionality
+03:34:29 - Small bugfixes and code refactoring
+04:06:40 - Listing user places/accommodations
+04:15:58 - Editing existing places
+04:33:23 - Deleting photos and selecting main/cover photos
+04:45:52 - Listing places on the homepage
+05:04:36 - Single place page 
+
+=====================================
+# Changes to ProfilePage
+
+if (redirect) {
+    return <Navigate to={redirect} />
+  }
+  return (
+    <div>
+      <AccountNav />
+      {subpage === 'profile' && (
+        <div className="text-center max-w-lg mx-auto">
+          Logged in as {user.name} ({user.email})<br />
+          <button onClick={logout} className="primary max-w-sm mt-2">Logout</button>
+        </div>
+      )}
+      {subpage === 'places' && (
+        <PlacesPage />          //--------------------------------------this is from src/pages/PlacesPage.js
+      )}
+    </div>
+  );
+
+================================================================================================
+
+changes at 2:18:05  -  adding profile icon to  <Link>'My profile'</Link>
+                    -  adding list icon to  <Link>' My bookings'</Link>
+                    -  adding building icon to  <Link>'My Accommodations'</Link>
+                    -  adding some classes : 
+                        function linknClasses(type=null){
+                            let classes = 'inline-flex gap-1 py-2 px-6 rounded-full';
+                            if(type === subpage){
+                                classes += 'bg-primary text-white';
+                            }else{
+                                classes += 'bg-gray-200 '
+                            }
+                            return classes;
+                        }
