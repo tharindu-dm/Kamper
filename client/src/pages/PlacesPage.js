@@ -1,8 +1,8 @@
 import { Link, useParams } from "react-router-dom";
 import { useState } from "react";
-import Perk from "../components/Perk";
+import Perk from "../components/Perks";
 import axios from "axios";
-import { func } from "prop-types";
+//import { func } from "prop-types";
 
 export default function PlacesPage() {
   const { action } = useParams();
@@ -72,7 +72,7 @@ export default function PlacesPage() {
       {action !== "new" && (
         <div className="">
           <Link
-            className="inline-flex gap-1 bg-primary text-white py-2 px-6 rounded-full"
+            className="bg-primary inline-flex gap-1 text-white py-2 px-6 rounded-full"
             to={"/account/places/new"}
           >
             <svg
@@ -139,8 +139,7 @@ export default function PlacesPage() {
                   <div className="h-32 flex ">
                     <img
                       className="rounded-2xl w-full object-cover position-center"
-                      src={"http://localhost:3000/uploads/" + link}
-                      alt="photo"
+                      src={"http://localhost:3000/uploads/" + link } alt="the place"
                     />
                   </div>
                 ))}

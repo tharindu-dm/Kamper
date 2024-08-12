@@ -36,9 +36,7 @@ if (redirect) {
 
 ================================================================================================
 
-changes at 2:18:05  -  adding profile icon to  <Link>'My profile'</Link>
-                    -  adding list icon to  <Link>' My bookings'</Link>
-                    -  adding building icon to  <Link>'My Accommodations'</Link>
+changes at 2:18:05  
                     -  adding some classes : 
                         function linknClasses(type=null){
                             let classes = 'inline-flex gap-1 py-2 px-6 rounded-full';
