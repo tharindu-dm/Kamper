@@ -1,8 +1,8 @@
 02:09:15 - Places/accommodations form 
 02:26:40 - Upload by link
-03:06:39 - Upload photos from your device functionality --- done
-03:34:29 - Small bugfixes and code refactoring  --- in
-04:06:40 - Listing user places/accommodations
+03:06:39 - Upload photos from your device functionality 
+03:34:29 - Small bugfixes and code refactoring  --- done
+04:06:40 - Listing user places/accommodations --- in
 04:15:58 - Editing existing places
 04:33:23 - Deleting photos and selecting main/cover photos
 04:45:52 - Listing places on the homepage
@@ -10,6 +10,7 @@
 ========================================================
 
 >> if something wrong with icons (related error) check ones like "strokeLinecap" written as "stroke-Linecap"
+>> 3:50:44 there was an error when submitting the form???? i didnt get that one tho
 
 ============================================================
 succesffully implemented:

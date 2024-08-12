@@ -1,47 +1,27 @@
-import { useContext, useState } from "react";
-import { UserContext } from "../userContext";
-import { Link, Navigate, useParams } from "react-router-dom";
-import axios from "axios";
-import PlacesPage from "./PlacesPage.js";
+import { Link, useLocation } from "react-router-dom";
 
-export default function AccountPage() {
-  const [redirect, setRedirect] = useState(null);
-  let { subpage } = useParams();
+export default function AccountNavi() {
+  const { pathname } = useLocation();
+  let subpage = pathname.split("/")?.[2];
+
   if (subpage === undefined) {
-    subpage = 'profile';
-  }
-
-  async function logout() {
-    await axios.post("/api/logout");
-    setRedirect("/");
-    setUser(null);
-  }
-
-  const { ready, user, setUser } = useContext(UserContext);
-  if (!ready) {
-    return "Loading....";
-  }
-  if (ready && !user && !redirect) {
-    return <Navigate to={"/login"} />;
+    subpage = "profile";
   }
 
   function linkClasses(type = null) {
-    let classes = ' inline-flex gap-1 py-2 px-6 rounded-full';
+    let classes = " inline-flex gap-1 py-2 px-6 rounded-full";
     if (type === subpage) {
-      classes += ' bg-primary text-white ';
+      classes += " bg-primary text-white ";
     } else {
-      classes += ' bg-gray-200';
+      classes += " bg-gray-200";
     }
     return classes;
   }
 
-  if (redirect) {
-    return <Navigate to={redirect} />;
-  }
   return (
-    <div>
+    <>
       <nav className="w-full flex justify-center mt-8 gap-2">
-        <Link className={linkClasses('profile')} to={"/account"}>
+        <Link className={linkClasses("profile")} to={"/account"}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -58,7 +38,7 @@ export default function AccountPage() {
           </svg>
           My Profile
         </Link>
-        <Link className={linkClasses('bookings')} to={"/account/bookings"}>
+        <Link className={linkClasses("bookings")} to={"/account/bookings"}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -75,7 +55,7 @@ export default function AccountPage() {
           </svg>
           My Bookings
         </Link>
-        <Link className={linkClasses('places')} to={"/account/places"}>
+        <Link className={linkClasses("places")} to={"/account/places"}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -93,17 +73,6 @@ export default function AccountPage() {
           My accomodations
         </Link>
       </nav>
-      {subpage === "profile" && (
-        <div className="text-center max-w-lg mx-auto">
-          Logged in as {user.name} ({user.email}) <br />
-          <button onClick={logout} className="primary max-w-sm mt-2">
-            Logout
-          </button>
-        </div>
-      )}
-      {subpage === "places" && (
-        <PlacesPage /> //--------------------------------------this is from src/pages/PlacesPage.js
-      )}
-    </div>
+    </>
   );
 }
