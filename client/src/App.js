@@ -8,7 +8,7 @@ import axios from "axios";
 import { UserContextProvider } from "./userContext";
 import AccountPage from "./pages/AccountPage";
 
-axios.defaults.baseURL = "http://localhost:4000/";
+axios.defaults.baseURL = "http://localhost:3000/Kamper";
 axios.defaults.withCredentials = true;
 
 function App() {
