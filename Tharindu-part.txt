@@ -1,42 +1,24 @@
 02:09:15 - Places/accommodations form 
-02:26:40 - Upload by link--- done
-03:06:39 - Upload photos from your device functionality --- in
-03:34:29 - Small bugfixes and code refactoring
+02:26:40 - Upload by link
+03:06:39 - Upload photos from your device functionality --- done
+03:34:29 - Small bugfixes and code refactoring  --- in
 04:06:40 - Listing user places/accommodations
 04:15:58 - Editing existing places
 04:33:23 - Deleting photos and selecting main/cover photos
 04:45:52 - Listing places on the homepage
 05:04:36 - Single place page 
-==========================
+========================================================
 
-> npm install --save image-downloader //node module for downloading image to disk from a given URL
-> npm install --save multer   //3:12:26 - file upload package | Multer is a node.js middleware for handling multipart/form-data, which is primarily used for uploading files. It is written on top of busboy for maximum efficiency.
->
+>> if something wrong with icons (related error) check ones like "strokeLinecap" written as "stroke-Linecap"
 
-=====================================
-# Changes to ProfilePage
-
-if (redirect) {
-    return <Navigate to={redirect} />
-  }
-  return (
-    <div>
-      <AccountNav />
-      {subpage === 'profile' && (
-        <div className="text-center max-w-lg mx-auto">
-          Logged in as {user.name} ({user.email})<br />
-          <button onClick={logout} className="primary max-w-sm mt-2">Logout</button>
-        </div>
-      )}
-      {subpage === 'places' && (
-        <PlacesPage />          //--------------------------------------this is from src/pages/PlacesPage.js
-      )}
-    </div>
-  );
-
-================================================================================================
-
-changes at 2:18:05  
+============================================================
+succesffully implemented:
+{
+|
+|
+|
+  > changes to api/index.js === 3:04:00 ---- app.use(); at line 18
+  > changes at 2:18:05  
                     -  adding some classes : 
                         function linknClasses(type=null){
                             let classes = 'inline-flex gap-1 py-2 px-6 rounded-full';
@@ -47,11 +29,29 @@ changes at 2:18:05
                             }
                             return classes;
                         }
+  > # Changes to ProfilePage:
+    if (redirect) {
+        return <Navigate to={redirect} />
+      }
+      return (
+        <div>
+          <AccountNav />
+          {subpage === 'profile' && (
+            <div className="text-center max-w-lg mx-auto">
+              Logged in as {user.name} ({user.email})<br />
+              <button onClick={logout} className="primary max-w-sm mt-2">Logout</button>
+            </div>
+          )}
+          {subpage === 'places' && (
+            <PlacesPage />          //--------------------------------------this is from src/pages/PlacesPage.js
+          )}
+        </div>
+      );
 
-=====
-if something went wrong with perks.js and <Perks/> in PlacesPage
-remove the enclosing div in Perks.js and use it to enclose <Perks/> in PlacesPage
-and encloce perks.js contente with <>
+  > npm install --save image-downloader //node module for downloading image to disk from a given URL
 
-changes to api/index.js
-3:04:00 ---- app.use(); at line 18
+  > npm install --save multer   //3:12:26 - file upload package | Multer is a node.js middleware for handling multipart/form-data, which is primarily used for uploading files. It is written on top of busboy for maximum efficiency.
+|
+|
+|
+}

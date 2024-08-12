@@ -35,9 +35,9 @@ export default function PlacesPage() {
     );
   }
 
-  async function addPhotByLink(ev) {
+  async function addPhotoByLink(ev) {
     ev.preventDefault();
-    const { data: filename } = await axios.post("/upload-by-link", {
+    const { data: filename } = await axios.post("/api/upload-by-link", {
       link: photoLink,
     });
     setAddedPhotos((prev) => {
@@ -55,8 +55,7 @@ export default function PlacesPage() {
       data.append("photos", files[i]);
     }
 
-    axios
-      .post("/upload", data, {
+    axios.post("/api/upload", data, {
         headers: { "Content-type": "multipart/form-data" },
       })
       .then((response) => {
@@ -126,7 +125,7 @@ export default function PlacesPage() {
                 placeholder={"Add using a link....jpg"}
               />
               <button
-                onClick={addPhotByLink}
+                onClick={addPhotoByLink}
                 className="bg-gray-200 px-4 rounded-2xl"
               >
                 Add&nbsp;photo
@@ -136,7 +135,7 @@ export default function PlacesPage() {
             <div className="mt-3 grid gap-2 grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
               {addedPhotos.length > 0 &&
                 addedPhotos.map((link) => (
-                  <div className="h-32 flex ">
+                  <div className="h-32 flex" key={link}>
                     <img
                       className="rounded-2xl w-full object-cover position-center"
                       src={"http://localhost:3000/uploads/" + link } alt="the place"
@@ -147,8 +146,8 @@ export default function PlacesPage() {
                 <input
                   type="file"
                   multiple
-                  className="hidden"
                   onChange={uploadPhoto}
+                  className="hidden"
                 />
                 Upload from your device
                 <svg
