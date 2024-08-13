@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Perk from "../components/Perks";
 import PhotosUploader from "../components/PhotosUploader";
 import axios from "axios";
 import AccountNavi from "../components/AccountNav";
-import { Navigate } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 
 export default function PlacesFormPage() {
+  const { id } = useParams();
+
   const [title, setTitle] = useState("");
   const [address, setAddress] = useState("");
   const [addedPhotos, setAddedPhotos] = useState("");
@@ -16,6 +18,13 @@ export default function PlacesFormPage() {
   const [checkOut, setCheckOut] = useState("");
   const [maxGuests, setMaxGuests] = useState(1);
   const [redirect, setRedirect] = useState(false);
+
+  useEffect(() => {
+    if (!id) {
+      return;
+    }
+    axios.get("/account/places" + id);
+  }, [id]);
 
   function inputHeader(text) {
     return <h2 className="text-2xl mt-4">{text}</h2>;
@@ -37,7 +46,7 @@ export default function PlacesFormPage() {
   async function addNewPlace(ev) {
     ev.preventDefault();
 
-    await axios.post("/places", {
+    await axios.post("/account/places", {
       title,
       address,
       addedPhotos,
@@ -51,8 +60,8 @@ export default function PlacesFormPage() {
     setRedirect(true);
   }
 
-  if(redirect){
-    return <Navigate to={'/account/places'}/>
+  if (redirect) {
+    return <Navigate to={"/account/places"} />;
   }
 
   return (

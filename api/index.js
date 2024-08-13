@@ -137,7 +137,8 @@ app.post("/api/upload", photosMiddleware.array("photos", 10), (req, res) => {
   res.json(uploadedFiles);
 });
 
-app.post("/places", (req, res) => {
+app.post("/account/places", async (req, res) => {
+  mongoose.connect(process.env.MONGO_URL);
   const { token } = req.cookies;
   const {
     title,
@@ -158,7 +159,7 @@ app.post("/places", (req, res) => {
       owner: userData.id,
       title,
       address,
-      addedPhotos,
+      photos: addedPhotos,
       description,
       perks,
       extraInfo,
@@ -170,8 +171,21 @@ app.post("/places", (req, res) => {
   });
 });
 
-app.get('/places', (req,res)=>{
-  
-})
+app.get("/account/places", async (req, res) => {
+  const { token } = req.cookies;
+  try {
+    const userData = await getUserDataFromReq(req);
+    const places = await Place.find({ owner: userData.id });
+    res.json(places);
+  } catch (err) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+
+app.get("/account/places/:id", async (req, res) => {
+  const { id } = req.params;
+  res.json(await Place.findById(id));
+});
 
 app.listen(4000);
