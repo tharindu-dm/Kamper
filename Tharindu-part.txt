@@ -1,12 +1,10 @@
-02:09:15 - Places/accommodations form 
-02:26:40 - Upload by link
-03:06:39 - Upload photos from your device functionality 
-03:34:29 - Small bugfixes and code refactoring  
-04:06:40 - Listing user places/accommodations --- done
-04:15:58 - Editing existing places--- in
-04:33:23 - Deleting photos and selecting main/cover photos
+
+04:06:40 - Listing user places/accommodations 
+04:15:58 - Editing existing places --- done
+04:33:23 - Deleting photos and selecting main/cover photos  --- in
 04:45:52 - Listing places on the homepage
 05:04:36 - Single place page 
+>>>>>>>>>>>>>>> REMEMBER TO COMMENT ALL OF THIS <<<<<<<<<<<<<
 ========================================================
 
 >> if something wrong with icons (related error) check ones like "strokeLinecap" written as "stroke-Linecap"

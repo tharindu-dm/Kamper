@@ -113,15 +113,18 @@ app.post("/api/logout", (req, res) => {
 app.post("/api/upload-by-link", async (req, res) => {
   const { link } = req.body;
   const newName = "photo" + Date.now() + ".jpg";
+  const destPath = __dirname + "/uploads/" + newName;
+
   await imageDownloader.image({
     url: link,
-    dest: __dirname + "/uploads/" + newName,
+    dest: destPath,
   });
 
   res.json(newName);
 });
 
 const photosMiddleware = multer({ dest: "uploads/" });
+const path = require("path");
 app.post("/api/upload", photosMiddleware.array("photos", 10), (req, res) => {
   const uploadedFiles = [];
 
@@ -171,7 +174,7 @@ app.post("/account/places", async (req, res) => {
   });
 });
 
-app.get("/account/places", async (req, res) => {
+app.get("/account/places", async (req, res) => { //try /api/places
   const { token } = req.cookies;
   try {
     const userData = await getUserDataFromReq(req);
@@ -182,10 +185,45 @@ app.get("/account/places", async (req, res) => {
   }
 });
 
-
-app.get("/account/places/:id", async (req, res) => {
+app.get("/account/places/:id", async (req, res) => { //try /api/places/:id
   const { id } = req.params;
   res.json(await Place.findById(id));
+});
+
+app.put("/account/places", async (req, res) => { //try /api/places
+  const { token } = req.cookies;
+  const {
+    id,
+    title,
+    address,
+    addedPhotos,
+    description,
+    perks,
+    extraInfo,
+    checkIn,
+    checkOut,
+    maxGuests,
+  } = req.body;
+
+  jwt.verify(token, jwtSecret, {}, async (err, userData) => {
+    const placeDoc = await Place.findById(id);
+    if (userData.id === placeDoc.owner.toString()) {
+      placeDoc.set({
+        title,
+        address,
+        photos: addedPhotos,
+        description,
+        perks,
+        extraInfo,
+        checkIn,
+        checkOut,
+        maxGuests,
+        price,
+      });
+      await placeDoc.save();
+      res.json("ok");
+    }
+  });
 });
 
 app.listen(4000);
