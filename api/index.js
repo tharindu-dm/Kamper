@@ -153,6 +153,7 @@ app.post("/account/places", async (req, res) => {
     checkIn,
     checkOut,
     maxGuests,
+    price,
   } = req.body;
 
   jwt.verify(token, jwtSecret, {}, async (err, userData) => {
@@ -168,13 +169,14 @@ app.post("/account/places", async (req, res) => {
       extraInfo,
       checkIn,
       checkOut,
-      maxGuests,
+      maxGuests, 
+      price,
     });
     res.json(placeDoc);
   });
 });
 
-app.get("/account/places", async (req, res) => {
+app.get("/account/user-places", async (req, res) => {
   //try /api/places
   const { token } = req.cookies;
   try {
@@ -206,6 +208,7 @@ app.put("/account/places", async (req, res) => {
     checkIn,
     checkOut,
     maxGuests,
+    price,
   } = req.body;
 
   jwt.verify(token, jwtSecret, {}, async (err, userData) => {
@@ -227,6 +230,10 @@ app.put("/account/places", async (req, res) => {
       res.json("ok");
     }
   });
+});
+
+app.get('/api/place', async (req, res) => {
+  res.json(await Place.find());
 });
 
 app.listen(4000);
