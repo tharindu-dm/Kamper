@@ -135,7 +135,7 @@ app.post("/api/upload", photosMiddleware.array("photos", 10), (req, res) => {
     const newPath = path + "." + ext;
     fs.renameSync(path, newPath);
 
-    uploadedFiles.push(newPath.replace("uploads/", ""));
+    uploadedFiles.push(newPath.replace(/^uploads\\/, ""));
   }
   res.json(uploadedFiles);
 });
@@ -174,7 +174,8 @@ app.post("/account/places", async (req, res) => {
   });
 });
 
-app.get("/account/places", async (req, res) => { //try /api/places
+app.get("/account/places", async (req, res) => {
+  //try /api/places
   const { token } = req.cookies;
   try {
     const userData = await getUserDataFromReq(req);
@@ -185,12 +186,14 @@ app.get("/account/places", async (req, res) => { //try /api/places
   }
 });
 
-app.get("/account/places/:id", async (req, res) => { //try /api/places/:id
+app.get("/account/places/:id", async (req, res) => {
+  //try /api/places/:id
   const { id } = req.params;
   res.json(await Place.findById(id));
 });
 
-app.put("/account/places", async (req, res) => { //try /api/places
+app.put("/account/places", async (req, res) => {
+  //try /api/places
   const { token } = req.cookies;
   const {
     id,
@@ -227,3 +230,5 @@ app.put("/account/places", async (req, res) => { //try /api/places
 });
 
 app.listen(4000);
+const paths = require('path');
+app.use('/uploads', express.static(paths.join(__dirname, 'uploads')));

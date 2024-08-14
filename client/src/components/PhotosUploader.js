@@ -61,7 +61,7 @@ export default function PhotosUploader({addedPhotos, onChange}) {
             <div className="h-32 flex" key={link}>
               <img
                 className="rounded-2xl w-full object-cover position-center"
-                src={"http://localhost:3000/uploads/" + link}
+                src={`http://localhost:4000/uploads/${link.replace(/^uploads[\/\\]/, '').replace(/\\/g, '/')}`}
                 alt="the place"
               />
             </div>
