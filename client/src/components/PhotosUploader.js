@@ -72,15 +72,15 @@ export default function PhotosUploader({ addedPhotos, onChange }) {
       <div className="mt-3 grid gap-2 grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
         {addedPhotos && addedPhotos.length > 0 &&
           addedPhotos.map((photo, link) => (
-            <div className="h-32 flex" key={link}>
+            <div className="relative h-32 flex" key={link}>
               <img
-                className="rounded-2xl w-full object-cover position-center"
+                className="w-full rounded-2xl object-cover position-center"
                 src={`http://localhost:4000/uploads/${photo}`} //link.replace(/^uploads[/\\]/, '').replace(/\\/g, '/')
                 alt="the place"
               />
               <button
                 onClick={(ev) => removePhoto(ev, link)}
-                className=" cursor-pointer bottom-1 right-1 bg-white bg-opacity-50 p-2 rounded-2xl"
+                className=" cursor-pointer absolute bottom-1 right-1 bg-white bg-opacity-50 p-2 rounded-2xl"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -99,7 +99,7 @@ export default function PhotosUploader({ addedPhotos, onChange }) {
               </button>
               <button
                 onClick={(ev) => selectAsMainPhoto(ev, link)}
-                className=" cursor-pointer top-1 left-1 bg-white bg-opacity-50 p-2 rounded-2xl"
+                className=" cursor-pointer absolute top-1 left-1 bg-white bg-opacity-50 p-2 rounded-2xl"
               >
                 {link === addedPhotos[0] && (
                   <svg
