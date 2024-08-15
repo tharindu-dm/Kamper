@@ -1,9 +1,8 @@
-
 04:06:40 - Listing user places/accommodations 
-04:15:58 - Editing existing places --- done
-04:33:23 - Deleting photos and selecting main/cover photos  --- in
+04:15:58 - Editing existing places
+04:33:23 - Deleting photos and selecting main/cover photos 
 04:45:52 - Listing places on the homepage
-05:04:36 - Single place page 
+05:04:36 - Single place page
 >>>>>>>>>>>>>>> REMEMBER TO COMMENT ALL OF THIS <<<<<<<<<<<<<
 ========================================================
 
