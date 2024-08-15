@@ -13,13 +13,17 @@ export default function IndexPage() {
     <div className="mt-8 grid gap-6 gap-y-8 grid-cols-4 md:grid-cols-3 lg:grid-cols-6">
       {places.length > 0 &&
         places.map((place) => (
-          <Link to={"/account/places/" + place._id} className="">
+          <Link
+            key={place._id}
+            to={"/account/places/" + place._id}
+            className=""
+          >
             <div>
-              <div className="bg-gray-500 rounded-2xl flex ">
-                {places.photos?.[0] && (
+              <div className="bg-gray-500 rounded-2xl flex">
+                {place.photos && place.photos.length > 0 && (
                   <img
                     className="rounded-2xl object-cover aspect-square"
-                    src={"http://localhost:4000/uploads/ " + place.photos?.[0]}
+                    src={"http://localhost:4000/uploads/" + place.photos[0]}
                     alt={place.title}
                   />
                 )}

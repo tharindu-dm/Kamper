@@ -10,7 +10,7 @@ export default function PlacesFormPage() {
 
   const [title, setTitle] = useState("");
   const [address, setAddress] = useState("");
-  const [addedPhotos, setAddedPhotos] = useState("");
+  const [addedPhotos, setAddedPhotos] = useState([]);
   const [description, setDescription] = useState("");
   const [perks, setPerks] = useState([]);
   const [extraInfo, setExtraInfo] = useState("");
@@ -28,7 +28,7 @@ export default function PlacesFormPage() {
       const { data } = response;
       setTitle(data.title);
       setAddress(data.address);
-      setAddedPhotos(data.addedPhotos);
+      setAddedPhotos(data.photos); // || []
       setDescription(data.description);
       setPerks(data.perks);
       setExtraInfo(data.extraInfo);

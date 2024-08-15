@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-export default function PlacePage() {
+export default function Tharind_PlacePage() {
   const { id } = useParams();
   const [place, setPlace] = useState({});
   const [showAllPhotos, setShowAllPhotos] = useState(false);

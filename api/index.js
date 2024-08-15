@@ -18,7 +18,10 @@ const jwtSecret = "fasefraw4r5r3wq45wdfgw34twdfg";
 
 app.use(express.json());
 app.use(cookieParser());
-app.use("/uploads", express.static(__dirname + "/uploads"));
+app.use("/uploads", express.static("/api/uploads"));
+const paths = require("path");
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
 app.use(
   cors({
     credentials: true,
@@ -169,7 +172,7 @@ app.post("/account/places", async (req, res) => {
       extraInfo,
       checkIn,
       checkOut,
-      maxGuests, 
+      maxGuests,
       price,
     });
     res.json(placeDoc);
@@ -232,10 +235,8 @@ app.put("/account/places", async (req, res) => {
   });
 });
 
-app.get('/api/place', async (req, res) => {
+app.get("/api/place", async (req, res) => {
   res.json(await Place.find());
 });
 
 app.listen(4000);
-const paths = require('path');
-app.use('/uploads', express.static(paths.join(__dirname, 'uploads')));
