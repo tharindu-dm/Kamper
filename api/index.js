@@ -1,4 +1,5 @@
 const express = require("express");
+const paths = require("path");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
@@ -19,8 +20,7 @@ const jwtSecret = "fasefraw4r5r3wq45wdfgw34twdfg";
 app.use(express.json());
 app.use(cookieParser());
 app.use("/uploads", express.static("/api/uploads"));
-const paths = require("path");
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use("/uploads", express.static(paths.join(__dirname, "uploads")));
 
 app.use(
   cors({

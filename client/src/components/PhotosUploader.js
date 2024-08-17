@@ -79,7 +79,7 @@ export default function PhotosUploader({ addedPhotos, onChange }) {
                 alt="the place"
               />
               <button
-                onClick={(ev) => removePhoto(ev, link)}
+                onClick={(ev) => removePhoto(ev, photo)}
                 className=" cursor-pointer absolute bottom-1 right-1 bg-white bg-opacity-50 p-2 rounded-2xl"
               >
                 <svg
@@ -98,10 +98,10 @@ export default function PhotosUploader({ addedPhotos, onChange }) {
                 </svg>
               </button>
               <button
-                onClick={(ev) => selectAsMainPhoto(ev, link)}
+                onClick={(ev) => selectAsMainPhoto(ev, photo)}
                 className=" cursor-pointer absolute top-1 left-1 bg-white bg-opacity-50 p-2 rounded-2xl"
               >
-                {link === addedPhotos[0] && (
+                {photo === addedPhotos[0] && (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
@@ -115,7 +115,7 @@ export default function PhotosUploader({ addedPhotos, onChange }) {
                     />
                   </svg>
                 )}
-                {link !== addedPhotos[0] && (
+                {photo !== addedPhotos[0] && (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
