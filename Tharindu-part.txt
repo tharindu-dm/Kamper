@@ -1,0 +1,55 @@
+04:06:40 - Listing user places/accommodations 
+04:15:58 - Editing existing places
+04:33:23 - Deleting photos and selecting main/cover photos 
+04:45:52 - Listing places on the homepage
+05:04:36 - Single place page
+>>>>>>>>>>>>>>> REMEMBER TO COMMENT ALL OF THIS <<<<<<<<<<<<<
+========================================================
+
+>> if something wrong with icons (related error) check ones like "strokeLinecap" written as "stroke-Linecap"
+>> 3:50:44 there was an error when submitting the form???? i didnt get that one tho
+
+============================================================
+succesffully implemented:
+{
+|
+|
+|
+  > changes to api/index.js === 3:04:00 ---- app.use(); at line 18
+  > changes at 2:18:05  
+                    -  adding some classes : 
+                        function linknClasses(type=null){
+                            let classes = 'inline-flex gap-1 py-2 px-6 rounded-full';
+                            if(type === subpage){
+                                classes += 'bg-primary text-white';
+                            }else{
+                                classes += 'bg-gray-200 '
+                            }
+                            return classes;
+                        }
+  > # Changes to ProfilePage:
+    if (redirect) {
+        return <Navigate to={redirect} />
+      }
+      return (
+        <div>
+          <AccountNav />
+          {subpage === 'profile' && (
+            <div className="text-center max-w-lg mx-auto">
+              Logged in as {user.name} ({user.email})<br />
+              <button onClick={logout} className="primary max-w-sm mt-2">Logout</button>
+            </div>
+          )}
+          {subpage === 'places' && (
+            <PlacesPage />          //--------------------------------------this is from src/pages/PlacesPage.js
+          )}
+        </div>
+      );
+
+  > npm install --save image-downloader //node module for downloading image to disk from a given URL
+
+  > npm install --save multer   //3:12:26 - file upload package | Multer is a node.js middleware for handling multipart/form-data, which is primarily used for uploading files. It is written on top of busboy for maximum efficiency.
+|
+|
+|
+}
