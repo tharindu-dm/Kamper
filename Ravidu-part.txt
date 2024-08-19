@@ -1,0 +1,14 @@
+started time 5.06.23
+
+edit index.css file @6.00.20
+input[type="tel"],
+
+@6.01.00 edit index.js file in api folder in line 166
+
+@6.05.43 index.js file import BookingModel
+
+@6.14.58  line 30 
+
+@6.17.00 index.js
+
+@6.24.33 stop
