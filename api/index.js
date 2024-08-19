@@ -1,4 +1,5 @@
 const express = require("express");
+const paths = require("path");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
@@ -18,7 +19,9 @@ const jwtSecret = "fasefraw4r5r3wq45wdfgw34twdfg";
 
 app.use(express.json());
 app.use(cookieParser());
-app.use("/uploads", express.static(__dirname + "/uploads"));
+app.use("/uploads", express.static("/api/uploads"));
+app.use("/uploads", express.static(paths.join(__dirname, "uploads")));
+
 app.use(
   cors({
     credentials: true,
@@ -113,15 +116,18 @@ app.post("/api/logout", (req, res) => {
 app.post("/api/upload-by-link", async (req, res) => {
   const { link } = req.body;
   const newName = "photo" + Date.now() + ".jpg";
+  const destPath = __dirname + "/uploads/" + newName;
+
   await imageDownloader.image({
     url: link,
-    dest: __dirname + "/uploads/" + newName,
+    dest: destPath,
   });
 
   res.json(newName);
 });
 
 const photosMiddleware = multer({ dest: "uploads/" });
+const path = require("path");
 app.post("/api/upload", photosMiddleware.array("photos", 10), (req, res) => {
   const uploadedFiles = [];
 
@@ -132,12 +138,13 @@ app.post("/api/upload", photosMiddleware.array("photos", 10), (req, res) => {
     const newPath = path + "." + ext;
     fs.renameSync(path, newPath);
 
-    uploadedFiles.push(newPath.replace("uploads/", ""));
+    uploadedFiles.push(newPath.replace(/^uploads\\/, ""));
   }
   res.json(uploadedFiles);
 });
 
-app.post("/places", (req, res) => {
+app.post("/account/places", async (req, res) => {
+  mongoose.connect(process.env.MONGO_URL);
   const { token } = req.cookies;
   const {
     title,
@@ -149,6 +156,7 @@ app.post("/places", (req, res) => {
     checkIn,
     checkOut,
     maxGuests,
+    price,
   } = req.body;
 
   jwt.verify(token, jwtSecret, {}, async (err, userData) => {
@@ -158,20 +166,77 @@ app.post("/places", (req, res) => {
       owner: userData.id,
       title,
       address,
-      addedPhotos,
+      photos: addedPhotos,
       description,
       perks,
       extraInfo,
       checkIn,
       checkOut,
       maxGuests,
+      price,
     });
     res.json(placeDoc);
   });
 });
 
-app.get('/places', (req,res)=>{
-  
-})
+app.get("/account/user-places", async (req, res) => {
+  //try /api/places
+  const { token } = req.cookies;
+  try {
+    const userData = await getUserDataFromReq(req);
+    const places = await Place.find({ owner: userData.id });
+    res.json(places);
+  } catch (err) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+app.get("/account/places/:id", async (req, res) => {
+  //try /api/places/:id
+  const { id } = req.params;
+  res.json(await Place.findById(id));
+});
+
+app.put("/account/places", async (req, res) => {
+  //try /api/places
+  const { token } = req.cookies;
+  const {
+    id,
+    title,
+    address,
+    addedPhotos,
+    description,
+    perks,
+    extraInfo,
+    checkIn,
+    checkOut,
+    maxGuests,
+    price,
+  } = req.body;
+
+  jwt.verify(token, jwtSecret, {}, async (err, userData) => {
+    const placeDoc = await Place.findById(id);
+    if (userData.id === placeDoc.owner.toString()) {
+      placeDoc.set({
+        title,
+        address,
+        photos: addedPhotos,
+        description,
+        perks,
+        extraInfo,
+        checkIn,
+        checkOut,
+        maxGuests,
+        price,
+      });
+      await placeDoc.save();
+      res.json("ok");
+    }
+  });
+});
+
+app.get("/api/place", async (req, res) => {
+  res.json(await Place.find());
+});
 
 app.listen(4000);
