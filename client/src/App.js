@@ -1,16 +1,19 @@
 import "./App.css";
+
 import { Route, Routes } from "react-router-dom";
-import IndexPage from "./pages/IndexPage";
-import LoginPage from "./pages/LoginPage";
-import Layout from "./pages/Layout";
-import RegisterPage from "./pages/RegisterPage";
-import axios from "axios";
-import { UserContextProvider } from "./userContext";
-import ProfilePage from "./pages/ProfilePage";
-import PlacesPage from "./pages/PlacesPage";
-import PlacesFormPage from "./components/PlacesFormPage";
-import BookingsPage from "./pages/BookingsPage";
+
 import BookingPage from "./pages/BookingPage";
+import BookingsPage from "./pages/BookingsPage";
+import IndexPage from "./pages/IndexPage";
+import Layout from "./pages/Layout";
+import LoginPage from "./pages/LoginPage";
+import PlacePage from "./pages/PlacePage";
+import PlacesFormPage from "./components/PlacesFormPage";
+import PlacesPage from "./pages/PlacesPage";
+import ProfilePage from "./pages/ProfilePage";
+import RegisterPage from "./pages/RegisterPage";
+import { UserContextProvider } from "./userContext";
+import axios from "axios";
 
 axios.defaults.baseURL = "http://localhost:4000";
 axios.defaults.withCredentials = true;
@@ -27,6 +30,8 @@ function App() {
           <Route path="/account/places" element={<PlacesPage />} />
           <Route path="/account/places/new" element={<PlacesFormPage />} />
           <Route path="/account/places/:id" element={<PlacesFormPage />} />
+          <Route path="/place/:id" element={<PlacePage />} />
+  
           <Route path="/account/bookings" element={<BookingsPage />} />
           <Route path="/account/bookings/:id" element={<BookingPage />} />
         </Route>

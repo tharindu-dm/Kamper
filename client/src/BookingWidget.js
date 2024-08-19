@@ -1,6 +1,9 @@
 import { useContext, useEffect, useState } from "react";
 
 import { Navigate } from "react-router-dom";
+import { UserContext } from "./userContext"; /* path will be updated */
+import axios from "axios";
+import { differenceInCalendarDays } from "date-fns";
 
 export default function BookingWidget(place) {
     const[checkIn, setCheckIn] = useState('');
@@ -9,7 +12,7 @@ export default function BookingWidget(place) {
     const [name,setName] = useState('');
     const [phone, setPhone] = useState('');
     const [redirect, setRedirect] = useState('');
-    const {user} = useContext(UserContext);
+    const {user} = useContext(UserContext); 
 
     useEffect(() => {
         if (user) {
@@ -19,17 +22,17 @@ export default function BookingWidget(place) {
     
     let numberOfNights = 0;
     if (checkIn && setCheckOut){
-        numberOfNights = differenceInCalenderDays(new Date(checkOut), new Date(checkIn));
+        numberOfNights = differenceInCalendarDays(new Date(checkOut), new Date(checkIn));
     }
     
     async function bookThisPlace() {
         const response = await axios.post('/bookings', {
-            checkIn, checkIn, numberofGuests, name, phone, 
+            checkIn, checkOut, numberofGuests, name, phone, 
             place:place._id, 
             price: numberOfNights * place.price,
         });
         const bookingId = response.data._id;
-        setRedirect('/account/bookings/${bookingId}');
+        setRedirect(`/account/bookings/${bookingId}`);
     }
 
     if (redirect) {
@@ -76,7 +79,7 @@ export default function BookingWidget(place) {
                     </div>
                 )}
             </div>
-            <button onClick={fbookThisPlace} className="primary mt-4">
+            <button onClick={bookThisPlace} className="primary mt-4">
                 Book this place
                 {numberOfNights > 0 && (
                     <span> ${numberOfNights * place.price}</span>

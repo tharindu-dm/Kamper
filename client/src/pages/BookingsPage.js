@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import AccountNav from '../AccountNav';
+import AccountNav from '../components/AccountNav.js';
 import axios from 'axios';
 
 export default function BookingPage () {

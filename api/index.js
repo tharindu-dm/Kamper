@@ -192,7 +192,7 @@ app.get("/account/user-places", async (req, res) => {
   }
 });
 
-app.get("/account/places/:id", async (req, res) => {
+app.get("/api/places/:id", async (req, res) => {
   //try /api/places/:id
   const { id } = req.params;
   res.json(await Place.findById(id));

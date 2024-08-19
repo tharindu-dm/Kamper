@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+
 import { Link } from "react-router-dom";
+import axios from "axios";
+
 export default function IndexPage() {
   const [places, setPlaces] = useState([]);
   useEffect(() => {
@@ -15,7 +17,7 @@ export default function IndexPage() {
         places.map((place) => (
           <Link
             key={place._id}
-            to={"/account/places/" + place._id}
+            to={"/place/" + place._id}
             className=""
           >
             <div>
