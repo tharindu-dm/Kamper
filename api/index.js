@@ -198,6 +198,10 @@ app.get("/account/places/:id", async (req, res) => {
   const { id } = req.params;
   res.json(await Place.findById(id));
 });
+app.get("/api/places/:id", async (req, res) => {
+  const { id } = req.params;
+  res.json(await Place.findById(id));
+});
 
 app.put("/account/places", async (req, res) => {
   //try /api/places
