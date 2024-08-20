@@ -10,16 +10,16 @@ import axios from 'axios';
 export default function BookingPage () {
     const [bookings, setBookings] = useState([]);
     useEffect(()=> {
-        axios.get('/bookings').then(response => {
+        axios.get('/api/bookings').then(response => {
             setBookings(response.data); 
         });   
     }, []);
     return (
         <div>
             <AccountNav />
-            <div>
+            <div className='mt-4'>
                 {bookings?.length > 0 && bookings.map((booking) => (
-                    <Link to={`/account/bookings/${booking._id}`} className='flex gap-4 bg-gray-200 rounded-2xl overflow-hidden'>
+                    <Link to={`/account/bookings/${booking._id}`} className='flex mb-2 gap-4 bg-gray-200 rounded-2xl overflow-hidden p-3'>
                         <div className="w-48">
                         <PlaceImg place={booking.place} />
                         </div>
