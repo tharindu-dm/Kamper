@@ -31,7 +31,7 @@ export default function BookingWidget({ place }) {
     numberOfNights > 0 ? numberOfNights * place.price : place.price;
 
   async function bookThisPlace() {
-    const response = await axios.post("/bookings", {
+    const response = await axios.post("/api/bookings", {
       checkIn,
       checkOut,
       numberOfGuests,

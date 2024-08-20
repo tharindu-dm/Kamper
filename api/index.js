@@ -6,7 +6,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("./models/User.js");
 const Place = require("./models/Place.js");
-const Bookings = require('./models/Booking.js'); 
+const Booking = require('./models/Booking.js'); 
 const cookieParser = require("cookie-parser");
 const imageDownloader = require("image-downloader");
 const multer = require("multer");
@@ -27,6 +27,7 @@ app.use(
   cors({
     credentials: true,
     origin: "http://localhost:3000",
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
   })
 );
 
@@ -241,32 +242,27 @@ app.get("/api/place", async (req, res) => {
 });
 
 
-app.post('/booking', async(req, res) => {
-    const userData = await getuserDataFromReq(req);
+app.post('/api/bookings', async(req, res) => { 
+    mongoose.connect(process.env.MONGO_URL);
+    const userData = await getUserDataFromReq(req);
     const {place, checkIn, checkOut, numberOfGuests, name,phone,price} = req.body;
     Booking.create({
         place, checkIn, checkOut, numberOfGuests, name,phone,price , user:userData.id,  
     }).then(( doc) => {
-        if (err) throw err;
+        //if (err) throw err;
         res.json(doc);
     }).catch((err) => {
         throw err;
     });
 
-    function getuserDataFromReq(req){
-        return new Promise((resolve, reject) => {
-            jwt.verify(req.cookies.token, jwtSecret, {}, async (err, userData)=> {
-                if (err) throw err;
-                resolve(userData);
-            });
-        });   
-    } {/* grab this function to top of the doc */ }
-    
-    app.get('/booking', async(req,res)=> {
-        const userData = await getuserDataFromReq(req);
-        res.json(await Booking.find({user:userData.id}).populate('place'));
-    });
-    
+
+    app.get('/api/bookings', async (req,res) => {
+        mongoose.connect(process.env.MONGO_URL);
+        const userData = await getUserDataFromReq(req);
+        res.json( await Booking.find({user:userData.id}).populate('place') );
+      });
 });
 
-app.listen(4000);
+app.listen(4000, () => {
+    console.log(`Server running on port 4000`);
+  });
