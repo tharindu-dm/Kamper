@@ -20,6 +20,6 @@ button {
 }
 
 button.primary {
-  background-color: #f5385d;
+  background-color: #016b09;
   @apply bg-primary p-2 w-full text-white rounded-2xl;
 }
