@@ -6,6 +6,7 @@ input[type="text"],
 input[type="password"],
 input[type="email"],
 input[type="number"],
+input[type="tel"],
 textarea {
   @apply w-full border my-1 py-2 px-3 rounded-2xl;
 }
@@ -19,6 +20,6 @@ button {
 }
 
 button.primary {
-  background-color: #f5385d;
+  background-color: #016b09;
   @apply bg-primary p-2 w-full text-white rounded-2xl;
 }
