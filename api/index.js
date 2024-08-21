@@ -6,7 +6,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("./models/User.js");
 const Place = require("./models/Place.js");
-const Booking = require('./models/Booking.js'); 
+const Booking = require("./models/Booking.js");
 const cookieParser = require("cookie-parser");
 const imageDownloader = require("image-downloader");
 const multer = require("multer");
@@ -27,7 +27,7 @@ app.use(
   cors({
     credentials: true,
     origin: "http://localhost:3000",
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    methods: ["GET", "POST", "PUT", "DELETE"],
   })
 );
 
@@ -245,28 +245,36 @@ app.get("/api/place", async (req, res) => {
   res.json(await Place.find());
 });
 
-
-app.post('/api/bookings', async(req, res) => { 
-    mongoose.connect(process.env.MONGO_URL);
-    const userData = await getUserDataFromReq(req);
-    const {place, checkIn, checkOut, numberOfGuests, name,phone,price} = req.body;
-    Booking.create({
-        place, checkIn, checkOut, numberOfGuests, name,phone,price , user:userData.id,  
-    }).then(( doc) => {
-        //if (err) throw err;
-        res.json(doc);
-    }).catch((err) => {
-        throw err;
+app.post("/api/bookings", async (req, res) => {
+  mongoose.connect(process.env.MONGO_URL);
+  const userData = await getUserDataFromReq(req);
+  const { place, checkIn, checkOut, numberOfGuests, name, phone, price } =
+    req.body;
+  Booking.create({
+    place,
+    checkIn,
+    checkOut,
+    numberOfGuests,
+    name,
+    phone,
+    price,
+    user: userData.id,
+  })
+    .then((doc) => {
+      //if (err) throw err;
+      res.json(doc);
+    })
+    .catch((err) => {
+      throw err;
     });
+});
 
-
-    app.get('/api/bookings', async (req,res) => {
-        mongoose.connect(process.env.MONGO_URL);
-        const userData = await getUserDataFromReq(req);
-        res.json( await Booking.find({user:userData.id}).populate('place') );
-      });
+app.get("/api/bookings", async (req, res) => {
+  mongoose.connect(process.env.MONGO_URL);
+  const userData = await getUserDataFromReq(req);
+  res.json(await Booking.find({ user: userData.id }).populate("place"));
 });
 
 app.listen(4000, () => {
-    console.log(`Server running on port 4000`);
-  });
+  console.log(`Server running on port 4000`);
+});
