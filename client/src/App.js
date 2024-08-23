@@ -12,6 +12,9 @@ import ProfilePage from "./pages/ProfilePage";
 import RegisterPage from "./pages/RegisterPage";
 import { UserContextProvider } from "./userContext";
 import axios from "axios";
+import GearsPage from "./pages/GearsPage";
+import GearsFormPage from "./components/GearsFormPage";
+import RentsPage from "./pages/RentsPage";
 
 axios.defaults.baseURL = "http://localhost:4000";
 axios.defaults.withCredentials = true;
@@ -25,6 +28,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/account" element={<ProfilePage />} />
+
           <Route path="/account/places" element={<PlacesPage />} />
           <Route path="/account/places/new" element={<PlacesFormPage />} />
           <Route path="/account/places/:id" element={<PlacesFormPage />} />
@@ -32,6 +36,12 @@ function App() {
   
           <Route path="/account/bookings" element={<BookingsPage />} />
           <Route path="/account/bookings/:id" element={<BookingPage />} />
+
+          <Route path="/account/gears" element={<GearsPage />} />
+          <Route path="/account/gears/new" element={<GearsFormPage />} />
+          <Route path="/account/gears/:id" element={<GearsFormPage />} />
+
+          <Route path="/account/rents" element={<RentsPage />} />
         </Route>
       </Routes>
     </UserContextProvider>

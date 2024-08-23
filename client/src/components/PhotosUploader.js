@@ -161,3 +161,9 @@ export default function PhotosUploader({ addedPhotos, onChange }) {
     </>
   );
 }
+
+
+
+
+
+
