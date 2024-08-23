@@ -4,7 +4,7 @@ import { Navigate, useParams } from "react-router-dom";
 import axios from "axios";
 import PlacesPage from "./PlacesPage.js";
 import AccountNav from "../components/AccountNav.js";
-import EquipmentsPage from "./RentsPage.js";
+import EquipmentsPage from "./GearsPage.js";
 
 export default function ProfilePage() {
   const [redirect, setRedirect] = useState(null);
