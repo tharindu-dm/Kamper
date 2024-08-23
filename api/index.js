@@ -8,6 +8,7 @@ const User = require("./models/User.js");
 const Place = require("./models/Place.js");
 const Booking = require('./models/Booking.js'); 
 const Gear = require('./models/Gear.js');
+
 const cookieParser = require("cookie-parser");
 const imageDownloader = require("image-downloader");
 const multer = require("multer");
@@ -28,7 +29,7 @@ app.use(
   cors({
     credentials: true,
     origin: "http://localhost:3000",
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    methods: ["GET", "POST", "PUT", "DELETE"],
   })
 );
 
@@ -246,20 +247,28 @@ app.get("/api/place", async (req, res) => {
   res.json(await Place.find());
 });
 
-
-app.post('/api/bookings', async(req, res) => { 
-    mongoose.connect(process.env.MONGO_URL);
-    const userData = await getUserDataFromReq(req);
-    const {place, checkIn, checkOut, numberOfGuests, name,phone,price} = req.body;
-    Booking.create({
-        place, checkIn, checkOut, numberOfGuests, name,phone,price , user:userData.id,  
-    }).then(( doc) => {
-        //if (err) throw err;
-        res.json(doc);
-    }).catch((err) => {
-        throw err;
+app.post("/api/bookings", async (req, res) => {
+  mongoose.connect(process.env.MONGO_URL);
+  const userData = await getUserDataFromReq(req);
+  const { place, checkIn, checkOut, numberOfGuests, name, phone, price } =
+    req.body;
+  Booking.create({
+    place,
+    checkIn,
+    checkOut,
+    numberOfGuests,
+    name,
+    phone,
+    price,
+    user: userData.id,
+  })
+    .then((doc) => {
+      //if (err) throw err;
+      res.json(doc);
+    })
+    .catch((err) => {
+      throw err;
     });
-
 });
 
 app.get('/api/bookings', async (req,res) => {
@@ -347,7 +356,7 @@ app.put("/account/gears", async (req, res) => {
       await gearDoc.save();
       res.json("ok");
     }
-  });
+
 });
 
 app.get("/api/gear", async (req, res) => {
@@ -358,4 +367,3 @@ app.get("/api/gear", async (req, res) => {
 app.listen(4000, () => {
     console.log(`Server running on port 4000`);
   });
-
