@@ -6,8 +6,8 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("./models/User.js");
 const Place = require("./models/Place.js");
-const Booking = require('./models/Booking.js'); 
-const Gear = require('./models/Gear.js');
+const Booking = require("./models/Booking.js");
+const Gear = require("./models/Gear.js");
 
 const cookieParser = require("cookie-parser");
 const imageDownloader = require("image-downloader");
@@ -271,10 +271,10 @@ app.post("/api/bookings", async (req, res) => {
     });
 });
 
-app.get('/api/bookings', async (req,res) => {
+app.get("/api/bookings", async (req, res) => {
   mongoose.connect(process.env.MONGO_URL);
   const userData = await getUserDataFromReq(req);
-  res.json( await Booking.find({user:userData.id}).populate('place') );
+  res.json(await Booking.find({ user: userData.id }).populate("place"));
 });
 
 app.post("/account/gears", async (req, res) => {
@@ -311,7 +311,7 @@ app.get("/account/user-gears", async (req, res) => {
   //try /api/places
   const { token } = req.cookies;
   jwt.verify(token, jwtSecret, {}, async (err, userData) => {
-    const {id} = userData;
+    const { id } = userData;
     res.json(await Gear.find({ owner: id }));
   });
 });
@@ -328,7 +328,6 @@ app.get("/api/gears/:id", async (req, res) => {
 });
 
 app.put("/account/gears", async (req, res) => {
-  //try /api/places
   const { token } = req.cookies;
   const {
     id,
@@ -356,14 +355,13 @@ app.put("/account/gears", async (req, res) => {
       await gearDoc.save();
       res.json("ok");
     }
-
+  });
 });
 
 app.get("/api/gear", async (req, res) => {
   res.json(await Gear.find());
 });
 
-
 app.listen(4000, () => {
-    console.log(`Server running on port 4000`);
-  });
+  console.log(`Server running on port 4000`);
+});
