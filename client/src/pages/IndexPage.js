@@ -32,7 +32,7 @@ export default function IndexPage() {
               <div className="bg-gray-500 rounded-2xl flex">
                 {place.photos && place.photos.length > 0 && (
                   <img
-                    className="rounded-2xl object-cover aspect-square"
+                    className="w-full h-full rounded-2xl object-cover aspect-square"
                     src={"http://localhost:4000/uploads/" + place.photos[0]}
                     alt={place.title}
                   />
@@ -59,7 +59,7 @@ export default function IndexPage() {
               <div className="bg-gray-500 rounded-2xl flex">
                 {gear.photos && gear.photos.length > 0 && (
                   <img
-                    className="rounded-2xl object-cover aspect-square"
+                    className="w-full h-full rounded-2xl object-cover aspect-square"
                     src={"http://localhost:4000/uploads/" + gear.photos[0]}
                     alt={gear.title}
                   />
