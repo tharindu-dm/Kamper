@@ -62,3 +62,10 @@ export default App;
  * inside <Routes>
  * <Route path="/account/:subpage/:action" element={<PlacesPage/>}></Route>
  */
+
+/**
+ * Make These changes in App.js
+ * 
+ * inside <Routes>
+ * <Route path="/account/:subpage/:action" element={<PlacesPage/>}></Route>
+ */
