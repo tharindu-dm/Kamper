@@ -6,7 +6,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("./models/User.js");
 const Place = require("./models/Place.js");
-
+const Report = require("./models/Report.js");
 const Booking = require("./models/Booking.js");
 const Gear = require("./models/Gear.js");
 const Renting = require("./models/Renting.js");
@@ -149,6 +149,7 @@ app.delete("/api/delete-profile", async (req, res) => {
   }
 });
 
+//PHOTOS
 app.post("/api/upload-by-link", async (req, res) => {
   const { link } = req.body;
   const newName = "photo" + Date.now() + ".jpg";
@@ -179,6 +180,7 @@ app.post("/api/upload", photosMiddleware.array("photos", 10), (req, res) => {
   res.json(uploadedFiles);
 });
 
+//PLACES
 app.post("/account/places", async (req, res) => {
   mongoose.connect(process.env.MONGO_URL);
   const { token } = req.cookies;
@@ -290,6 +292,7 @@ app.get("/api/place", async (req, res) => {
   res.json(await Place.find());
 });
 
+//BOOKINGS AND RENTINGS
 app.post("/api/bookings", async (req, res) => {
   mongoose.connect(process.env.MONGO_URL);
   const userData = await getUserDataFromReq(req);
@@ -349,6 +352,7 @@ app.get("/api/rentings", async (req, res) => {
   res.json(await Renting.find({ user: userData.id }).populate("gear"));
 });
 
+//GEARS
 app.post("/account/gears", async (req, res) => {
   mongoose.connect(process.env.MONGO_URL);
   const { token } = req.cookies;
@@ -432,6 +436,85 @@ app.put("/account/gears", async (req, res) => {
 
 app.get("/api/gear", async (req, res) => {
   res.json(await Gear.find());
+});
+
+//REPORT
+app.get("/account/report/:id", async (req, res) => {
+  //try /api/report/:id
+  const { id } = req.params;
+  res.json(await Report.findById(id));
+});
+
+app.delete("/account/reports/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    await Report.findByIdAndDelete(id);
+    res.status(200).json({ message: "Place deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to delete place", error });
+  }
+});
+
+app.get("/api/reports/:id", async (req, res) => {
+  const { id } = req.params;
+  res.json(await Report.findById(id));
+});
+
+app.put("/account/reports", async (req, res) => {
+  //try /api/reports
+  const { token } = req.cookies;
+  const {
+    id,
+    title, 
+    description,
+  } = req.body;
+
+  jwt.verify(token, jwtSecret, {}, async (err, userData) => {
+    const reportDoc = await Report.findById(id);
+    if (userData.id === reportDoc.owner.toString()) {
+      reportDoc.set({
+        title,
+        description,
+      });
+      await reportDoc.save();
+      res.json("ok");
+    }
+  });
+});
+
+app.post("/account/reports", async (req, res) => {
+  const { title, description } = req.body;
+  const { token } = req.cookies;
+
+  jwt.verify(token, jwtSecret, {}, async (err, userData) => {
+    if (err) return res.status(403).json({ error: "Unauthorized" });
+
+    try {
+      const newReport = await Report.create({
+        title,
+        description,
+        owner: userData.id,
+      });
+      res.status(201).json(newReport);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to create report", message: error.message });
+    }
+  });
+});
+
+app.get("/api/report", async (req, res) => {
+  res.json(await Report.find());
+});
+
+app.get("/account/user-reports", async (req, res) => {
+  const { token } = req.cookies;
+  try {
+    const userData = await getUserDataFromReq(req);
+    const reports = await Report.find({ owner: userData.id });
+    res.json(reports);
+  } catch (err) {
+    res.status(500).json({ error: "Internal server error" });
+  }
 });
 
 app.listen(4000, () => {

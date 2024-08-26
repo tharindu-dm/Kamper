@@ -59,7 +59,7 @@ export default function ReportsFormPage() {
 
   async function deleteReport() {
     if (window.confirm("Are you sure you want to delete this report?")) {
-      await axios.delefte("/account/reports/" + id);
+      await axios.delete("/account/reports/" + id);
       setRedirect(true);
     }
   }
