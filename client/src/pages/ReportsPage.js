@@ -5,11 +5,11 @@ import { Link } from "react-router-dom";
 import PlaceImg from "../components/PlaceImg";
 import axios from "axios";
 
-export default function ReportPage() {
-  const [reports, setReport] = useState([]);
+export default function ReportsPage() {
+  const [places, setReports] = useState([]);
   useEffect(() => {
     axios.get("/account/user-reports").then(({ data }) => {
-      setReport(data);
+      setReports(data);
     });
   }, []);
 
@@ -41,10 +41,9 @@ export default function ReportPage() {
       </div>
 
       <div className="mt-4">
-        {reports.length > 0 &&
-          reports.map((place) => (
-            <Link
-              key={place._id}
+        {places.length > 0 &&
+          places.map((place) => (
+            <Link key={place._id}
               to={"/account/reports/" + place._id}
               className="flex cursor-pointer bg-gray-100 gap-4 p-4 rounded-2xl mb-4"
             >

@@ -40,7 +40,7 @@ export default function ReportsFormPage() {
 
   async function saveReport(ev) {
     ev.preventDefault();
-    const placeData = {
+    const reportData = {
       title,
       description,
     };
@@ -48,18 +48,18 @@ export default function ReportsFormPage() {
     if (id) {
       await axios.put("/account/reports", {
         id,
-        ...placeData,
+        ...reportData,
       });
       setRedirect(true);
     } else {
-      await axios.post("/account/reports", placeData);
+      await axios.post("/account/reports", reportData);
       setRedirect(true);
     }
   }
 
   async function deleteReport() {
-    if (window.confirm("Are you sure you want to delete this place?")) {
-      await axios.delete("/account/reports/" + id);
+    if (window.confirm("Are you sure you want to delete this report?")) {
+      await axios.delefte("/account/reports/" + id);
       setRedirect(true);
     }
   }
@@ -73,27 +73,24 @@ export default function ReportsFormPage() {
       <AccountNavi />
       <form className="px-40" onSubmit={saveReport}>
         {preInput(
-          "Title",
-          "title for your place, should be short and catchy as in advertisement"
+          "Subject",
+          "subject for your report"
         )}
         <input
           type="text"
-          placeholder="title, eg: my lovely apartment"
+          placeholder="subject: eg. 'Broken window'"
           value={title}
           onChange={(ev) => setTitle(ev.target.value)}
         />
 
-        {preInput("Description", "Description of the place")}
+        {preInput("Description", "Description of the report")}
         <textarea
           value={description}
           onChange={(ev) => setDescription(ev.target.value)}
         />
 
         <div className="flex gap-3">
-          <button
-            className="rounded-2xl text-white  bg-red-500 mt-4"
-            onClick={deleteReport}
-          >
+          <button className="rounded-2xl text-white  bg-red-500 mt-4" onClick={deleteReport}>
             Delete Report
           </button>
           <button className="primary mt-4"> Save </button>
