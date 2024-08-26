@@ -71,7 +71,7 @@ export default function ReportsFormPage() {
   return (
     <div>
       <AccountNavi />
-      <form className="px-40" onSubmit={savePlace}>
+      <form className="px-40" onSubmit={saveReport}>
         {preInput(
           "Title",
           "title for your place, should be short and catchy as in advertisement"
@@ -92,7 +92,7 @@ export default function ReportsFormPage() {
         <div className="flex gap-3">
           <button
             className="rounded-2xl text-white  bg-red-500 mt-4"
-            onClick={deletePlace}
+            onClick={deleteReport}
           >
             Delete Report
           </button>

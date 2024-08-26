@@ -41,8 +41,8 @@ export default function ReportPage() {
       </div>
 
       <div className="mt-4">
-        {places.length > 0 &&
-          places.map((place) => (
+        {reports.length > 0 &&
+          reports.map((place) => (
             <Link
               key={place._id}
               to={"/account/reports/" + place._id}
