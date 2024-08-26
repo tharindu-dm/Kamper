@@ -13,7 +13,7 @@ export default function LoginPage() {
     try {
       const { data } = await axios.post("/api/login", { email, password });
       setUser(data);
-      alert("Login successful");
+      //alert("Login successful");
       setRedirect(true);
     } catch (e) {
       if (e.response && e.response.status === 401) {

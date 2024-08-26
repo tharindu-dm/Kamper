@@ -232,6 +232,17 @@ app.get("/account/places/:id", async (req, res) => {
   const { id } = req.params;
   res.json(await Place.findById(id));
 });
+
+app.delete("/account/places/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    await Place.findByIdAndDelete(id);
+    res.status(200).json({ message: "Place deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to delete place", error });
+  }
+});
+
 app.get("/api/places/:id", async (req, res) => {
   const { id } = req.params;
   res.json(await Place.findById(id));

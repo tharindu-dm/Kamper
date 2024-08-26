@@ -83,6 +83,14 @@ export default function PlacesFormPage() {
     }
   }
 
+  async function deletePlace() {
+    if (window.confirm("Are you sure you want to delete this place?")) {
+      await axios.delete("/account/places/" + id);
+      setRedirect(true);
+    }
+  }
+  
+
   if (redirect) {
     return <Navigate to={"/account/places"} />;
   }
@@ -171,8 +179,12 @@ export default function PlacesFormPage() {
             />
           </div>
         </div>
-
-        <button className="primary mt-4"> Save </button>
+        <div className="flex gap-3">
+          <button className="rounded-2xl text-white  bg-red-500 mt-4" onClick={deletePlace}>
+            Delete Place
+          </button>
+          <button className="primary mt-4"> Save </button>
+        </div>
       </form>
     </div>
   );
