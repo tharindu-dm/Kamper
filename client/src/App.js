@@ -6,15 +6,22 @@ import IndexPage from "./pages/IndexPage";
 import Layout from "./pages/Layout";
 import LoginPage from "./pages/LoginPage";
 import PlacePage from "./pages/PlacePage";
-import GearPage from "./pages/GearPage";
+
 import PlacesFormPage from "./components/PlacesFormPage";
 import PlacesPage from "./pages/PlacesPage";
 import ProfilePage from "./pages/ProfilePage";
 import RegisterPage from "./pages/RegisterPage";
 import { UserContextProvider } from "./userContext";
 import axios from "axios";
+
 import GearsPage from "./pages/GearsPage";
 import GearsFormPage from "./components/GearsFormPage";
+import GearPage from "./pages/GearPage";
+
+import ReportsPage from "./pages/ReportsPage";
+import ReportsFormPage from "./components/ReportsFormPage";
+import ReportPage from "./pages/ReportPage";
+
 import RentsPage from "./pages/RentsPage";
 import RentPage from "./pages/RentPage"
 
@@ -44,7 +51,10 @@ function App() {
           <Route path="/account/gears/:id" element={<GearsFormPage />} />
           <Route path="/gear/:id" element={<GearPage/>}/>
 
-          
+          <Route path="/account/reports" element={<ReportsPage />} />
+          <Route path="/account/reports/new" element={<ReportsFormPage />} />
+          <Route path="/account/reports/:id" element={<ReportsFormPage />} />
+          <Route path="/report/:id" element={<ReportPage/>}/>
 
           <Route path="/account/rents" element={<RentsPage />} />
           <Route path="/account/rents/:id" element={<RentPage />} />
