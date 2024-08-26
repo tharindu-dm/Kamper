@@ -5,11 +5,11 @@ import { Link } from "react-router-dom";
 import PlaceImg from "../components/PlaceImg";
 import axios from "axios";
 
-export default function PlacesPage() {
-  const [places, setPlaces] = useState([]);
+export default function ReportsPage() {
+  const [places, setReports] = useState([]);
   useEffect(() => {
-    axios.get("/account/user-places").then(({ data }) => {
-      setPlaces(data);
+    axios.get("/account/user-reports").then(({ data }) => {
+      setReports(data);
     });
   }, []);
 
@@ -19,7 +19,7 @@ export default function PlacesPage() {
       <div className="text-center mt-5">
         <Link
           className="bg-primary inline-flex gap-1 text-white py-2 px-6 rounded-full"
-          to={"/account/places/new"}
+          to={"/account/reports/new"}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -36,7 +36,7 @@ export default function PlacesPage() {
               d="M12 4.5v15m7.5-7.5h-15"
             />
           </svg>
-          Add new place
+          Add new report
         </Link>
       </div>
 
@@ -44,7 +44,7 @@ export default function PlacesPage() {
         {places.length > 0 &&
           places.map((place) => (
             <Link key={place._id}
-              to={"/account/places/" + place._id}
+              to={"/account/reports/" + place._id}
               className="flex cursor-pointer bg-gray-100 gap-4 p-4 rounded-2xl mb-4"
             >
               <div className="flex w-32 h-32 bg-gray-300 rounded-2xl">
