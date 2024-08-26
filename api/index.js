@@ -7,9 +7,9 @@ const jwt = require("jsonwebtoken");
 const User = require("./models/User.js");
 const Place = require("./models/Place.js");
 
-const Booking = require('./models/Booking.js'); 
-const Gear = require('./models/Gear.js');
-const Renting= require('./models/Renting.js');
+const Booking = require("./models/Booking.js");
+const Gear = require("./models/Gear.js");
+const Renting = require("./models/Renting.js");
 
 const cookieParser = require("cookie-parser");
 const imageDownloader = require("image-downloader");
@@ -31,7 +31,7 @@ app.use(
   cors({
     credentials: true,
     origin: "http://localhost:3000",
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    methods: ["GET", "POST", "PUT", "DELETE"],
   })
 );
 
@@ -117,6 +117,36 @@ app.get("/api/profile", (req, res) => {
 
 app.post("/api/logout", (req, res) => {
   res.cookie("token", "").json(true);
+});
+
+app.put("/api/update-profile", async (req, res) => {
+  const { token } = req.cookies;
+  const { name } = req.body;
+
+  try {
+    const userData = await getUserDataFromReq(req);
+    const updatedUser = await User.findByIdAndUpdate(
+      userData.id,
+      { name },
+      { new: true }
+    );
+    res.json(updatedUser);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to update profile" });
+  }
+});
+
+app.delete("/api/delete-profile", async (req, res) => {
+  const { token } = req.cookies;
+
+  try {
+    const userData = await getUserDataFromReq(req);
+    await User.findByIdAndDelete(userData.id);
+    res.clearCookie("token"); // Optionally clear the token cookie
+    res.status(200).json({ message: "Profile deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to delete profile" });
+  }
 });
 
 app.post("/api/upload-by-link", async (req, res) => {
@@ -249,34 +279,51 @@ app.get("/api/place", async (req, res) => {
   res.json(await Place.find());
 });
 
-
-app.post('/api/bookings', async(req, res) => { 
-    mongoose.connect(process.env.MONGO_URL);
-    const userData = await getUserDataFromReq(req);
-    const {place, checkIn, checkOut, numberOfGuests, name,phone,price} = req.body;
-    Booking.create({
-        place, checkIn, checkOut, numberOfGuests, name,phone,price , user:userData.id,  
-    }).then(( doc) => {
-        //if (err) throw err;
-        res.json(doc);
-    }).catch((err) => {
-        throw err;
-    });
-
-});
-app.post('/api/rentings', async(req, res) => { 
+app.post("/api/bookings", async (req, res) => {
   mongoose.connect(process.env.MONGO_URL);
   const userData = await getUserDataFromReq(req);
-  const {gear, checkIn, checkOut, numberOfItems, name,phone,price} = req.body;
-  Renting.create({
-      gear, checkIn, checkOut, numberOfItems, name,phone,price , user:userData.id,  
-  }).then(( doc) => {
+  const { place, checkIn, checkOut, numberOfGuests, name, phone, price } =
+    req.body;
+  Booking.create({
+    place,
+    checkIn,
+    checkOut,
+    numberOfGuests,
+    name,
+    phone,
+    price,
+    user: userData.id,
+  })
+    .then((doc) => {
       //if (err) throw err;
       res.json(doc);
-  }).catch((err) => {
+    })
+    .catch((err) => {
       throw err;
-  });
-
+    });
+});
+app.post("/api/rentings", async (req, res) => {
+  mongoose.connect(process.env.MONGO_URL);
+  const userData = await getUserDataFromReq(req);
+  const { gear, checkIn, checkOut, numberOfItems, name, phone, price } =
+    req.body;
+  Renting.create({
+    gear,
+    checkIn,
+    checkOut,
+    numberOfItems,
+    name,
+    phone,
+    price,
+    user: userData.id,
+  })
+    .then((doc) => {
+      //if (err) throw err;
+      res.json(doc);
+    })
+    .catch((err) => {
+      throw err;
+    });
 });
 
 app.get("/api/bookings", async (req, res) => {
@@ -285,10 +332,10 @@ app.get("/api/bookings", async (req, res) => {
   res.json(await Booking.find({ user: userData.id }).populate("place"));
 });
 
-app.get('/api/rentings', async (req,res) => {
+app.get("/api/rentings", async (req, res) => {
   mongoose.connect(process.env.MONGO_URL);
   const userData = await getUserDataFromReq(req);
-  res.json( await Renting.find({user:userData.id}).populate('gear') );
+  res.json(await Renting.find({ user: userData.id }).populate("gear"));
 });
 
 app.post("/account/gears", async (req, res) => {

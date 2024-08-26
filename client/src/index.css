@@ -23,3 +23,8 @@ button.primary {
   background-color: #016b09;
   @apply bg-primary p-2 w-full text-white rounded-2xl;
 }
+
+button.secondary {
+  background-color: #f33426;
+  @apply bg-primary p-2 w-full text-white rounded-2xl;
+}
