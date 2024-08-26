@@ -58,6 +58,7 @@ export default function PlacesFormPage() {
 
   async function savePlace(ev) {
     ev.preventDefault();
+    
     const placeData = {
       title,
       address,
@@ -71,25 +72,35 @@ export default function PlacesFormPage() {
       price,
     };
 
-    if (id) {
-      await axios.put("/account/places", {
-        id,
-        ...placeData,
-      });
+    try {
+      if (id) {
+        await axios.put("/account/places", {
+          id,
+          ...placeData,
+        });
+      } else {
+        await axios.post("/account/places", placeData);
+      }
       setRedirect(true);
-    } else {
-      await axios.post("/account/places", placeData);
-      setRedirect(true);
+    } catch (error) {
+      console.error("Error saving place:", error);
+      alert("Failed to save place. Please try again.");
     }
   }
 
-  async function deletePlace() {
+  async function deletePlace(ev) {    
+    ev.preventDefault();
+
     if (window.confirm("Are you sure you want to delete this place?")) {
-      await axios.delete("/account/places/" + id);
-      setRedirect(true);
+      try {
+        await axios.delete("/account/places/" + id);
+        setRedirect(true);
+      } catch (error) {
+        console.error("Error deleting place:", error);
+        alert("Failed to delete place. Please try again.");
+      }
     }
   }
-  
 
   if (redirect) {
     return <Navigate to={"/account/places"} />;
@@ -180,10 +191,13 @@ export default function PlacesFormPage() {
           </div>
         </div>
         <div className="flex gap-3">
-          <button className="rounded-2xl text-white  bg-red-500 mt-4" onClick={deletePlace}>
+          <button
+            className="rounded-2xl text-white  bg-red-500 mt-4"
+            onClick={deletePlace}
+          >
             Delete Place
           </button>
-          <button className="primary mt-4"> Save </button>
+          <button className="primary mt-4">Save</button>
         </div>
       </form>
     </div>

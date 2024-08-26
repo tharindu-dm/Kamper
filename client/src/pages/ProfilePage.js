@@ -23,9 +23,9 @@ export default function ProfilePage() {
     setUser(null);
   }
 
-  async function editProfile() {
+ /* async function editProfile() {
     setRedirect("/editProfile");
-  }
+  }*/
 
   async function deleteProfile() {
     try {

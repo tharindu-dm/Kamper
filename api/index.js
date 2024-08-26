@@ -37,9 +37,18 @@ app.use(
 
 function getUserDataFromReq(req) {
   return new Promise((resolve, reject) => {
-    jwt.verify(req.cookies.token, jwtSecret, {}, async (err, userData) => {
-      if (err) throw err;
-      resolve(userData);
+    const { token } = req.cookies;
+    if (!token) {
+      reject(new Error("No token provided"));
+      return;
+    }
+
+    jwt.verify(token, jwtSecret, {}, (err, userData) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(userData);
+      }
     });
   });
 }
@@ -218,14 +227,28 @@ app.post("/account/places", async (req, res) => {
 });
 
 app.get("/account/user-places", async (req, res) => {
-  //try /api/places
   const { token } = req.cookies;
+  if (!token) {
+    return res.status(401).json({ error: "No token provided" });
+  }
+
   try {
     const userData = await getUserDataFromReq(req);
+    if (!userData || !userData.id) {
+      return res.status(401).json({ error: "Invalid user data" });
+    }
+
     const places = await Place.find({ owner: userData.id });
     res.json(places);
   } catch (err) {
-    res.status(500).json({ error: "Internal server error" });
+    console.error("Error in /account/user-places:", err);
+    if (err.name === "JsonWebTokenError") {
+      res.status(401).json({ error: "Invalid token" });
+    } else {
+      res
+        .status(500)
+        .json({ error: "Internal server error", details: err.message });
+    }
   }
 });
 
@@ -463,11 +486,7 @@ app.get("/api/reports/:id", async (req, res) => {
 app.put("/account/reports", async (req, res) => {
   //try /api/reports
   const { token } = req.cookies;
-  const {
-    id,
-    title, 
-    description,
-  } = req.body;
+  const { id, title, description } = req.body;
 
   jwt.verify(token, jwtSecret, {}, async (err, userData) => {
     const reportDoc = await Report.findById(id);
@@ -497,7 +516,9 @@ app.post("/account/reports", async (req, res) => {
       });
       res.status(201).json(newReport);
     } catch (error) {
-      res.status(500).json({ error: "Failed to create report", message: error.message });
+      res
+        .status(500)
+        .json({ error: "Failed to create report", message: error.message });
     }
   });
 });
