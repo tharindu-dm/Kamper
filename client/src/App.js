@@ -2,28 +2,25 @@ import { Route, Routes } from "react-router-dom";
 
 import BookingPage from "./pages/BookingPage";
 import BookingsPage from "./pages/BookingsPage";
+import GearPage from "./pages/GearPage";
+import GearsFormPage from "./components/GearsFormPage";
+import GearsPage from "./pages/GearsPage";
 import IndexPage from "./pages/IndexPage";
 import Layout from "./pages/Layout";
 import LoginPage from "./pages/LoginPage";
 import PlacePage from "./pages/PlacePage";
-
 import PlacesFormPage from "./components/PlacesFormPage";
 import PlacesPage from "./pages/PlacesPage";
 import ProfilePage from "./pages/ProfilePage";
 import RegisterPage from "./pages/RegisterPage";
+import RentPage from "./pages/RentPage"
+import RentsPage from "./pages/RentsPage";
+import ReportPage from "./pages/ReportPage";
+import ReportsFormPage from "./components/ReportsFormPage";
+import ReportsPage from "./pages/ReportsPage";
+import UpdateBookingPage from "./components/UpdateBookingPage";
 import { UserContextProvider } from "./userContext";
 import axios from "axios";
-
-import GearsPage from "./pages/GearsPage";
-import GearsFormPage from "./components/GearsFormPage";
-import GearPage from "./pages/GearPage";
-
-import ReportsPage from "./pages/ReportsPage";
-import ReportsFormPage from "./components/ReportsFormPage";
-import ReportPage from "./pages/ReportPage";
-
-import RentsPage from "./pages/RentsPage";
-import RentPage from "./pages/RentPage"
 
 axios.defaults.baseURL = "http://localhost:4000";
 axios.defaults.withCredentials = true;
@@ -45,6 +42,7 @@ function App() {
   
           <Route path="/account/bookings" element={<BookingsPage />} />
           <Route path="/account/bookings/:id" element={<BookingPage />} />
+          <Route path="/account/bookings/update/:bookingId" element={<UpdateBookingPage />} />
 
           <Route path="/account/gears" element={<GearsPage />} />
           <Route path="/account/gears/new" element={<GearsFormPage />} />
