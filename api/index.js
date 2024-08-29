@@ -461,6 +461,46 @@ app.get("/api/gear", async (req, res) => {
   res.json(await Gear.find());
 });
 
+// handle deleting a booking
+app.delete("/api/bookings/:id", async (req, res) => {
+  mongoose.connect(process.env.MONGO_URL);
+  try {
+    const bookingId = req.params.id;
+    await Booking.findByIdAndDelete(bookingId);
+    res.status(200).json({ message: 'Booking deleted successfully' });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to delete booking' });
+  }
+});
+
+// update the booking
+app.get("/api/bookings/:id", async (req, res) => {
+  mongoose.connect(process.env.MONGO_URL);
+  try {
+    const bookingId = req.params.id;
+    const booking = await Booking.findById(bookingId).populate("place");
+    res.json(booking);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch booking' });
+  }
+});
+
+app.put("/api/bookings/:id", async (req, res) => {
+  mongoose.connect(process.env.MONGO_URL);
+  const { numberOfGuests, phone } = req.body;
+  try {
+    const booking = await Booking.findById(req.params.id);
+    booking.numberOfGuests = numberOfGuests;
+    booking.phone = phone;
+    await booking.save();
+    res.json(booking);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to update booking' });
+  }
+});
+
+
+
 //REPORT
 app.get("/account/report/:id", async (req, res) => {
   //try /api/report/:id
