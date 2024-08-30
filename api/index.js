@@ -473,6 +473,17 @@ app.delete("/api/bookings/:id", async (req, res) => {
   }
 });
 
+app.delete("/api/rentings/:id", async (req, res) => {
+  mongoose.connect(process.env.MONGO_URL);
+  try {
+    const rentingId = req.params.id;
+    await Renting.findByIdAndDelete(rentingId);
+    res.status(200).json({ message: 'Renting deleted successfully' });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to delete renting' });
+  }
+});
+
 // update the booking
 app.get("/api/bookings/:id", async (req, res) => {
   mongoose.connect(process.env.MONGO_URL);
@@ -496,6 +507,31 @@ app.put("/api/bookings/:id", async (req, res) => {
     res.json(booking);
   } catch (err) {
     res.status(500).json({ error: 'Failed to update booking' });
+  }
+});
+
+app.get("/api/rentings/:id", async (req, res) => {
+  mongoose.connect(process.env.MONGO_URL);
+  try {
+    const rentingId = req.params.id;
+    const renting = await Renting.findById(rentingId).populate("gear");
+    res.json(renting);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch renting' });
+  }
+});
+
+app.put("/api/rentings/:id", async (req, res) => {
+  mongoose.connect(process.env.MONGO_URL);
+  const { phone } = req.body;
+  try {
+    const renting = await Renting.findById(req.params.id);
+    renting.phone = phone;
+   
+    await renting.save();
+    res.json(renting);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to update renting' });
   }
 });
 
