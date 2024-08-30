@@ -19,6 +19,7 @@ import ReportPage from "./pages/ReportPage";
 import ReportsFormPage from "./components/ReportsFormPage";
 import ReportsPage from "./pages/ReportsPage";
 import UpdateBookingPage from "./components/UpdateBookingPage";
+import UpdateRentingPage from "./components/UpdateRentingPage";
 import { UserContextProvider } from "./userContext";
 import axios from "axios";
 
@@ -56,6 +57,7 @@ function App() {
 
           <Route path="/account/rents" element={<RentsPage />} />
           <Route path="/account/rents/:id" element={<RentPage />} />
+          <Route path="/account/rents/update/:rentingId" element={<UpdateRentingPage />} />
         </Route>
       </Routes>
     </UserContextProvider>
