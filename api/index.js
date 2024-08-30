@@ -421,6 +421,16 @@ app.get("/account/gears/:id", async (req, res) => {
   res.json(await Gear.findById(id));
 });
 
+app.delete("/account/gears/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    await Gear.findByIdAndDelete(id);
+    res.status(200).json({ message: "Gear deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to delete gear", error });
+  }
+});
+
 app.get("/api/gears/:id", async (req, res) => {
   const { id } = req.params;
   res.json(await Gear.findById(id));
