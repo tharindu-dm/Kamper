@@ -74,6 +74,20 @@ export default function PlacesFormPage() {
     }
   }
 
+  async function deleteGear(ev) {    
+    ev.preventDefault();
+
+    if (window.confirm("Are you sure you want to delete this gear?")) {
+      try {
+        await axios.delete("/account/gears/" + id);
+        setRedirect(true);
+      } catch (error) {
+        console.error("Error deleting gear:", error);
+        alert("Failed to delete gear. Please try again.");
+      }
+    }
+  }
+
   if (redirect) {
     return <Navigate to={"/account/gears"} />;
   }
@@ -136,8 +150,15 @@ export default function PlacesFormPage() {
             />
           </div>
         </div>
-
+        <div className="flex gap-3">
+          <button
+            className="rounded-2xl text-white  bg-red-500 mt-4"
+            onClick={deleteGear}
+          >
+            Delete Gear
+          </button>
         <button className="primary mt-4"> Save </button>
+        </div>
       </form>
     </div>
   );
