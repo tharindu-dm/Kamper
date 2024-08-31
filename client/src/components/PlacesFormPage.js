@@ -90,6 +90,11 @@ export default function PlacesFormPage() {
   async function saveCampsite(ev) {
     ev.preventDefault();
 
+    if (addedPhotos.length < 3) {
+      alert("Please add at least 3 photos.");
+      return; // Prevent form submission
+    }
+
     const placeData = {
       title,
       address,
@@ -189,35 +194,39 @@ export default function PlacesFormPage() {
           "Add check in and check out times. make sure to keep a window between cleaning activities"
         )}
         <div className="grid gap-2 sm:grid-col-2 md:grid-cols-4">
-        <div>
-        <h3 className="mt-2 mb-1">Check in time</h3>
-        <input
-          required
-          type="text"
-          value={checkIn}
-          onChange={handleCheckInChange}
-          onBlur={() => setCheckInError(!validateTime(checkIn) && checkIn !== '')}
-          className={checkInError ? 'border-red-500' : ''}
-        />
-        {checkInError && (
-          <p className="text-red-600">Please enter time in HH:MM format</p>
-        )}
-      </div>
+          <div>
+            <h3 className="mt-2 mb-1">Check in time</h3>
+            <input
+              required
+              type="text"
+              value={checkIn}
+              onChange={handleCheckInChange}
+              onBlur={() =>
+                setCheckInError(!validateTime(checkIn) && checkIn !== "")
+              }
+              className={checkInError ? "border-red-500" : ""}
+            />
+            {checkInError && (
+              <p className="text-red-600">Please enter time in HH:MM format</p>
+            )}
+          </div>
 
-      <div>
-        <h3 className="mt-2 mb-1">Check out time</h3>
-        <input
-          required
-          type="text"
-          value={checkOut}
-          onChange={handleCheckOutChange}
-          onBlur={() => setCheckOutError(!validateTime(checkOut) && checkOut !== '')}
-          className={checkOutError ? 'border-red-500' : ''}
-        />
-        {checkOutError && (
-          <p className="text-red-600">Please enter time in HH:MM format</p>
-        )}
-      </div>
+          <div>
+            <h3 className="mt-2 mb-1">Check out time</h3>
+            <input
+              required
+              type="text"
+              value={checkOut}
+              onChange={handleCheckOutChange}
+              onBlur={() =>
+                setCheckOutError(!validateTime(checkOut) && checkOut !== "")
+              }
+              className={checkOutError ? "border-red-500" : ""}
+            />
+            {checkOutError && (
+              <p className="text-red-600">Please enter time in HH:MM format</p>
+            )}
+          </div>
 
           <div>
             <h3 className="mt-2 mb-1">Max no. of guests</h3>

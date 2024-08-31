@@ -24,7 +24,7 @@ export default function PlacesFormPage() {
     axios.get("/account/gears/" + id).then((response) => {
       const { data } = response;
       setType(data.type);
-      setAddedPhotos(data.photos); // || []
+      setAddedPhotos(data.photos);
       setDescription(data.description);
       setSearchCriteria(data.searchCriteria);
       setExtraInfo(data.extraInfo);
@@ -52,6 +52,12 @@ export default function PlacesFormPage() {
 
   async function saveGear(ev) {
     ev.preventDefault();
+    
+    if (addedPhotos.length < 3) {
+      alert("Please add at least 3 photos.");
+      return; // Prevent form submission
+    }
+
     const gearData = {
       type,
       addedPhotos,
