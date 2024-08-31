@@ -43,7 +43,8 @@ export default function ReportsPage() {
       <div className="mt-4">
         {places.length > 0 &&
           places.map((place) => (
-            <Link key={place._id}
+            <p
+              key={place._id}
               to={"/account/reports/" + place._id}
               className="flex cursor-pointer bg-gray-100 gap-4 p-4 rounded-2xl mb-4"
             >
@@ -54,7 +55,7 @@ export default function ReportsPage() {
                 <h2 className="text-xl">{place.title}</h2>
                 <p className="text-small mt-2 ">{place.description}</p>
               </div>
-            </Link>
+            </p>
           ))}
       </div>
     </div>

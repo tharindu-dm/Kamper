@@ -5,7 +5,6 @@ import { Navigate, useParams } from "react-router-dom";
 
 export default function ReportsFormPage() {
   const { id } = useParams();
-
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [redirect, setRedirect] = useState(false);
@@ -58,7 +57,7 @@ export default function ReportsFormPage() {
   }
 
   async function deleteReport() {
-    if (window.confirm("Are you sure you want to delete this report?")) {
+    if (window.confirm("Are you sure you want to delete this place?")) {
       await axios.delete("/account/reports/" + id);
       setRedirect(true);
     }
@@ -72,25 +71,25 @@ export default function ReportsFormPage() {
     <div>
       <AccountNavi />
       <form className="px-40" onSubmit={saveReport}>
-        {preInput(
-          "Subject",
-          "subject for your report"
-        )}
+        {preInput("Title", "Title for your report")}
         <input
           type="text"
-          placeholder="subject: eg. 'Broken window'"
+          placeholder="title, eg: Window is broken"
           value={title}
           onChange={(ev) => setTitle(ev.target.value)}
         />
 
-        {preInput("Description", "Description of the report")}
+        {preInput("Description", "Description of the issue")}
         <textarea
           value={description}
           onChange={(ev) => setDescription(ev.target.value)}
         />
 
         <div className="flex gap-3">
-          <button className="rounded-2xl text-white  bg-red-500 mt-4" onClick={deleteReport}>
+          <button
+            className="rounded-2xl text-white  bg-red-500 mt-4"
+            onClick={deleteReport}
+          >
             Delete Report
           </button>
           <button className="primary mt-4"> Save </button>
