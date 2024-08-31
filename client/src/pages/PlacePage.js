@@ -71,12 +71,16 @@ export default function PlacePage() {
                 <h2 className="font-semibold text-2xl">Perks</h2>
               </div>
               <div className="mb-4 mt-2 text-sm text-gray-700 leading-5">
-              <div className="grid grid-flow-col gap-6">
-                {place.perks.map((perk, index) => (
-                  <div key={index} className="flex rounded-xl border-emerald-900 border-2 justify-center font-semibold text-lg p-1">
-                    {perk.toUpperCase()}
-                  </div>
-                ))}</div>
+                <div className="grid grid-flow-col gap-6">
+                  {place.perks.map((perk, index) => (
+                    <div
+                      key={index}
+                      className="flex rounded-xl border-emerald-900 border-2 justify-center font-semibold text-lg p-1"
+                    >
+                      {perk.toUpperCase()}
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>

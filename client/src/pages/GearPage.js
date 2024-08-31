@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 
-
 import RentingWidget from "../RentingWidget";
 import GearGallery from "../components/GearGallery";
 import axios from "axios";
@@ -9,7 +8,7 @@ import { useParams } from "react-router-dom";
 export default function GearPage() {
   const { id } = useParams();
   const [gear, setGear] = useState(null);
-  
+
   useEffect(() => {
     if (!id) {
       return;
@@ -23,12 +22,9 @@ export default function GearPage() {
     return "";
   }
 
-  
-
   return (
-    <div className="mt-4 bg-gray-100 -mx-8 px-8 pt-8">
-      <h1 className="text-3xl">{gear.type}</h1>
-      
+    <div className="bg-emerald-50 rounded-2xl mt-4 mx-8 px-8 pt-8">
+      <h1 className="text-4xl font-bold mb-5">{gear.type}</h1>
       <GearGallery gear={gear} />
 
       <div className="mt-8 mb-8 grid gap-8 grid-cols-1 md:grid-cols-[2fr_1fr]">
@@ -37,18 +33,44 @@ export default function GearPage() {
             <h2 className="font-semibold text-2xl">Description</h2>
             {gear.description}
           </div>
-          Max Capacity: {gear.capacity}
+          <div className="grid grid-flow-row">
+            <div className="grid grid-flow-col gap-8">
+              <div className="border bg-primary text-white p-2 rounded-xl text-center flex-col w-auto">
+                <h2 className="text-xl mb-2">Max Capacity</h2>
+                <div className="bg-white text-black rounded-b-lg font-bold text-2xl">
+                  {gear.capacity}
+                </div>
+              </div>
+            </div>
+            <div className="mt-3 p-3 border-primary border rounded-2xl w-full">
+              <div className="">
+                <h2 className="font-semibold text-2xl">Other details</h2>
+              </div>
+              <div className="mb-4 mt-2 text-md text-gray-700 leading-5 ">
+                {gear.extraInfo}
+              </div>
+            </div>
+            <div className="mt-3 mb-3 p-3 border-primary border rounded-2xl w-full">
+              <div className="">
+                <h2 className="font-semibold text-2xl">Categories</h2>
+              </div>
+              <div className="mb-4 mt-2 text-sm text-gray-700 leading-5">
+                <div className="grid grid-flow-col gap-6">
+                  {gear.searchCriteria.map((sc, index) => (
+                    <div
+                      key={index}
+                      className="flex rounded-xl border-emerald-900 border-2 justify-center font-semibold text-lg p-1"
+                    >
+                      {sc.toUpperCase()}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <div>
           <RentingWidget gear={gear} />
-        </div>
-      </div>
-      <div className="bg-white -mx-8 px-8 py-8 border-t">
-        <div>
-          <h2 className="font-semibold text-2xl">Extra info</h2>
-        </div>
-        <div className="mb-4 mt-2 text-sm text-gray-700 leading-5">
-          {gear.extraInfo}
         </div>
       </div>
     </div>

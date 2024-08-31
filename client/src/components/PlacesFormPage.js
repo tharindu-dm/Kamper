@@ -119,7 +119,7 @@ export default function PlacesFormPage() {
     }
   }
 
-  async function deletePlace(ev) {
+  async function deleteCampsite(ev) {
     ev.preventDefault();
 
     if (window.confirm("Are you sure you want to delete this place?")) {
@@ -241,7 +241,7 @@ export default function PlacesFormPage() {
         <div className="flex gap-3">
           <button
             className="rounded-2xl text-white  bg-red-500 mt-4"
-            onClick={deletePlace}
+            onClick={deleteCampsite}
           >
             Delete Place
           </button>
