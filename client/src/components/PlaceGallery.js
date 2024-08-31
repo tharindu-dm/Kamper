@@ -29,7 +29,7 @@ export default function PlaceGallery({ place }) {
     );
   }
   return (
-    <div className="relative">
+    <div className="relative pt-5">
       <div className="grid gap-2 grid-cols-[2fr_1fr] rounded-3xl overflow-hidden">
         <div className="flex">
           {place.photos?.[0] && (

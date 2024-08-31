@@ -1,86 +1,41 @@
-# Kamper
-Rapid Application Development using MERN Stack
-# Kamper
+# Kamper - Camping Website
 
-Kamper is a web application for Foodies
+Kamper is a web application for discovering and booking campsites, as well as renting camping gear.
 
->>tech stack with tailwind css
->>compoenent wise development
+## Features
 
-## Functions / Features
+- Browse and search for campsites
+- View detailed information about each campsite
+- Rent camping gear
+- User accounts with profiles and bookings
+- Campsite owners can list and manage their properties
 
-1. Login/signup:
-    login interface
-    signup interface
+## Pages
 
-2. User Profile:
-    view/edit profile
-    order history
-    favourites
+1. Home - Landing page with featured campsites and call-to-action buttons
+2. Browse Campsites - Grid view of available campsites with filters
+3. Campsite Details - Individual campsite page with photos, description, and booking options
+4. Rent Camp Gears - Page to browse and rent camping equipment
+5. User Account - Dashboard for managing profile, bookings, and listings
 
-3. home page
-    search and filter
-    inventory management AKA foods
-    item/dish view
-    click to view
-    click to purchase
-    # navbar:
-        logo, sign in button -> profile, search, favourites, cart, order, contact us, about us
+## Tech Stack
 
-5. ordering system with shopping cart
-    payment page
-    cart
+- Frontend: React.js
+- Backend: Node.js with Express
+- Database: MongoDB
+- Authentication: JWT
 
-8. admin dashboard (optional)
+## Getting Started
 
-1. login crud: 
-    login signup logout
-    forgot password
-    reset password
-    view profile
-    edit details
-    delete account
+1. Clone the repository
+2. Install dependencies: `npm install`
+3. Set up environment variables
+4. Run the development server: `npm run start`
 
-2. profile crud:
-    favourites: add, remove, view, edit
+## Contributing
 
-3. order crud:
-    view order history
-    view order details
-    edit order
-    cancel order
-    convert card to order (create)
-    view order status
-    view order summary
-    view order invoice
-    view order confirmation
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-4. food crud:
-    add food
-    view food details
-    edit food details
-    remove food
-    view food
-    search food
-    filter food
+## License
 
-5. payment crud:
-    add payment method
-    view payment method
-    edit payment method
-    remove payment method
-    view payment
-    initiate a payment for order
-
-6. cart crud:
-    add food to cart
-    remove food from cart
-    edit food quantity in cart
-    view cart
-    checkout cart
-
-7. contact us crud:
-    send message
-    view message
-    reply message
-    delete message
+This project is licensed under the OUROWNPROJECT License - a group project of 5 computer science undergraduates at the University of Colombo School of Computing.

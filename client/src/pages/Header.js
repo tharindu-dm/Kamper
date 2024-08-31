@@ -7,7 +7,7 @@ export default function Header() {
   return (
     <header className="flex justify-between  max-w-9xl px-4 sm:px-6 lg:px-8">
       <div className="flex gap-4">
-        <Link to={"/"} className="flex items-center gap-1">
+        <Link to={"/"} className="text-emerald-600 hover:text-emerald-900 flex items-center gap-1">
           <svg
             width="32"
             height="32"
@@ -26,12 +26,12 @@ export default function Header() {
               />
             </g>
           </svg>
-          <span className="font-bold text-xl">Kamper</span>
+          <span className=" font-bold text-xl">Kamper</span>
         </Link>
-        <Link to={"/campsites"} className="flex items-center gap-1 text-emerald-700">
+        <Link to={"/campsites"} className="flex items-center gap-1 text-emerald-500 hover:text-emerald-800 hover:underline">
           <span className="font-bold text-xl">Browse Campsites</span>
         </Link>
-        <Link to={"/campgears"} className="flex items-center gap-1 text-emerald-700">
+        <Link to={"/campgears"} className="flex items-center gap-1 text-emerald-500 hover:text-emerald-800 hover:underline">
           <span className="font-bold text-xl">Rent Camp Gears</span>
         </Link>
       </div>

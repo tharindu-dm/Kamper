@@ -1,4 +1,4 @@
-export default function AddressLink({children, className='null'}) {
+export default function AddressLink({children, className='null '}) {
     if (!className) {
         className = 'my-3 block'
     }

@@ -9,7 +9,7 @@ import { useParams } from "react-router-dom";
 export default function PlacePage() {
   const { id } = useParams();
   const [place, setPlace] = useState(null);
-  
+
   useEffect(() => {
     if (!id) {
       return;
@@ -24,8 +24,8 @@ export default function PlacePage() {
   }
 
   return (
-    <div className="mt-4 bg-gray-100 -mx-8 px-8 pt-8">
-      <h1 className="text-3xl">{place.title}</h1>
+    <div className="bg-emerald-50 rounded-2xl mt-4 mx-8 px-8 pt-8">
+      <h1 className="text-4xl font-bold">{place.title}</h1>
       <AddressLink>{place.address}</AddressLink>
       <PlaceGallery place={place} />
 
@@ -35,20 +35,54 @@ export default function PlacePage() {
             <h2 className="font-semibold text-2xl">Description</h2>
             {place.description}
           </div>
-          Check-in: {place.checkIn} <br />
-          Check-out: {place.checkOut} <br />
-          Max number of guests: {place.maxGuests}
+          <div className="grid grid-flow-row">
+            <div className="grid grid-flow-col gap-8">
+              <div className="border bg-primary text-white p-2 rounded-xl text-center flex-col w-auto">
+                <h2 className="text-xl mb-2">Check-In Time</h2>
+                <div className="bg-white text-black rounded-b-lg font-bold text-2xl">
+                  {place.checkIn}
+                </div>
+              </div>
+
+              <div className="border bg-primary text-white p-2 rounded-xl text-center flex-col w-auto">
+                <h2 className="text-xl mb-2">Check-Out Time</h2>
+                <div className="bg-white text-black rounded-b-lg font-bold text-2xl">
+                  {place.checkOut}
+                </div>
+              </div>
+
+              <div className="border bg-primary text-white p-2 rounded-xl text-center flex-col w-auto">
+                <h2 className="text-xl mb-2">Max Number Of Guests</h2>
+                <div className="bg-white text-black rounded-b-lg font-bold text-2xl">
+                  {place.maxGuests}
+                </div>
+              </div>
+            </div>
+            <div className="mt-3 p-3 border-primary border rounded-2xl w-full">
+              <div className="">
+                <h2 className="font-semibold text-2xl">Extra info</h2>
+              </div>
+              <div className="mb-4 mt-2 text-md text-gray-700 leading-5 ">
+                {place.extraInfo}
+              </div>
+            </div>
+            <div className="mt-3 mb-3 p-3 border-primary border rounded-2xl w-full">
+              <div className="">
+                <h2 className="font-semibold text-2xl">Perks</h2>
+              </div>
+              <div className="mb-4 mt-2 text-sm text-gray-700 leading-5">
+              <div className="grid grid-flow-col gap-6">
+                {place.perks.map((perk, index) => (
+                  <div key={index} className="flex rounded-xl border-emerald-900 border-2 justify-center font-semibold text-lg p-1">
+                    {perk.toUpperCase()}
+                  </div>
+                ))}</div>
+              </div>
+            </div>
+          </div>
         </div>
         <div>
           <BookingWidget place={place} />
-        </div>
-      </div>
-      <div className="bg-white -mx-8 px-8 py-8 border-t">
-        <div>
-          <h2 className="font-semibold text-2xl">Extra info</h2>
-        </div>
-        <div className="mb-4 mt-2 text-sm text-gray-700 leading-5">
-          {place.extraInfo}
         </div>
       </div>
     </div>
