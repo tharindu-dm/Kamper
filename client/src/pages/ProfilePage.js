@@ -5,11 +5,13 @@ import axios from "axios";
 import PlacesPage from "./PlacesPage.js";
 import AccountNav from "../components/AccountNav.js";
 import EquipmentsPage from "./GearsPage.js";
+import PhotosUploader from "../components/PhotosUploader.js";
 
 export default function ProfilePage() {
   const [redirect, setRedirect] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [newUsername, setNewUsername] = useState("");
+  const [addedPhotos, setAddedPhotos] = useState([]);
   let { subpage } = useParams();
   if (subpage === undefined) {
     subpage = "profile";
@@ -23,11 +25,17 @@ export default function ProfilePage() {
     setUser(null);
   }
 
- /* async function editProfile() {
+  /* async function editProfile() {
     setRedirect("/editProfile");
   }*/
 
   async function deleteProfile() {
+    const confirmed = window.confirm(
+      "Are you sure you want to delete your profile? This action cannot be undone."
+    );
+
+    if (!confirmed) return; // Exit if user cancels confirmation
+
     try {
       await axios.delete("/api/delete-profile");
       setUser(null); // Clear user data in context
@@ -66,6 +74,10 @@ export default function ProfilePage() {
     return <Navigate to={redirect} />;
   }
 
+  const handlePhotosChange = (newPhotos) => {
+    setAddedPhotos(newPhotos);
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
       <AccountNav />
@@ -74,10 +86,16 @@ export default function ProfilePage() {
           {/* Profile Picture Section */}
           <div className="flex-1 flex flex-col items-center">
             <h3 className="text-xl font-semibold mb-4">Profile Picture</h3>
-            <img
-              src="https://via.placeholder.com/150"
-              alt="Profile"
-              className="rounded-full w-32 h-32 object-cover"
+            {addedPhotos.length > 0 && (
+              <img
+                src={addedPhotos[0]} // Assuming the first photo is the profile picture
+                alt="Profile"
+                className="rounded-full w-32 h-32 object-cover"
+              />
+            )}
+            <PhotosUploader
+              addedPhotos={addedPhotos}
+              onChange={handlePhotosChange}
             />
           </div>
 

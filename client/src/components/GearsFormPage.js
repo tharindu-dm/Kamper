@@ -102,10 +102,7 @@ export default function PlacesFormPage() {
     <div>
       <AccountNavi />
       <form className="px-40" onSubmit={saveGear}>
-        {preInput(
-          "Type",
-          "type of your gear"
-        )}
+        {preInput("Type", "type of your gear")}
         <input
           type="text"
           placeholder="type, eg: my camping tent"
@@ -122,8 +119,14 @@ export default function PlacesFormPage() {
           onChange={(ev) => setDescription(ev.target.value)}
         />
 
-        {preInput("Search Criteria", "Criteria of which the gear can be searched")}
-        <SearchCriteria selected={searchCriteria} onChange={setSearchCriteria} />
+        {preInput(
+          "Search Criteria",
+          "Criteria of which the gear can be searched"
+        )}
+        <SearchCriteria
+          selected={searchCriteria}
+          onChange={setSearchCriteria}
+        />
 
         {preInput(
           "Extra info.",
