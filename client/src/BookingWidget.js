@@ -40,36 +40,43 @@ export default function BookingWidget({ place }) {
 
     if (!checkIn || !checkOut) {
       setError("Please select both check-in and check-out dates.");
+      alert("Please select both check-in and check-out dates.");
       return false;
     }
 
     if (selectedCheckIn <= today) {
       setError("Check-in date must be a future date.");
+      alert("Check-in date must be a future date.");
       return false;
     }
 
     if (selectedCheckOut <= today) {
       setError("Check-in date must be a future date.");
+      alert("Check-in date must be a future date.");
       return false;
     }
 
     if (numberOfNights <= 0) {
       setError("Check-out date must be after the check-in date.");
+      alert("Check-out date must be after the check-in date.");
       return false;
     }
 
     if (numberOfGuests <= 0) {
       setError("Number of guests must be at least 1.");
+      alert("Number of guests must be at least 1.");
       return false;
     }
 
     if (numberOfGuests > place.maxGuests) {
       setError(`Number of guests cannot exceed ${place.maxGuests}.`);
+      alert(`Number of guests cannot exceed ${place.maxGuests}.`);
       return false;
     }
 
     if (!/^\d{10}$/.test(phone)) {
       setError("Phone number must be exactly 10 digits.");
+      alert("Phone number must be exactly 10 digits.");
       return false;
     }
 
@@ -79,7 +86,6 @@ export default function BookingWidget({ place }) {
 
   async function bookThisPlace() {
     if (!validateInputs()) {
-      alert("Invalid Inputs!!! \nClick 'OK' to show the error"); // Display the error and stop the booking process
       return;
     }
 

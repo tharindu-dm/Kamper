@@ -28,16 +28,19 @@ export default function UpdateBookingPage() {
   const validateInputs = () => {
     if (numberOfGuests <= 0) {
       setError("Number of guests must be at least 1.");
+      alert("Number of guests must be at least 1.");
       return false;
     }
 
     if (numberOfGuests > booking.place.maxGuests) {
       setError(`Number of guests cannot exceed ${booking.place.maxGuests}.`);
+      alert(`Number of guests cannot exceed ${booking.place.maxGuests}.`);
       return false;
     }
 
     if (!/^\d{10}$/.test(phone)) {
       setError("Phone number must be exactly 10 digits.");
+      alert("Phone number must be exactly 10 digits.");
       return false;
     }
 
@@ -47,7 +50,6 @@ export default function UpdateBookingPage() {
 
   const handleUpdate = () => {
     if (!validateInputs()) {
-      alert("Invalid Inputs!!! \nClick 'OK' to show the error"); // Display the error message and stop the update process
       return;
     }
 

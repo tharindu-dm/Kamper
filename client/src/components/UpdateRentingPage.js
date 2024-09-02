@@ -8,18 +8,24 @@ export default function UpdateRentingPage() {
     const navigate = useNavigate();
     const [renting, setRenting] = useState(null);
     const [phone, setPhone] = useState('');
-    
+    const [error, setError] = useState(''); // State for error messages
 
     useEffect(() => {
         axios.get(`/api/rentings/${rentingId}`).then(response => {
             setRenting(response.data);
             setPhone(response.data.phone);
         }).catch(err => {
-            console.error("Error fetching booking:", err);
+            console.error("Error fetching renting:", err);
         });
     }, [rentingId]);
 
     const handleUpdate = () => {
+        if (!/^\d{10}$/.test(phone)) {
+            setError("Phone number must be exactly 10 digits.");
+            alert("Phone number must be exactly 10 digits."); // Alert for invalid phone number
+            return;
+        }
+
         axios.put(`/api/rentings/${rentingId}`, { phone })
             .then(() => {
                 navigate('/account/rents');
@@ -30,6 +36,10 @@ export default function UpdateRentingPage() {
     };
 
     if (!renting) return <div>Loading...</div>;
+
+    // Format dates to display only the date part (without time)
+    const formattedCheckInDate = new Date(renting.checkIn).toISOString().split('T')[0];
+    const formattedCheckOutDate = new Date(renting.checkOut).toISOString().split('T')[0];
 
     return (
         <div className="p-4">
@@ -47,7 +57,7 @@ export default function UpdateRentingPage() {
                 <label className="block mb-2">Check-In</label>
                 <input 
                     type="text" 
-                    value={renting.checkIn} 
+                    value={formattedCheckInDate} 
                     readOnly 
                     className="border p-2 w-full" 
                 />
@@ -56,7 +66,7 @@ export default function UpdateRentingPage() {
                 <label className="block mb-2">Check-Out</label>
                 <input 
                     type="text" 
-                    value={renting.checkOut} 
+                    value={formattedCheckOutDate} 
                     readOnly 
                     className="border p-2 w-full" 
                 />
@@ -75,6 +85,7 @@ export default function UpdateRentingPage() {
                 className="bg-blue-500 text-white px-4 py-2 rounded">
                 Update
             </button>
+            {error && <div className="text-red-500 mt-2">{error}</div>}
         </div>
     );
 }
