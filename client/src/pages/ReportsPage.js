@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-
+import ReportProblemIcon from "@mui/icons-material/ReportProblem";
 import AccountNav from "../components/AccountNav";
 import { Link } from "react-router-dom";
-import PlaceImg from "../components/PlaceImg";
+
 import axios from "axios";
 
 export default function ReportsPage() {
@@ -48,8 +48,8 @@ export default function ReportsPage() {
               to={"/account/reports/" + place._id}
               className="flex cursor-pointer bg-gray-100 gap-4 p-4 rounded-2xl mb-4"
             >
-              <div className="flex w-32 h-32 bg-gray-300 rounded-2xl">
-                <PlaceImg place={place} />
+              <div className="flex items-center justify-center w-32 h-32 bg-gray-300 rounded-2xl">
+                <ReportProblemIcon fontSize="large" />
               </div>
               <div className="grow-0 shrink">
                 <h2 className="text-xl">{place.title}</h2>

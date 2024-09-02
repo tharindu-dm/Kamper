@@ -5,9 +5,12 @@ import { useContext } from "react";
 export default function Header() {
   const { user } = useContext(UserContext);
   return (
-    <header className="flex justify-between  max-w-9xl px-4 sm:px-6 lg:px-8">
-      <div className="flex gap-4">
-        <Link to={"/"} className="hover:text-emerald-700 flex items-center gap-1">
+    <header className="bg-emerald-600 flex justify-between max-w-9xl py-6 px-4 sm:px-6 lg:px-8">
+      <div className="flex gap-6 items-center">
+        <Link
+          to={"/"}
+          className="text-white hover:text-emerald-700 flex items-center gap-2"
+        >
           <svg
             width="32"
             height="32"
@@ -26,19 +29,25 @@ export default function Header() {
               />
             </g>
           </svg>
-          <span className=" font-bold text-xl">Kamper</span>
+          <span className="font-bold text-2xl">Kamper</span>
         </Link>
-        <Link to={"/campsites"} className="flex items-center gap-1 text-emerald-500 hover:text-emerald-800 hover:underline">
-          <span className="font-bold text-xl">Browse Campsites</span>
+        <Link
+          to={"/campsites"}
+          className="flex items-center gap-2 text-white hover:text-emerald-800 hover:underline"
+        >
+          <span className="font-bold text-2xl">Browse Campsites</span>
         </Link>
-        <Link to={"/campgears"} className="flex items-center gap-1 text-emerald-500 hover:text-emerald-800 hover:underline">
-          <span className="font-bold text-xl">Rent Camp Gears</span>
+        <Link
+          to={"/campgears"}
+          className="flex items-center gap-2 text-white hover:text-emerald-800 hover:underline"
+        >
+          <span className="font-bold text-2xl">Rent Camp Gears</span>
         </Link>
       </div>
 
       <Link
         to={user ? "/account" : "/login"}
-        className="flex items-center gap-2 rounded-full py-2 px-4 "
+        className="flex items-center gap-2 rounded-full py-2 px-4"
       >
         <div className="bg-gray-500 text-white rounded-full border border-gray-500 overflow-hidden">
           <svg
@@ -54,7 +63,11 @@ export default function Header() {
             />
           </svg>
         </div>
-        {!!user && <div  className="font-bold text-xl">Welcome, {user.name}</div>}
+        {!!user && (
+          <div className="font-bold text-white text-2xl ">
+            Welcome, {user.name}
+          </div>
+        )}
       </Link>
     </header>
   );
