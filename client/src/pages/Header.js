@@ -71,11 +71,27 @@ export default function Header() {
           {user && (
             <>
               <div className="flex gap-3 justify-center items-center">
-                <img
-                  src={`http://localhost:4000/uploads/${user.profileImages}`}
-                  alt="Profile"
-                  className="rounded-full w-10 h-10 object-cover"
-                />
+                {user.profileImages && (
+                  <img
+                    src={`http://localhost:4000/uploads/${user.profileImages}`}
+                    alt="Profile"
+                    className="rounded-full w-10 h-10 object-cover"
+                  />
+                )}
+                {!user.profileImages && (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    className="w-6 h-6 relative"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                )}
                 <div className="font-bold text-white text-xl">
                   Welcome, {user.name}
                 </div>

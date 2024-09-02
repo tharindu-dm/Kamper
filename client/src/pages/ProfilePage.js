@@ -79,44 +79,44 @@ export default function ProfilePage() {
       <AccountNav />
 
       {subpage === "profile" && (
-        <div className="max-w-3xl mx-auto mt-8 bg-white shadow-md rounded-lg overflow-hidden">
-          <div className="px-6 py-4">
-            <h2 className="text-2xl font-bold text-center mb-4">Profile</h2>
-            <div className="flex flex-col items-center">           
-              <ProfilePhotosUploader
-                addedPhotos={addedPhotos}
-                onChange={handlePhotosChange}
-                className="w-full max-w-xs text-sm text-gray-500"
-              />
-            </div>
-
-            {/* Profile Details Section */}
-            <div className="mt-4">
-              <label
-                htmlFor="username"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                Username:
-              </label>
-              {isEditing ? (
-                <input
-                  type="text"
-                  value={newUsername}
-                  onChange={(e) => setNewUsername(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        <div className="flex justify-center mb-6">
+          <div className="max-w-4xl mt-8 bg-white shadow-md rounded-lg overflow-hidden">
+            <div className="px-6 py-4">
+              <h2 className="text-2xl font-bold text-center mb-4">Profile</h2>
+              <div className="flex flex-col items-center">
+                <ProfilePhotosUploader
+                  addedPhotos={addedPhotos}
+                  onChange={handlePhotosChange}
+                  className="w-full max-w-xs text-sm text-gray-500"
                 />
-              ) : (
-                <p className="text-center">{user.name}</p>
-              )}
-              <button
-                onClick={isEditing ? handleSaveClick : handleEditClick}
-                className="primary hover:bg-emerald-600 text-white font-bold mx-2 py-2 px-4 rounded-full w-full mt-2"
-              >
-                {isEditing ? "Save" : "Edit"}
-              </button>
-              <h3 className="text-xl font-semibold mb-4">
-                Email: {user.email}
-              </h3>
+              </div>
+
+              {/* Profile Details Section */}
+              <div className="mt-4">
+                {isEditing ? (
+                  <input
+                    type="text"
+                    value={newUsername}
+                    onChange={(e) => setNewUsername(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                ) : (
+                  <div className="flex gap-2 flex-col mt-10">
+                    <h3 className="flex self-center text-sm font-medium text-gray-700 mb-1">
+                      Email: {user.email}
+                    </h3><p className="text-center block text-xl font-medium text-gray-700 mb-1">
+                      Username: {user.name}
+                    </p>
+                    
+                  </div>
+                )}
+                <button
+                  onClick={isEditing ? handleSaveClick : handleEditClick}
+                  className="primary hover:bg-emerald-600 text-white font-bold mx-2 py-2 px-4 rounded-full w-full mt-2"
+                >
+                  {isEditing ? "Save" : "Edit"}
+                </button>
+              </div>
             </div>
           </div>
         </div>

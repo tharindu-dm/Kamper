@@ -2,7 +2,7 @@ import axios from "axios";
 import { useContext, useState } from "react";
 import { UserContext } from "../userContext";
 
-export default function PhotosUploader({ addedPhoto, onChange }) { 
+export default function PhotosUploader({ addedPhoto, onChange }) {
   const { user } = useContext(UserContext);
   const [photoLink, setPhotoLink] = useState("");
 
@@ -65,7 +65,7 @@ export default function PhotosUploader({ addedPhoto, onChange }) {
       <div className="w-32 h-32 rounded-full overflow-hidden mb-4 bg-gray-200 flex items-center justify-center">
         {user.profileImages ? ( // Check if there is an image URL to display
           <img
-            src={`http://localhost:4000/uploads/${user.profileImages}`} 
+            src={`http://localhost:4000/uploads/${user.profileImages}`}
             alt="Profile"
             className="w-full h-full object-cover"
           />
@@ -94,21 +94,23 @@ export default function PhotosUploader({ addedPhoto, onChange }) {
           placeholder="Add using a link....jpg"
           className="border px-2 py-1 rounded"
         />
-        <button onClick={addPhotoByLink} className="primary">
-          Add&nbsp;Photo
-        </button>
-        <label className="bg-emerald-600 p-2 px-6 w-full text-white rounded-2xl cursor-pointer flex justify-center">
-          Add From Device
-          <input type="file" onChange={uploadPhoto} className="hidden" />
-        </label>
-        {addedPhoto && (
-          <button
-            onClick={removePhoto}
-            className="bg-red-200 px-2 rounded-2xl text-red-600"
-          >
-            Delete
+        <div className="grid grid-flow-col gap-2">
+          <button onClick={addPhotoByLink} className="primary">
+            Add&nbsp;Photo
           </button>
-        )}
+          <label className="bg-emerald-600 p-2 w-full text-white rounded-2xl cursor-pointer flex justify-center">
+            Add From Device
+            <input type="file" onChange={uploadPhoto} className="hidden" />
+          </label>
+          {user.profileImages && (
+            <button
+              onClick={removePhoto}
+              className="secondary px-2 rounded-2xl"
+            >
+              Delete Photo
+            </button>
+          )}
+        </div>
       </div>
     </>
   );
