@@ -1,6 +1,5 @@
-import { useState } from "react";
-
 import axios from "axios";
+import { useState } from "react";
 
 export default function PhotosUploader({ addedPhotos, onChange }) {
   const [photoLink, setPhotoLink] = useState("");
@@ -161,9 +160,3 @@ export default function PhotosUploader({ addedPhotos, onChange }) {
     </>
   );
 }
-
-
-
-
-
-

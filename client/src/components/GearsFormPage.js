@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
-import PhotosUploader from "../components/PhotosUploader";
-import axios from "axios";
-import AccountNavi from "../components/AccountNav";
 import { Navigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+
+import AccountNavi from "../components/AccountNav";
+import PhotosUploader from "../components/PhotosUploader";
 import SearchCriteria from "./SearchCriteria";
+import axios from "axios";
 
 export default function PlacesFormPage() {
   const { id } = useParams();

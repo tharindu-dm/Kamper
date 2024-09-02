@@ -39,26 +39,31 @@ export default function RentingWidget({ gear }) {
 
     if (!checkIn || new Date(checkIn) < tomorrow) {
       setError("Check-in date must be from tomorrow onwards.");
+      alert("Check-in date must be from tomorrow onwards."); // Alert for invalid check-in date
       return false;
     }
 
     if (!checkOut || new Date(checkOut) <= new Date(checkIn)) {
       setError("Check-out date must be after the check-in date.");
+      alert("Check-out date must be after the check-in date."); // Alert for invalid check-out date
       return false;
     }
 
     if (numberofItems <= 0) {
       setError("Number of items must be at least 1.");
+      alert("Number of items must be at least 1."); // Alert for invalid number of items
       return false;
     }
 
     if (numberofItems > gear.capacity) {
       setError(`Number of items cannot exceed ${gear.capacity}.`);
+      alert(`Number of items cannot exceed ${gear.capacity}.`); // Alert for exceeding capacity
       return false;
     }
 
     if (!/^\d{10}$/.test(phone)) {
       setError("Phone number must be exactly 10 digits.");
+      alert("Phone number must be exactly 10 digits."); // Alert for invalid phone number
       return false;
     }
 
@@ -68,7 +73,6 @@ export default function RentingWidget({ gear }) {
 
   async function rentThisItem() {
     if (!validateInputs()) {
-      alert(error); // Display error and stop the process if validation fails
       return;
     }
 

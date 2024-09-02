@@ -1,10 +1,10 @@
+import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { Link,useNavigate } from 'react-router-dom';
-import axios from 'axios';
 
 import AccountNav from '../components/AccountNav.js';
 import BookingDates from '../components/BookingDates.js';
 import GearImg from '../components/GearImg.js';
+import axios from 'axios';
 
 export default function RentingsPage() {
     const [rentings, setRentings] = useState([]);
@@ -21,7 +21,7 @@ export default function RentingsPage() {
     }, []);
 
     const handleDelete = (rentingId) => {
-        const userConfirmed = window.confirm("Are you sure you want to delete this booking?");
+        const userConfirmed = window.confirm("Are you sure you want to delete this rent item?");
         if (userConfirmed) {
             axios.delete(`/api/rentings/${rentingId}`)
                 .then(() => {
