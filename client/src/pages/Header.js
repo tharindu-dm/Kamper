@@ -1,13 +1,13 @@
 import { Link } from "react-router-dom";
-import { useContext } from "react";
 import { UserContext } from "../userContext";
+import { useContext } from "react";
 
 export default function Header() {
   const { user } = useContext(UserContext);
   return (
     <header className="flex justify-between  max-w-9xl px-4 sm:px-6 lg:px-8">
       <div className="flex gap-4">
-        <Link to={"/"} className="text-emerald-600 hover:text-emerald-900 flex items-center gap-1">
+        <Link to={"/"} className="hover:text-emerald-700 flex items-center gap-1">
           <svg
             width="32"
             height="32"

@@ -6,9 +6,9 @@ import PhotosUploader from "../components/PhotosUploader";
 import SearchCriteria from "./SearchCriteria";
 import axios from "axios";
 
-export default function PlacesFormPage() {
+export default function GearsFormPage() {
   const { id } = useParams();
-
+  
   const [type, setType] = useState("");
   const [addedPhotos, setAddedPhotos] = useState([]);
   const [description, setDescription] = useState("");
@@ -51,12 +51,43 @@ export default function PlacesFormPage() {
     );
   }
 
+  function validateFields() {
+    if (!type.trim()) {
+      alert("Type is required.");
+      return false;
+    }
+    if (addedPhotos.length < 3) {
+      alert("Please add at least 3 photos.");
+      return false;
+    }
+    if (!description.trim()) {
+      alert("Description is required.");
+      return false;
+    }
+    if (searchCriteria.length === 0) {
+      alert("Please add at least one search criterion.");
+      return false;
+    }
+    if (!extraInfo.trim()) {
+      alert("Extra info is required.");
+      return false;
+    }
+    if (capacity <= 0 || !Number.isInteger(Number(capacity))) {
+      alert("Capacity must be a positive integer greater than zero.");
+      return false;
+    }
+    if (price <= 0 || !Number.isInteger(Number(price))) {
+      alert("Price per night must be a positive integer.");
+      return false;
+    }
+    return true;
+  }
+
   async function saveGear(ev) {
     ev.preventDefault();
     
-    if (addedPhotos.length < 3) {
-      alert("Please add at least 3 photos.");
-      return; // Prevent form submission
+    if (!validateFields()) {
+      return; // Prevent form submission if validation fails
     }
 
     const gearData = {
@@ -69,15 +100,16 @@ export default function PlacesFormPage() {
       price,
     };
 
-    if (id) {
-      await axios.put("/account/gears", {
-        id,
-        ...gearData,
-      });
+    try {
+      if (id) {
+        await axios.put("/account/gears", { id, ...gearData });
+      } else {
+        await axios.post("/account/gears", gearData);
+      }
       setRedirect(true);
-    } else {
-      await axios.post("/account/gears", gearData);
-      setRedirect(true);
+    } catch (error) {
+      console.error("Error saving gear:", error);
+      alert("Failed to save gear. Please try again.");
     }
   }
 
@@ -162,12 +194,12 @@ export default function PlacesFormPage() {
         </div>
         <div className="flex gap-3">
           <button
-            className="rounded-2xl text-white  bg-red-500 mt-4"
+            className="rounded-2xl text-white bg-red-500 mt-4"
             onClick={deleteGear}
           >
             Delete Gear
           </button>
-        <button className="primary mt-4"> Save </button>
+          <button className="primary mt-4">Save</button>
         </div>
       </form>
     </div>

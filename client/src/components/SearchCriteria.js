@@ -11,7 +11,7 @@ export default function SearchCriteria({ selected = [], onChange }){
     return(
         <div className="grid mt-2 gap-2 grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
           <label className="border p-4 flex rounded-2xl gap-2 items-center cursor-pointer">
-            <input type="checkbox" checked={ selected.includes('sleeping Essential') } name="sleepingEssential" onChange={handleCbClick}/>
+            <input type="checkbox" checked={ selected.includes('sleeping Essential') } name="sleeping Essential" onChange={handleCbClick}/>
             <svg 
               xmlns="http://www.w3.org/2000/svg" 
               viewBox="0 0 576 512"
@@ -24,7 +24,7 @@ export default function SearchCriteria({ selected = [], onChange }){
           </label>
 
           <label className="border p-4 flex rounded-2xl gap-2 items-center cursor-pointer">
-          <input type="checkbox" checked={ selected.includes('clothing Essential') } name="clothingEssential" onChange={handleCbClick} />
+          <input type="checkbox" checked={ selected.includes('clothing Essential') } name="clothing Essential" onChange={handleCbClick} />
           <svg 
             xmlns="http://www.w3.org/2000/svg" 
             viewBox="0 0 640 512"
@@ -37,7 +37,7 @@ export default function SearchCriteria({ selected = [], onChange }){
           </label>
 
           <label className="border p-4 flex rounded-2xl gap-2 items-center cursor-pointer">
-          <input type="checkbox" checked={ selected.includes('survival Essential') } name="survivalEssential" onChange={handleCbClick} />
+          <input type="checkbox" checked={ selected.includes('survival Essential') } name="survival Essential" onChange={handleCbClick} />
           <svg 
             xmlns="http://www.w3.org/2000/svg" 
             viewBox="0 0 512 512"
@@ -50,7 +50,7 @@ export default function SearchCriteria({ selected = [], onChange }){
           </label>
 
           <label className="border p-4 flex rounded-2xl gap-2 items-center cursor-pointer">
-          <input type="checkbox" checked={ selected.includes('cooking Essential') } name="cookingEssential" onChange={handleCbClick} />
+          <input type="checkbox" checked={ selected.includes('cooking Essential') } name="cooking Essential" onChange={handleCbClick} />
           <svg 
             xmlns="http://www.w3.org/2000/svg" 
             viewBox="0 0 448 512"
