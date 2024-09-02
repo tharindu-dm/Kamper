@@ -26,5 +26,5 @@ button.primary {
 
 button.secondary {
   background-color: #f33426;
-  @apply bg-primary p-2 w-full text-white rounded-2xl;
+  @apply bg-secondary p-2 w-full text-white rounded-2xl;
 }

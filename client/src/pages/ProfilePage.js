@@ -5,7 +5,7 @@ import axios from "axios";
 import PlacesPage from "./PlacesPage.js";
 import AccountNav from "../components/AccountNav.js";
 import EquipmentsPage from "./GearsPage.js";
-import PhotosUploader from "../components/PhotosUploader.js";
+import ProfilePhotosUploader from "../components/ProfilePhotosUploader.js";
 
 export default function ProfilePage() {
   const [redirect, setRedirect] = useState(null);
@@ -79,36 +79,11 @@ export default function ProfilePage() {
       <AccountNav />
 
       {subpage === "profile" && (
-        <div className="max-w-md mx-auto mt-8 bg-white shadow-md rounded-lg overflow-hidden">
+        <div className="max-w-3xl mx-auto mt-8 bg-white shadow-md rounded-lg overflow-hidden">
           <div className="px-6 py-4">
             <h2 className="text-2xl font-bold text-center mb-4">Profile</h2>
-            <div className="flex flex-col items-center">
-              {/* Profile Picture Section */}
-              <div className="w-32 h-32 rounded-full overflow-hidden mb-4 bg-gray-200 flex items-center justify-center">
-                {addedPhotos.length > 0 ? (
-                  <img
-                    src={addedPhotos} // Assuming the first photo is the profile picture
-                    alt="Profile"
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    className="w-16 h-16 text-gray-400"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                    />
-                  </svg>
-                )}
-              </div>
-              <PhotosUploader
+            <div className="flex flex-col items-center">           
+              <ProfilePhotosUploader
                 addedPhotos={addedPhotos}
                 onChange={handlePhotosChange}
                 className="w-full max-w-xs text-sm text-gray-500"
@@ -135,7 +110,7 @@ export default function ProfilePage() {
               )}
               <button
                 onClick={isEditing ? handleSaveClick : handleEditClick}
-                className="bg-blue-600 hover:bg-blue-700 text-white font-bold mx-2 py-2 px-4 rounded-full w-full mt-2"
+                className="primary hover:bg-emerald-600 text-white font-bold mx-2 py-2 px-4 rounded-full w-full mt-2"
               >
                 {isEditing ? "Save" : "Edit"}
               </button>
@@ -147,7 +122,6 @@ export default function ProfilePage() {
         </div>
       )}
 
-      {/* Buttons at the bottom */}
       <div className="flex justify-center mb-8">
         <button
           onClick={deleteProfile}

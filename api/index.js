@@ -116,8 +116,8 @@ app.get("/api/profile", (req, res) => {
   if (token) {
     jwt.verify(token, jwtSecret, {}, async (err, userData) => {
       if (err) throw err;
-      const { name, email, _id } = await User.findById(userData.id);
-      res.json({ name, email, _id });
+      const { name, email, profileImages, _id } = await User.findById(userData.id);
+      res.json({ name, email, profileImages, _id });
     });
   } else {
     res.json(null);
@@ -130,20 +130,21 @@ app.post("/api/logout", (req, res) => {
 
 app.put("/api/update-profile", async (req, res) => {
   const { token } = req.cookies;
-  const { name } = req.body;
+  const { name, addedPhotos } = req.body; // Include the addedPhotos (or profileImages) field
 
   try {
     const userData = await getUserDataFromReq(req);
     const updatedUser = await User.findByIdAndUpdate(
       userData.id,
-      { name },
+      { name, profileImages: addedPhotos }, // Update the profileImages field with the uploaded image URL
       { new: true }
     );
-    res.json(updatedUser);
+    res.json(updatedUser); // Return the updated user data, including the image URL
   } catch (error) {
     res.status(500).json({ error: "Failed to update profile" });
   }
 });
+
 
 app.delete("/api/delete-profile", async (req, res) => {
   const { token } = req.cookies;
