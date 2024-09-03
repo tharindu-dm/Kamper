@@ -92,7 +92,7 @@ export default function PhotosUploader({ addedPhoto, onChange }) {
           onChange={(ev) => setPhotoLink(ev.target.value)}
           type="text"
           placeholder="Add using a link....jpg"
-          className="border px-2 py-1 rounded"
+          className="border px-2 py-1 rounded dark:text-black"
         />
         <div className="grid grid-flow-col gap-2">
           <button onClick={addPhotoByLink} className="primary">

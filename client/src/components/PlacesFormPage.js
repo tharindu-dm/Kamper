@@ -151,6 +151,7 @@ export default function PlacesFormPage() {
           "title for your campsite, should be short and catchy as in advertisement"
         )}
         <input
+          className="dark:text-black"
           required
           type="text"
           placeholder="title, eg: my lovely campsite"
@@ -160,6 +161,7 @@ export default function PlacesFormPage() {
 
         {preInput("Address", "Address to your campsite")}
         <input
+          className="dark:text-black"
           required
           type="text"
           placeholder="addresss, eg: Colombo, Western Province, Sri Lanka"
@@ -172,6 +174,7 @@ export default function PlacesFormPage() {
 
         {preInput("Description", "Description of the campsite")}
         <textarea
+          className="dark:text-black"
           required
           value={description}
           onChange={(ev) => setDescription(ev.target.value)}
@@ -185,6 +188,7 @@ export default function PlacesFormPage() {
           "ground rules and Extra information about the place"
         )}
         <textarea
+          className="dark:text-black"
           value={extraInfo}
           onChange={(ev) => setExtraInfo(ev.target.value)}
         />
@@ -204,7 +208,11 @@ export default function PlacesFormPage() {
               onBlur={() =>
                 setCheckInError(!validateTime(checkIn) && checkIn !== "")
               }
-              className={checkInError ? "border-red-500" : ""}
+              className={
+                checkInError
+                  ? "border-red-500 dark:text-black"
+                  : "dark:text-black"
+              }
             />
             {checkInError && (
               <p className="text-red-600">Please enter time in HH:MM format</p>
@@ -221,7 +229,11 @@ export default function PlacesFormPage() {
               onBlur={() =>
                 setCheckOutError(!validateTime(checkOut) && checkOut !== "")
               }
-              className={checkOutError ? "border-red-500" : ""}
+              className={
+                checkOutError
+                  ? "border-red-500 dark:text-black"
+                  : "dark:text-black"
+              }
             />
             {checkOutError && (
               <p className="text-red-600">Please enter time in HH:MM format</p>
@@ -231,6 +243,7 @@ export default function PlacesFormPage() {
           <div>
             <h3 className="mt-2 mb-1">Max no. of guests</h3>
             <input
+              className="dark:text-black"
               required
               type="number"
               value={maxGuests}
@@ -240,6 +253,7 @@ export default function PlacesFormPage() {
           <div>
             <h3 className="mt-2 mb-1">Price per night</h3>
             <input
+              className="dark:text-black"
               required
               type="number"
               value={price}

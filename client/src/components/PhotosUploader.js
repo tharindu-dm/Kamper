@@ -38,7 +38,7 @@ export default function PhotosUploader({ addedPhotos, onChange }) {
   }
 
   function removePhoto(ev, filename) {
-    ev.preventDefault();
+    ev.prevenෆtDefault();
     onChange([...addedPhotos.filter((photo) => photo !== filename)]);
   }
 
@@ -55,6 +55,7 @@ export default function PhotosUploader({ addedPhotos, onChange }) {
     <>
       <div className="flex gap-2">
         <input
+          className="dark:text-black"
           value={photoLink}
           onChange={(ev) => setPhotoLink(ev.target.value)}
           type="text"
@@ -62,14 +63,15 @@ export default function PhotosUploader({ addedPhotos, onChange }) {
         />
         <button
           onClick={addPhotoByLink}
-          className="bg-gray-200 px-4 rounded-2xl"
+          className="bg-gray-200 px-4 rounded-2xl dark:bg-gray-600"
         >
           Add&nbsp;photo
         </button>
       </div>
 
       <div className="mt-3 grid gap-2 grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
-        {addedPhotos && addedPhotos.length > 0 &&
+        {addedPhotos &&
+          addedPhotos.length > 0 &&
           addedPhotos.map((photo, link) => (
             <div className="relative h-32 flex" key={link}>
               <img
@@ -79,7 +81,7 @@ export default function PhotosUploader({ addedPhotos, onChange }) {
               />
               <button
                 onClick={(ev) => removePhoto(ev, photo)}
-                className=" cursor-pointer absolute bottom-1 right-1 bg-white bg-opacity-50 p-2 rounded-2xl"
+                className=" cursor-pointer absolute bottom-1 right-1 bg-white dark:bg-gray-800 bg-opacity-50 p-2 rounded-2xl"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -98,7 +100,7 @@ export default function PhotosUploader({ addedPhotos, onChange }) {
               </button>
               <button
                 onClick={(ev) => selectAsMainPhoto(ev, photo)}
-                className=" cursor-pointer absolute top-1 left-1 bg-white bg-opacity-50 p-2 rounded-2xl"
+                className=" cursor-pointer absolute top-1 left-1 bg-white dark:bg-gray-800 bg-opacity-50 p-2 rounded-2xl"
               >
                 {photo === addedPhotos[0] && (
                   <svg
@@ -133,7 +135,7 @@ export default function PhotosUploader({ addedPhotos, onChange }) {
               </button>
             </div>
           ))}
-        <label className="flex items-center gap-1 justify-center border bg-transparent rounded-2xl p-2 text-gray-600">
+        <label className="flex items-center gap-1 justify-center border bg-transparent rounded-2xl p-2 text-gray-600 dark:bg-gray-600 dark:text-gray-200">
           <input
             type="file"
             multiple

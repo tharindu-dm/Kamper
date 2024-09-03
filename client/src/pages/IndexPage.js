@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export default function IndexPage() {
   return (
-    <div className="bg-white">
+    <div className="bg-white dark:bg-gray-800">
       {/* Container for the top section with image and content */}
       <div className="relative overflow-hidden mt-9 flex flex-col lg:flex-row lg:items-center">
         {/* Image section */}
@@ -19,12 +19,14 @@ export default function IndexPage() {
         <div className="lg:w-1/2 flex items-center justify-center py-12 px-6 lg:px-12">
           <div className="text-center lg:text-left">
             <h1 className="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
-              <span className="block xl:inline">Enjoy Your</span>{" "}
+              <span className="block xl:inline dark:text-white">
+                Enjoy Your
+              </span>{" "}
               <span className="block text-emerald-600 xl:inline">
                 Kamper Time
               </span>
             </h1>
-            <p className="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
+            <p className="mt-3 text-base text-gray-500 dark:text-gray-200 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
               Discover the best camping spots and gear rentals for your next
               outdoor adventure. Connect with nature and create unforgettable
               memories.
@@ -49,7 +51,7 @@ export default function IndexPage() {
 
       {/* What People Are Saying Section */}
       <div className="my-10 px-20 flex flex-col items-center">
-        <h2 className="text-2xl font-semibold text-gray-900">
+        <h2 className="text-2xl font-semibold text-gray-900 dark:text-gray-300">
           What People Are Saying
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-6">
@@ -70,11 +72,11 @@ export default function IndexPage() {
                 />
               </svg>
             </div>
-            <p className="text-gray-700">
+            <p className="text-gray-700 dark:text-gray-200">
               "This website helped me find the perfect campsite for my family
               vacation. We had a blast!"
             </p>
-            <span className="text-gray-500 text-sm block">
+            <span className="text-gray-500 dark:text-gray-400 text-sm block">
               - Kirigaya Kazuto
             </span>
           </div>
@@ -95,11 +97,13 @@ export default function IndexPage() {
                 />
               </svg>
             </div>
-            <p className="text-gray-700">
+            <p className="text-gray-700 dark:text-gray-200">
               "The rented gear was top-notch and made our camping trip much
               easier. Highly recommend!"
             </p>
-            <span className="text-gray-500 text-sm block">- Asuna Yuuki</span>
+            <span className="text-gray-500 dark:text-gray-400 text-sm block">
+              - Asuna Yuuki
+            </span>
           </div>
         </div>
       </div>

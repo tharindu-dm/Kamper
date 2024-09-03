@@ -13,7 +13,7 @@ export default function PlaceGallery({ gear }) {
             <h2 className="text-3xl mr-48">Photos of {gear.type}</h2>
             <button
               onClick={() => setShowAllPhotos(false)}
-              className="fixed right-12 top-8 flex gap-1 py-2 px-4 rounded-2xl shadow-black bg-white text-black"
+              className="fixed right-12 top-8 flex gap-1 py-2 px-4 rounded-2xl shadow-black bg-white dark:bg-gray-800 text-black dark:text-white"
             >
               <CloseIcon></CloseIcon>
               Close photos
@@ -70,7 +70,7 @@ export default function PlaceGallery({ gear }) {
       </div>
       <button
         onClick={() => setShowAllPhotos(true)}
-        className="flex gap-1 absolute bottom-2 right-2 py-2 px-4 bg-white rounded-2xl shadow-md shadow-gray-500"
+        className="flex gap-1 absolute bottom-2 right-2 py-2 px-4 bg-white dark:bg-gray-800 rounded-2xl shadow-md shadow-gray-500"
       >
         <CropOriginalIcon></CropOriginalIcon>
         Show more photos

@@ -31,53 +31,57 @@ import ReportPage from "./pages/ReportPage";
 import ReportsFormPage from "./components/ReportsFormPage";
 import ReportsPage from "./pages/ReportsPage";
 
+import { ThemeProvider } from "../src/contexts/ThemeContext";
+
 axios.defaults.baseURL = "http://localhost:4000";
 axios.defaults.withCredentials = true;
 
 function App() {
   return (
-    <UserContextProvider>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<IndexPage />} />
-          <Route path="/campsites" element={<CampsitesPage />} />
-          <Route path="/campgears" element={<CampGearsPage />} />
+    <ThemeProvider>
+      <UserContextProvider>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<IndexPage />} />
+            <Route path="/campsites" element={<CampsitesPage />} />
+            <Route path="/campgears" element={<CampGearsPage />} />
 
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/account" element={<ProfilePage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/account" element={<ProfilePage />} />
 
-          <Route path="/account/places" element={<PlacesPage />} />
-          <Route path="/account/places/new" element={<PlacesFormPage />} />
-          <Route path="/account/places/:id" element={<PlacesFormPage />} />
-          <Route path="/place/:id" element={<PlacePage />} />
+            <Route path="/account/places" element={<PlacesPage />} />
+            <Route path="/account/places/new" element={<PlacesFormPage />} />
+            <Route path="/account/places/:id" element={<PlacesFormPage />} />
+            <Route path="/place/:id" element={<PlacePage />} />
 
-          <Route path="/account/bookings" element={<BookingsPage />} />
-          <Route path="/account/bookings/:id" element={<BookingPage />} />
-          <Route
-            path="/account/bookings/update/:bookingId"
-            element={<UpdateBookingPage />}
-          />
+            <Route path="/account/bookings" element={<BookingsPage />} />
+            <Route path="/account/bookings/:id" element={<BookingPage />} />
+            <Route
+              path="/account/bookings/update/:bookingId"
+              element={<UpdateBookingPage />}
+            />
 
-          <Route path="/account/gears" element={<GearsPage />} />
-          <Route path="/account/gears/new" element={<GearsFormPage />} />
-          <Route path="/account/gears/:id" element={<GearsFormPage />} />
-          <Route path="/gear/:id" element={<GearPage />} />
+            <Route path="/account/gears" element={<GearsPage />} />
+            <Route path="/account/gears/new" element={<GearsFormPage />} />
+            <Route path="/account/gears/:id" element={<GearsFormPage />} />
+            <Route path="/gear/:id" element={<GearPage />} />
 
-          <Route path="/account/reports" element={<ReportsPage />} />
-          <Route path="/account/reports/new" element={<ReportsFormPage />} />
-          <Route path="/account/reports/:id" element={<ReportsFormPage />} />
-          <Route path="/report/:id" element={<ReportPage />} />
+            <Route path="/account/reports" element={<ReportsPage />} />
+            <Route path="/account/reports/new" element={<ReportsFormPage />} />
+            <Route path="/account/reports/:id" element={<ReportsFormPage />} />
+            <Route path="/report/:id" element={<ReportPage />} />
 
-          <Route path="/account/rents" element={<RentsPage />} />
-          <Route path="/account/rents/:id" element={<RentPage />} />
-          <Route
-            path="/account/rents/update/:rentingId"
-            element={<UpdateRentingPage />}
-          />
-        </Route>
-      </Routes>
-    </UserContextProvider>
+            <Route path="/account/rents" element={<RentsPage />} />
+            <Route path="/account/rents/:id" element={<RentPage />} />
+            <Route
+              path="/account/rents/update/:rentingId"
+              element={<UpdateRentingPage />}
+            />
+          </Route>
+        </Routes>
+      </UserContextProvider>
+    </ThemeProvider>
   );
 }
 

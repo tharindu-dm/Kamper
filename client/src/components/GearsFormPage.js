@@ -8,7 +8,7 @@ import axios from "axios";
 
 export default function GearsFormPage() {
   const { id } = useParams();
-  
+
   const [type, setType] = useState("");
   const [addedPhotos, setAddedPhotos] = useState([]);
   const [description, setDescription] = useState("");
@@ -85,7 +85,7 @@ export default function GearsFormPage() {
 
   async function saveGear(ev) {
     ev.preventDefault();
-    
+
     if (!validateFields()) {
       return; // Prevent form submission if validation fails
     }
@@ -113,7 +113,7 @@ export default function GearsFormPage() {
     }
   }
 
-  async function deleteGear(ev) {    
+  async function deleteGear(ev) {
     ev.preventDefault();
 
     if (window.confirm("Are you sure you want to delete this gear?")) {
@@ -137,6 +137,7 @@ export default function GearsFormPage() {
       <form className="px-40" onSubmit={saveGear}>
         {preInput("Type", "type of your gear")}
         <input
+          className="dark:text-black"
           type="text"
           placeholder="type, eg: my camping tent"
           value={type}
@@ -148,6 +149,7 @@ export default function GearsFormPage() {
 
         {preInput("Description", "Description of the gear")}
         <textarea
+          className="dark:text-black"
           value={description}
           onChange={(ev) => setDescription(ev.target.value)}
         />
@@ -166,6 +168,7 @@ export default function GearsFormPage() {
           "Maintenance rules and Extra information about the gear"
         )}
         <textarea
+          className="dark:text-black"
           value={extraInfo}
           onChange={(ev) => setExtraInfo(ev.target.value)}
         />
@@ -178,6 +181,7 @@ export default function GearsFormPage() {
           <div>
             <h3 className="mt-2 mb-1">Capacity</h3>
             <input
+              className="dark:text-black"
               type="number"
               value={capacity}
               onChange={(ev) => setMaxCapacity(ev.target.value)}
@@ -186,6 +190,7 @@ export default function GearsFormPage() {
           <div>
             <h3 className="mt-2 mb-1">Price per night</h3>
             <input
+              className="dark:text-black"
               type="number"
               value={price}
               onChange={(ev) => setPrice(ev.target.value)}

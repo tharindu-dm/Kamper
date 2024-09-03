@@ -73,6 +73,7 @@ export default function ReportsFormPage() {
       <form className="px-40" onSubmit={saveReport}>
         {preInput("Title", "Title for your report")}
         <input
+        className="dark:text-black"
           type="text"
           placeholder="title, eg: Window is broken"
           value={title}
@@ -81,13 +82,14 @@ export default function ReportsFormPage() {
 
         {preInput("Description", "Description of the issue")}
         <textarea
+        className="dark:text-black"
           value={description}
           onChange={(ev) => setDescription(ev.target.value)}
         />
 
         <div className="flex gap-3">
           <button
-            className="rounded-2xl text-white  bg-red-500 mt-4"
+            className="rounded-2xl text-white bg-red-500 mt-4"
             onClick={deleteReport}
           >
             Delete Report

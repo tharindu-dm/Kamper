@@ -46,7 +46,7 @@ export default function ReportsPage() {
             <p
               key={place._id}
               to={"/account/reports/" + place._id}
-              className="flex cursor-pointer bg-gray-100 gap-4 p-4 rounded-2xl mb-4"
+              className="flex cursor-pointer bg-gray-100 dark:bg-gray-700 gap-4 p-4 rounded-2xl mb-4"
             >
               <div className="flex items-center justify-center w-32 h-32 bg-gray-300 rounded-2xl">
                 <ReportProblemIcon fontSize="large" />

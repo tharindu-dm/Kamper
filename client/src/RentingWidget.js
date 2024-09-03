@@ -98,13 +98,16 @@ export default function RentingWidget({ gear }) {
   }
 
   return (
-    <div className="bg-white shadow p-4 rounded-2xl">
-      <div className="text-2xl text-center">Price: ${gear.price} / per night</div>
+    <div className="bg-white dark:bg-gray-800 shadow p-4 rounded-2xl">
+      <div className="text-2xl text-center">
+        Price: ${gear.price} / per night
+      </div>
       <div className="border rounded-2xl mt-4">
         <div className="flex">
           <div className="py-3 px-4">
             <label>From:</label>
             <input
+              className="dark:text-black ml-2 rounded-lg"
               type="date"
               value={checkIn}
               onChange={(ev) => setCheckIn(ev.target.value)}
@@ -113,6 +116,7 @@ export default function RentingWidget({ gear }) {
           <div className="py-3 px-4 border-l">
             <label>To:</label>
             <input
+              className="dark:text-black ml-2 rounded-lg"
               type="date"
               value={checkOut}
               onChange={(ev) => setCheckOut(ev.target.value)}
@@ -122,6 +126,7 @@ export default function RentingWidget({ gear }) {
         <div className="py-3 px-4 border-t">
           <label>Number of Items:</label>
           <input
+            className="dark:text-black"
             type="number"
             value={numberofItems}
             onChange={(ev) => setNumberOfItems(parseInt(ev.target.value))}
@@ -133,12 +138,14 @@ export default function RentingWidget({ gear }) {
           <div className="py-3 px-4 border-t">
             <label>Your full name:</label>
             <input
+              className="dark:text-black"
               type="text"
               value={name}
               onChange={(ev) => setName(ev.target.value)}
             />
             <label>Phone number:</label>
             <input
+              className="dark:text-black"
               type="tel"
               value={phone}
               onChange={(ev) => setPhone(ev.target.value)}

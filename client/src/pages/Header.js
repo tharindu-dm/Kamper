@@ -1,9 +1,15 @@
 import { Link } from "react-router-dom";
 import { UserContext } from "../userContext";
 import { useContext } from "react";
+import { ThemeContext } from "../contexts/ThemeContext";
+import { IconButton } from "@mui/material";
+import Brightness4Icon from "@mui/icons-material/Brightness4";
+import Brightness7Icon from "@mui/icons-material/Brightness7";
 
 export default function Header() {
   const { user } = useContext(UserContext);
+  const { theme, toggleTheme } = useContext(ThemeContext);
+
   return (
     <header className="bg-emerald-600 flex justify-between max-w-9xl py-6 px-4 sm:px-6 lg:px-8">
       <div className="flex gap-6 items-center">
@@ -43,6 +49,10 @@ export default function Header() {
         >
           <span className="font-bold text-2xl">Rent Camp Gears</span>
         </Link>
+        
+        <IconButton color="white" onClick={toggleTheme}>
+          {theme === "light" ? <Brightness4Icon /> : <Brightness7Icon />}
+        </IconButton>
       </div>
 
       <Link

@@ -12,7 +12,7 @@ export default function BookingWidget({ place }) {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [redirect, setRedirect] = useState("");
-  const [error, setError] = useState("");  // State for error messages
+  const [error, setError] = useState(""); // State for error messages
   const { user } = useContext(UserContext);
 
   useEffect(() => {
@@ -111,7 +111,7 @@ export default function BookingWidget({ place }) {
   }
 
   return (
-    <div className="bg-white shadow p-4 rounded-2xl">
+    <div className="bg-white dark:bg-gray-800 shadow p-4 rounded-2xl">
       <div className="text-2xl text-center">
         Price: ${place.price} / per night
       </div>
@@ -120,6 +120,7 @@ export default function BookingWidget({ place }) {
           <div className="py-3 px-4">
             <label>Check-in:</label>
             <input
+              className="dark:text-black ml-2 rounded-lg"
               type="date"
               value={checkIn}
               onChange={(ev) => setCheckIn(ev.target.value)}
@@ -129,6 +130,7 @@ export default function BookingWidget({ place }) {
           <div className="py-3 px-4 border-l">
             <label>Check-out:</label>
             <input
+              className="dark:text-black ml-2 rounded-lg"
               type="date"
               value={checkOut}
               onChange={(ev) => setCheckOut(ev.target.value)}
@@ -139,6 +141,7 @@ export default function BookingWidget({ place }) {
         <div className="py-3 px-4 border-t">
           <label>Number of guests:</label>
           <input
+            className="dark:text-black"
             type="number"
             value={numberOfGuests}
             onChange={(ev) => setNumberOfGuests(parseInt(ev.target.value))}
@@ -150,12 +153,14 @@ export default function BookingWidget({ place }) {
           <div className="py-3 px-4 border-t">
             <label>Your full name:</label>
             <input
+              className="dark:text-black"
               type="text"
               value={name}
               onChange={(ev) => setName(ev.target.value)}
             />
             <label>Phone number:</label>
             <input
+              className="dark:text-black"
               type="tel"
               value={phone}
               onChange={(ev) => setPhone(ev.target.value)}
