@@ -24,7 +24,7 @@ export default function IndexPage() {
             to={"/gear/" + gear._id}
             className=""
           >
-            <div>
+            <div className="hover:border-b-8 hover:border-emerald-800 hover:rounded-b-lg  p-0.5">
               <div className="bg-gray-500 rounded-2xl flex">
                 {gear.photos && gear.photos.length > 0 && (
                   <img
