@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import ReportProblemIcon from "@mui/icons-material/ReportProblem";
+import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import AccountNav from "../components/AccountNav";
 import { Link } from "react-router-dom";
 
@@ -49,7 +49,7 @@ export default function ReportsPage() {
               className="flex cursor-pointer bg-gray-100 dark:bg-gray-700 gap-4 p-4 rounded-2xl mb-4"
             >
               <div className="flex items-center justify-center w-32 h-32 bg-gray-300 rounded-2xl">
-                <ReportProblemIcon fontSize="large" />
+                <LibraryBooksIcon fontSize="large" />
               </div>
               <div className="grow-0 shrink">
                 <h2 className="text-xl">{place.title}</h2>
