@@ -91,7 +91,7 @@ export default function Header() {
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
-                    fill="currentColor"
+                    fill="white"
                     className="w-6 h-6 relative"
                   >
                     <path
