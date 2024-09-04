@@ -11,7 +11,7 @@ export default function Header() {
   const { theme, toggleTheme } = useContext(ThemeContext);
 
   return (
-    <header className="bg-emerald-600 flex justify-between max-w-9xl py-6 px-4 sm:px-6 lg:px-8">
+    <header className="bg-emerald-600 flex justify-between max-w-9xl py-4 px-4 sm:px-6 lg:px-8 fixed top-0 w-full z-50 shadow-md mb-5">
       <div className="flex gap-6 items-center">
         <Link
           to={"/"}
@@ -49,12 +49,11 @@ export default function Header() {
         >
           <span className="font-bold text-2xl">Rent Camp Gears</span>
         </Link>
-        
+
         <IconButton color="white" onClick={toggleTheme}>
           {theme === "light" ? <Brightness4Icon /> : <Brightness7Icon />}
         </IconButton>
       </div>
-
       <Link
         to={user ? "/account" : "/login"}
         className="flex items-center gap-2 rounded-full py-2 px-4"

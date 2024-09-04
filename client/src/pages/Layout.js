@@ -10,7 +10,7 @@ function Layout() {
   return (
     <div className={`${theme === "dark" ? "dark" : ""}`}>
       <Header />
-      <div className="py-4 px-8 flex flex-col min-h-screen bg-white dark:bg-gray-800 text-black dark:text-white">
+      <div className="py-4 px-8 flex flex-col min-h-screen bg-white dark:bg-gray-800 text-black dark:text-white pt-20">
         <main className="flex-grow">
           <Outlet />
         </main>
