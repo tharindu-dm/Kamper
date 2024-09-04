@@ -1,3 +1,8 @@
+/**
+ * @component PlacesFormPage.js
+ * @description This component is a form to add a new campsite or edit an existing campsite. The form contains fields for the title, address, photos, description, perks, extra information, check-in and check-out times, maximum number of guests, and price per night. The form also includes a button to save the campsite and a button to delete the campsite. Form validation is included for the number of photos(min 3), check-in and check-out times (HH:MM), and price per night (non-negative).
+ */
+
 import { useEffect, useState } from "react";
 import Perk from "../components/Perks";
 import PhotosUploader from "../components/PhotosUploader";
@@ -54,7 +59,7 @@ export default function PlacesFormPage() {
     return (
       <>
         {inputHeader(header)}
-        {inputDescription(header)}
+        {inputDescription(description)}
       </>
     );
   }
@@ -71,8 +76,8 @@ export default function PlacesFormPage() {
   };
 
   const validateTime = (time) => {
-    const timeRegex = /^([0-1][0-9]|2[0-3]):([0-5][0-9])$/;
-    return timeRegex.test(time);
+    const timeRegex = /^([0-1][0-9]|2[0-3]):([0-5][0-9])$/; //[H]|[H]:[M][M] format
+    return timeRegex.test(time); // Returns true if time is in correct format
   };
 
   const handleCheckInChange = (event) => {
@@ -110,36 +115,36 @@ export default function PlacesFormPage() {
 
     try {
       if (id) {
-        await axios.put("/account/places", {
+        await axios.put("/account/places", { // Update existing campsite
           id,
-          ...placeData,
+          ...placeData, // Spread operator to include all fields
         });
       } else {
-        await axios.post("/account/places", placeData);
+        await axios.post("/account/places", placeData); //or create new campsite
       }
       setRedirect(true);
     } catch (error) {
-      console.error("Error saving place:", error);
-      alert("Failed to save place. Please try again.");
+      console.error("Error saving campsite:", error);
+      alert("Failed to save campsite. Please try again.");
     }
   }
 
   async function deleteCampsite(ev) {
-    ev.preventDefault();
+    ev.preventDefault(); // Prevent form submission
 
-    if (window.confirm("Are you sure you want to delete this place?")) {
+    if (window.confirm("Are you sure you want to delete this campsite?")) {
       try {
         await axios.delete("/account/places/" + id);
         setRedirect(true);
       } catch (error) {
-        console.error("Error deleting place:", error);
-        alert("Failed to delete place. Please try again.");
+        console.error("Error deleting campsite:", error);
+        alert("Failed to delete campsite. Please try again.");
       }
     }
   }
 
   if (redirect) {
-    return <Navigate to={"/account/places"} />;
+    return <Navigate to={"/account/places"} />; //Direct to places page after save/delete to show updated list
   }
 
   return (
@@ -180,12 +185,12 @@ export default function PlacesFormPage() {
           onChange={(ev) => setDescription(ev.target.value)}
         />
 
-        {preInput("Perks", "Select all the perks of your place")}
+        {preInput("Perks", "Select all the perks of your campsite")}
         <Perk selected={perks} onChange={setPerks} />
 
         {preInput(
           "Extra info.",
-          "ground rules and Extra information about the place"
+          "ground rules and Extra information about the campsite"
         )}
         <textarea
           className="dark:text-black"
@@ -266,7 +271,7 @@ export default function PlacesFormPage() {
             className="rounded-2xl text-white  bg-red-500 mt-4"
             onClick={deleteCampsite}
           >
-            Delete Place
+            Delete Site
           </button>
           <button className="primary mt-4">Save</button>
         </div>

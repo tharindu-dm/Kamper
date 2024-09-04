@@ -1,3 +1,9 @@
+/**
+ * @description: This file is the main entry point of the application. It contains all the routes of the application.
+ * Since this project utilize content other than material UI library, for the dark mode, another tailwind attribute is used.
+ * The Dark aatributed is created in a customizable way, depending on the page
+ */
+
 import { Route, Routes } from "react-router-dom";
 import { UserContextProvider } from "./userContext";
 

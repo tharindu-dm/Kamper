@@ -1,3 +1,7 @@
+/**
+ * @file PlacePage.js is the page that displays the details of a SINGLE campsite.
+ * @description Fetches the campsite data from the server using the ID in the URL.
+ */
 import { useEffect, useState } from "react";
 
 import AddressLink from "../components/AddressLink";
@@ -8,19 +12,19 @@ import { useParams } from "react-router-dom";
 
 export default function PlacePage() {
   const { id } = useParams();
-  const [place, setPlace] = useState(null);
+  const [place, setPlace] = useState(null); //place is the state that will hold the place data
 
   useEffect(() => {
     if (!id) {
       return;
     }
-    axios.get(`/api/places/${id}`).then((response) => {
-      setPlace(response.data);
+    axios.get(`/api/places/${id}`).then((response) => { //send a get request to the server to get the place with the id
+      setPlace(response.data); //set the place state to the data received from the server
     });
-  }, [id]);
+  }, [id]); //run this effect whenever the id changes
 
   if (!place) {
-    return "";
+    return ""; //incase of an invalid ID in the URL or the place data is not yet fetched, return an empty string
   }
 
   return (

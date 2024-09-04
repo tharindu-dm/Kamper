@@ -1,6 +1,16 @@
+/**
+ * @Component PlaceGallery
+ * @Description
+ * This component is used to display the gallery of the place.
+ * It will display the first 3 images of the place and a button to show more images.
+ * There will always be three images, since the placesFormPage validations require at least 3 images to submit a campsite.
+ * SetShowALlPhotos is used to toggle between the gallery view and the single (3)image view.
+ */
+
 import CloseIcon from "@mui/icons-material/Close";
 import CropOriginalIcon from "@mui/icons-material/CropOriginal";
 import { useState } from "react";
+
 export default function PlaceGallery({ place }) {
   const [showAllPhotos, setShowAllPhotos] = useState(false);
 

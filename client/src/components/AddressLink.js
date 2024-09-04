@@ -1,3 +1,10 @@
+/*
+* AddressLink component is used to display the address of the campsite in the form of a link.
+* the link is clickable and will open the address in google maps.
+* result is not an exact location, but it will help to narrow down the search area.
+* better the address input by the user, better the result.
+*/
+
 export default function AddressLink({children, className='null '}) {
     if (!className) {
         className = 'my-3 block'
