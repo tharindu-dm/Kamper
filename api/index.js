@@ -300,7 +300,7 @@ app.put("/account/places", async (req, res) => { //update a campsite
 
   jwt.verify(token, jwtSecret, {}, async (err, userData) => {
     const placeDoc = await Place.findById(id);
-    if (userData.id === placeDoc.owner.toString()) {
+    if (userData.id === placeDoc.owner.toString()) { 
       placeDoc.set({
         title,
         address,
@@ -326,7 +326,7 @@ app.get("/api/place", async (req, res) => { //get all campsites
 //BOOKINGS AND RENTINGS
 app.post("/api/bookings", async (req, res) => {
   mongoose.connect(process.env.MONGO_URL);
-  const userData = await getUserDataFromReq(req);
+  const userData = await getUserDataFromReq(req); //get the user data
   const { place, checkIn, checkOut, numberOfGuests, name, phone, price } =
     req.body;
   Booking.create({
@@ -349,7 +349,7 @@ app.post("/api/bookings", async (req, res) => {
 });
 app.post("/api/rentings", async (req, res) => {
   mongoose.connect(process.env.MONGO_URL);
-  const userData = await getUserDataFromReq(req);
+  const userData = await getUserDataFromReq(req); //get the user data
   const { gear, checkIn, checkOut, numberOfItems, name, phone, price } =
     req.body;
   Renting.create({
@@ -372,9 +372,9 @@ app.post("/api/rentings", async (req, res) => {
 });
 
 app.get("/api/bookings", async (req, res) => {
-  mongoose.connect(process.env.MONGO_URL);
-  const userData = await getUserDataFromReq(req);
-  res.json(await Booking.find({ user: userData.id }).populate("place"));
+  mongoose.connect(process.env.MONGO_URL); //connect to the database
+  const userData = await getUserDataFromReq(req);  //get the user data
+  res.json(await Booking.find({ user: userData.id }).populate("place"));  //find the bookings related to the user
 });
 
 app.get("/api/rentings", async (req, res) => {
@@ -483,8 +483,8 @@ app.get("/api/gear", async (req, res) => {
 app.delete("/api/bookings/:id", async (req, res) => {
   mongoose.connect(process.env.MONGO_URL);
   try {
-    const bookingId = req.params.id;
-    await Booking.findByIdAndDelete(bookingId);
+    const bookingId = req.params.id; 
+    await Booking.findByIdAndDelete(bookingId); // delete the booking
     res.status(200).json({ message: "Booking deleted successfully" });
   } catch (err) {
     res.status(500).json({ error: "Failed to delete booking" });
@@ -516,7 +516,7 @@ app.get("/api/bookings/:id", async (req, res) => {
 
 app.put("/api/bookings/:id", async (req, res) => {
   mongoose.connect(process.env.MONGO_URL);
-  const { numberOfGuests, phone } = req.body;
+  const { numberOfGuests, phone } = req.body;  // get the data from the request
   try {
     const booking = await Booking.findById(req.params.id);
     booking.numberOfGuests = numberOfGuests;

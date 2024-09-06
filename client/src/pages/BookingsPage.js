@@ -10,16 +10,19 @@ export default function BookingPage() {
   const [bookings, setBookings] = useState([]);
   const navigate = useNavigate(); // Import the useNavigate hook
 
+  // Fetch the bookings from the server
   useEffect(() => {
     axios.get("/api/bookings").then((response) => {
-      setBookings(response.data);
+      setBookings(response.data); // Set the bookings state to the data from the server
     });
   }, []);
-
+  
+  // Function to handle the delete button
   const handleDelete = (bookingId) => {
     const userConfirmed = window.confirm(
       "Are you sure you want to delete this booking?"
     );
+    // If the user confirms the deletion
     if (userConfirmed) {
       axios
         .delete(`/api/bookings/${bookingId}`)
@@ -28,6 +31,7 @@ export default function BookingPage() {
             prevBookings.filter((booking) => booking._id !== bookingId)
           );
         })
+        // If there is an error, log it to the console
         .catch((err) => {
           console.error("Error deleting booking:", err);
         });

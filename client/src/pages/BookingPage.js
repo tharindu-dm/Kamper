@@ -7,21 +7,21 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 
 export default function BookingPage() {
-  const { id } = useParams();
-  const [booking, setBooking] = useState(null);
+  const { id } = useParams(); // Get the booking ID from the URL
+  const [booking, setBooking] = useState(null); // Initialize the booking state
   useEffect(() => {
     if (id) {
       axios.get("/api/bookings").then((response) => {
-        const foundBooking = response.data.find(({ _id }) => _id === id);
+        const foundBooking = response.data.find(({ _id }) => _id === id); // Find the booking with the matching ID
         if (foundBooking) {
-          setBooking(foundBooking);
+          setBooking(foundBooking); // Set the booking state to the found booking
         }
       });
     }
   }, [id]);
 
   if (!booking) {
-    return "";
+    return ""; // Return an empty string if the booking is not found
   }
 
   return (
