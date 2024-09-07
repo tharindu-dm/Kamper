@@ -1,3 +1,8 @@
+/**
+ * @file CampsitesPage.js
+ * @description This file displays the list of campsites. It fetches the list of campsites from the server and displays them in a grid. Each campsite is a link to the PlacePage.
+ */
+
 import React, { useEffect, useState } from "react";
 
 import { Link } from "react-router-dom";

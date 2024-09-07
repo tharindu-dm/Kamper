@@ -8,12 +8,12 @@ import { differenceInCalendarDays } from "date-fns";
 export default function BookingWidget({ place }) {
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
-  const [numberOfGuests, setNumberOfGuests] = useState(1);
+  const [numberOfGuests, setNumberOfGuests] = useState(1); // State for number of guests
   const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [redirect, setRedirect] = useState("");
+  const [phone, setPhone] = useState(""); // State for phone number
+  const [redirect, setRedirect] = useState(""); // State for redirecting to booking page
   const [error, setError] = useState(""); // State for error messages
-  const { user } = useContext(UserContext);
+  const { user } = useContext(UserContext); /* path will be updated */
 
   useEffect(() => {
     if (user) {
@@ -22,40 +22,46 @@ export default function BookingWidget({ place }) {
   }, [user]);
 
   let numberOfNights = 0;
+  // Calculate the number of nights
   if (checkIn && checkOut) {
     numberOfNights = differenceInCalendarDays(
       new Date(checkOut),
       new Date(checkIn)
     );
   }
-
+  
+  // Calculate the total price
   const totalPrice =
     numberOfNights > 0 ? numberOfNights * place.price : place.price;
 
   // Function to validate inputs
   function validateInputs() {
     const today = new Date();
-    const selectedCheckIn = new Date(checkIn);
-    const selectedCheckOut = new Date(checkOut);
+    const selectedCheckIn = new Date(checkIn); // Convert check-in to a Date object
+    const selectedCheckOut = new Date(checkOut); // Convert check-out to a Date object
 
+    // Check if check-in and check-out dates are selected
     if (!checkIn || !checkOut) {
       setError("Please select both check-in and check-out dates.");
       alert("Please select both check-in and check-out dates.");
       return false;
     }
 
+    // Check if check-in date is before check-out date
     if (selectedCheckIn <= today) {
       setError("Check-in date must be a future date.");
       alert("Check-in date must be a future date.");
       return false;
     }
 
+    // Check if check-out date is after check-in date
     if (selectedCheckOut <= today) {
       setError("Check-in date must be a future date.");
       alert("Check-in date must be a future date.");
       return false;
     }
 
+    // numberOfNights will be 0 if check-in and check-out dates are not selected
     if (numberOfNights <= 0) {
       setError("Check-out date must be after the check-in date.");
       alert("Check-out date must be after the check-in date.");
@@ -173,7 +179,7 @@ export default function BookingWidget({ place }) {
         Book this place
         {numberOfNights > 0 && <span> ${numberOfNights * place.price}</span>}
       </button>
-      {error && <div className="text-red-500 text-center mt-4">{error}</div>}
+      {error && <div className="text-red-500 text-center mt-4">{error}</div>} 
     </div>
   );
 }

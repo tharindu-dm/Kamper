@@ -1,3 +1,7 @@
+/**
+ * @file PlacesPage.js
+ * @description This page shows the user-added campsites and provides a link to add a new campsite. places state contain all the places after a successful read and mapping each Place to a Link component. The link will navigate to the PlacePage component with the place id as a parameter. 
+ */
 import { useEffect, useState } from "react";
 
 import AccountNav from "../components/AccountNav";
@@ -17,6 +21,7 @@ export default function PlacesPage() {
     <div>
       <AccountNav />
       <div className="text-center mt-5">
+        {/* add campsite button */}
         <Link
           className="bg-primary inline-flex gap-1 text-white py-2 px-6 rounded-full"
           to={"/account/places/new"}
@@ -36,10 +41,11 @@ export default function PlacesPage() {
               d="M12 4.5v15m7.5-7.5h-15"
             />
           </svg>
-          Add new place
+          Add a campsite
         </Link>
       </div>
 
+      {/* list of user added campsites */}
       <div className="mt-4">
         {places.length > 0 &&
           places.map((place) => (

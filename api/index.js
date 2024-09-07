@@ -1,3 +1,9 @@
+/**
+ * @file index.js [THE BACKEND]
+ * @execution nodemon index.js or node index.js
+ * @description This file contains the server-side code for the API. The API provides endpoints for user registration, login, profile management, and campsite management. The API also provides endpoints for booking and renting campsites and gears, as well as reporting issues with campsites and gears. The API also provides endpoints for uploading and downloading images.
+ */
+
 const express = require("express");
 const paths = require("path");
 const cors = require("cors");
@@ -11,16 +17,16 @@ const Booking = require("./models/Booking.js");
 const Gear = require("./models/Gear.js");
 const Renting = require("./models/Renting.js");
 
-const cookieParser = require("cookie-parser");
-const imageDownloader = require("image-downloader");
-const multer = require("multer");
-const fs = require("fs");
+const cookieParser = require("cookie-parser"); //used to read cookies sent by the client
+const imageDownloader = require("image-downloader"); //this library is used to download images from the internet
+const multer = require("multer"); //used to handle file uploads
+const fs = require("fs"); //used to rename files.
 
 require("dotenv").config();
 const app = express();
 
 const bcryptSalt = bcrypt.genSaltSync(10);
-const jwtSecret = "fasefraw4r5r3wq45wdfgw34twdfg";
+const jwtSecret = "fasefraw4r5r3wq45wdfgw34twdfg"; //this is the secret key used to sign the JWT token
 
 app.use(express.json());
 app.use(cookieParser());
@@ -28,7 +34,7 @@ app.use("/uploads", express.static("/api/uploads"));
 app.use("/uploads", express.static(paths.join(__dirname, "uploads")));
 
 app.use(
-  cors({
+  cors({ //cors is used to allow cross-origin requests
     credentials: true,
     origin: "http://localhost:3000",
     methods: ["GET", "POST", "PUT", "DELETE"],
@@ -160,38 +166,40 @@ app.delete("/api/delete-profile", async (req, res) => {
 });
 
 //PHOTOS
+/*all uploaded photos will be saved in api/uploads folder*/
 app.post("/api/upload-by-link", async (req, res) => {
   const { link } = req.body;
-  const newName = "photo" + Date.now() + ".jpg";
+  const newName = "photo" + Date.now() + ".jpg"; //generate a new name
   const destPath = __dirname + "/uploads/" + newName;
 
   await imageDownloader.image({
     url: link,
-    dest: destPath,
+    dest: destPath, //save the image to the uploads folder
   });
 
   res.json(newName);
 });
 
-const photosMiddleware = multer({ dest: "uploads/" });
+const photosMiddleware = multer({ dest: "uploads/" }); //create a middleware to handle file uploads from the client
 const path = require("path");
 app.post("/api/upload", photosMiddleware.array("photos", 10), (req, res) => {
   const uploadedFiles = [];
 
-  for (let i = 0; i < req.files.length; i++) {
+  for (let i = 0; i < req.files.length; i++) { //loop through the uploaded files
+    //rename the file to include the original extension
     const { path, originalname } = req.files[i];
     const parts = originalname.split(".");
     const ext = parts[parts.length - 1];
     const newPath = path + "." + ext;
     fs.renameSync(path, newPath);
 
-    uploadedFiles.push(newPath.replace(/^uploads\\/, ""));
+    uploadedFiles.push(newPath.replace(/^uploads\\/, "")); //add the new file name to the uploadedFiles array
   }
-  res.json(uploadedFiles);
+  res.json(uploadedFiles); //send the uploaded files to the client and update the grid
 });
 
 //PLACES
-app.post("/account/places", async (req, res) => {
+app.post("/account/places", async (req, res) => { //create and update campsite
   mongoose.connect(process.env.MONGO_URL);
   const { token } = req.cookies;
   const {
@@ -205,12 +213,12 @@ app.post("/account/places", async (req, res) => {
     checkOut,
     maxGuests,
     price,
-  } = req.body;
+  } = req.body; //get the data from the request
 
   jwt.verify(token, jwtSecret, {}, async (err, userData) => {
     if (err) throw err;
 
-    const placeDoc = await Place.create({
+    const placeDoc = await Place.create({ //placeDoc is the new campsite
       owner: userData.id,
       title,
       address,
@@ -223,24 +231,24 @@ app.post("/account/places", async (req, res) => {
       maxGuests,
       price,
     });
-    res.json(placeDoc);
+    res.json(placeDoc); //send the new campsite to the client
   });
 });
 
 app.get("/account/user-places", async (req, res) => {
-  const { token } = req.cookies;
+  const { token } = req.cookies; // the token contains the user data
   if (!token) {
     return res.status(401).json({ error: "No token provided" });
   }
 
   try {
     const userData = await getUserDataFromReq(req);
-    if (!userData || !userData.id) {
+    if (!userData || !userData.id) { // if the user data is invalid or missing
       return res.status(401).json({ error: "Invalid user data" });
     }
 
-    const places = await Place.find({ owner: userData.id });
-    res.json(places);
+    const places = await Place.find({ owner: userData.id }); // find the places
+    res.json(places); // send the places
   } catch (err) {
     console.error("Error in /account/user-places:", err);
     if (err.name === "JsonWebTokenError") {
@@ -253,13 +261,12 @@ app.get("/account/user-places", async (req, res) => {
   }
 });
 
-app.get("/account/places/:id", async (req, res) => {
-  //try /api/places/:id
+app.get("/account/places/:id", async (req, res) => { //get a single campsite from id related to the user
   const { id } = req.params;
   res.json(await Place.findById(id));
 });
 
-app.delete("/account/places/:id", async (req, res) => {
+app.delete("/account/places/:id", async (req, res) => { //delete a campsite
   try {
     const { id } = req.params;
     await Place.findByIdAndDelete(id);
@@ -269,12 +276,12 @@ app.delete("/account/places/:id", async (req, res) => {
   }
 });
 
-app.get("/api/places/:id", async (req, res) => {
+app.get("/api/places/:id", async (req, res) => { //find a campsite by id
   const { id } = req.params;
   res.json(await Place.findById(id));
 });
 
-app.put("/account/places", async (req, res) => {
+app.put("/account/places", async (req, res) => { //update a campsite
   //try /api/places
   const { token } = req.cookies;
   const {
@@ -289,11 +296,11 @@ app.put("/account/places", async (req, res) => {
     checkOut,
     maxGuests,
     price,
-  } = req.body;
+  } = req.body; // get the data from the request
 
   jwt.verify(token, jwtSecret, {}, async (err, userData) => {
     const placeDoc = await Place.findById(id);
-    if (userData.id === placeDoc.owner.toString()) {
+    if (userData.id === placeDoc.owner.toString()) { 
       placeDoc.set({
         title,
         address,
@@ -306,20 +313,20 @@ app.put("/account/places", async (req, res) => {
         maxGuests,
         price,
       });
-      await placeDoc.save();
+      await placeDoc.save(); //save the updated campsite
       res.json("ok");
     }
   });
 });
 
-app.get("/api/place", async (req, res) => {
+app.get("/api/place", async (req, res) => { //get all campsites
   res.json(await Place.find());
 });
 
 //BOOKINGS AND RENTINGS
 app.post("/api/bookings", async (req, res) => {
   mongoose.connect(process.env.MONGO_URL);
-  const userData = await getUserDataFromReq(req);
+  const userData = await getUserDataFromReq(req); //get the user data
   const { place, checkIn, checkOut, numberOfGuests, name, phone, price } =
     req.body;
   Booking.create({
@@ -342,7 +349,7 @@ app.post("/api/bookings", async (req, res) => {
 });
 app.post("/api/rentings", async (req, res) => {
   mongoose.connect(process.env.MONGO_URL);
-  const userData = await getUserDataFromReq(req);
+  const userData = await getUserDataFromReq(req); //get the user data
   const { gear, checkIn, checkOut, numberOfItems, name, phone, price } =
     req.body;
   Renting.create({
@@ -365,9 +372,9 @@ app.post("/api/rentings", async (req, res) => {
 });
 
 app.get("/api/bookings", async (req, res) => {
-  mongoose.connect(process.env.MONGO_URL);
-  const userData = await getUserDataFromReq(req);
-  res.json(await Booking.find({ user: userData.id }).populate("place"));
+  mongoose.connect(process.env.MONGO_URL); //connect to the database
+  const userData = await getUserDataFromReq(req);  //get the user data
+  res.json(await Booking.find({ user: userData.id }).populate("place"));  //find the bookings related to the user
 });
 
 app.get("/api/rentings", async (req, res) => {
@@ -476,8 +483,8 @@ app.get("/api/gear", async (req, res) => {
 app.delete("/api/bookings/:id", async (req, res) => {
   mongoose.connect(process.env.MONGO_URL);
   try {
-    const bookingId = req.params.id;
-    await Booking.findByIdAndDelete(bookingId);
+    const bookingId = req.params.id; 
+    await Booking.findByIdAndDelete(bookingId); // delete the booking
     res.status(200).json({ message: "Booking deleted successfully" });
   } catch (err) {
     res.status(500).json({ error: "Failed to delete booking" });
@@ -509,7 +516,7 @@ app.get("/api/bookings/:id", async (req, res) => {
 
 app.put("/api/bookings/:id", async (req, res) => {
   mongoose.connect(process.env.MONGO_URL);
-  const { numberOfGuests, phone } = req.body;
+  const { numberOfGuests, phone } = req.body;  // get the data from the request
   try {
     const booking = await Booking.findById(req.params.id);
     booking.numberOfGuests = numberOfGuests;

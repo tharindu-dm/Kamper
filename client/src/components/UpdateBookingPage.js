@@ -4,16 +4,16 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
 export default function UpdateBookingPage() {
-  const { bookingId } = useParams();
-  const navigate = useNavigate();
-  const [booking, setBooking] = useState(null);
-  const [numberOfGuests, setNumberOfGuests] = useState(1);
-  const [phone, setPhone] = useState("");
+  const { bookingId } = useParams(); // Get the booking ID from the URL
+  const navigate = useNavigate(); // Import the useNavigate hook
+  const [booking, setBooking] = useState(null); // Initialize the booking state
+  const [numberOfGuests, setNumberOfGuests] = useState(1); // Initialize the number of guests state
+  const [phone, setPhone] = useState(""); // Initialize the phone state
   const [error, setError] = useState(""); // State to store error messages
 
   useEffect(() => {
-    axios
-      .get(`/api/bookings/${bookingId}`)
+    axios 
+      .get(`/api/bookings/${bookingId}`) 
       .then((response) => {
         setBooking(response.data);
         setNumberOfGuests(response.data.numberOfGuests);
@@ -26,18 +26,21 @@ export default function UpdateBookingPage() {
 
   // Function to validate user input
   const validateInputs = () => {
+    // Check if the number of guests is less than 1
     if (numberOfGuests <= 0) {
       setError("Number of guests must be at least 1.");
       alert("Number of guests must be at least 1.");
       return false;
     }
 
+    // Check if the number of guests exceeds the maximum allowed
     if (numberOfGuests > booking.place.maxGuests) {
       setError(`Number of guests cannot exceed ${booking.place.maxGuests}.`);
       alert(`Number of guests cannot exceed ${booking.place.maxGuests}.`);
       return false;
     }
 
+    // Check if the phone number is exactly 10 digits
     if (!/^\d{10}$/.test(phone)) {
       setError("Phone number must be exactly 10 digits.");
       alert("Phone number must be exactly 10 digits.");
@@ -54,7 +57,7 @@ export default function UpdateBookingPage() {
     }
 
     axios
-      .put(`/api/bookings/${bookingId}`, { numberOfGuests, phone })
+      .put(`/api/bookings/${bookingId}`, { numberOfGuests, phone }) 
       .then(() => {
         navigate("/account/bookings");
       })
@@ -67,8 +70,8 @@ export default function UpdateBookingPage() {
 
   // Format date to display only the date part
   const formatDate = (dateString) => {
-    const options = { year: "numeric", month: "long", day: "numeric" };
-    return new Date(dateString).toLocaleDateString(undefined, options);
+    const options = { year: "numeric", month: "long", day: "numeric" }; // Date formatting options
+    return new Date(dateString).toLocaleDateString(undefined, options); // Return the formatted date
   };
 
   return (

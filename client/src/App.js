@@ -1,37 +1,36 @@
+/**
+ * @description: This file is the main entry point of the application. It contains all the routes of the application.
+ * Since this project utilize content other than material UI library, for the dark mode, another tailwind attribute is used.
+ * The Dark aatributed is created in a customizable way, depending on the page
+ */
+
 import { Route, Routes } from "react-router-dom";
-import { UserContextProvider } from "./userContext";
-
-import axios from "axios";
-import Layout from "./pages/Layout";
-import IndexPage from "./pages/IndexPage";
-import CampsitesPage from "./pages/CampsitesPage";
-import CampGearsPage from "./pages/CampGearsPage";
-
-import LoginPage from "./pages/LoginPage";
-import ProfilePage from "./pages/ProfilePage";
-import RegisterPage from "./pages/RegisterPage";
-
-import PlacePage from "./pages/PlacePage";
-import PlacesFormPage from "./components/PlacesFormPage";
-import PlacesPage from "./pages/PlacesPage";
 
 import BookingPage from "./pages/BookingPage";
 import BookingsPage from "./pages/BookingsPage";
-import UpdateBookingPage from "./components/UpdateBookingPage";
-
+import CampGearsPage from "./pages/CampGearsPage";
+import CampsitesPage from "./pages/CampsitesPage";
 import GearPage from "./pages/GearPage";
 import GearsFormPage from "./components/GearsFormPage";
 import GearsPage from "./pages/GearsPage";
-
+import IndexPage from "./pages/IndexPage";
+import Layout from "./pages/Layout";
+import LoginPage from "./pages/LoginPage";
+import PlacePage from "./pages/PlacePage";
+import PlacesFormPage from "./components/PlacesFormPage";
+import PlacesPage from "./pages/PlacesPage";
+import ProfilePage from "./pages/ProfilePage";
+import RegisterPage from "./pages/RegisterPage";
 import RentPage from "./pages/RentPage";
 import RentsPage from "./pages/RentsPage";
-import UpdateRentingPage from "./components/UpdateRentingPage";
-
 import ReportPage from "./pages/ReportPage";
 import ReportsFormPage from "./components/ReportsFormPage";
 import ReportsPage from "./pages/ReportsPage";
-
 import { ThemeProvider } from "../src/contexts/ThemeContext";
+import UpdateBookingPage from "./components/UpdateBookingPage";
+import UpdateRentingPage from "./components/UpdateRentingPage";
+import { UserContextProvider } from "./userContext";
+import axios from "axios";
 
 axios.defaults.baseURL = "http://localhost:4000";
 axios.defaults.withCredentials = true;
@@ -55,7 +54,7 @@ function App() {
             <Route path="/account/places/:id" element={<PlacesFormPage />} />
             <Route path="/place/:id" element={<PlacePage />} />
 
-            <Route path="/account/bookings" element={<BookingsPage />} />
+            <Route path="/account/bookings" element={<BookingsPage />} /> 
             <Route path="/account/bookings/:id" element={<BookingPage />} />
             <Route
               path="/account/bookings/update/:bookingId"

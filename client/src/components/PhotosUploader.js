@@ -1,3 +1,8 @@
+/**
+ * @component PhotosUploader.js
+ * @description This component is a form to upload photos. The form contains fields for adding photos by link or uploading from the device. The form also includes a grid to display the added photos with buttons to remove a photo and select a photo as the main photo (first photo/thumbnail).
+ */
+
 import axios from "axios";
 import { useState } from "react";
 
@@ -77,7 +82,7 @@ export default function PhotosUploader({ addedPhotos, onChange }) {
               <img
                 className="w-full rounded-2xl object-cover position-center"
                 src={`http://localhost:4000/uploads/${photo}`} //link.replace(/^uploads[/\\]/, '').replace(/\\/g, '/')
-                alt="the place"
+                alt="the campsite"
               />
               <button
                 onClick={(ev) => removePhoto(ev, photo)}
