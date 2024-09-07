@@ -3,8 +3,8 @@ import { useContext, useState } from "react";
 import { UserContext } from "../userContext";
 
 export default function PhotosUploader({ addedPhoto, onChange }) {
-  const { user } = useContext(UserContext);
-  const [photoLink, setPhotoLink] = useState("");
+  const { user } = useContext(UserContext); //user state
+  const [photoLink, setPhotoLink] = useState(""); //photo is initially set to a null string
 
   async function saveImage(photo) {
     try {
@@ -14,28 +14,31 @@ export default function PhotosUploader({ addedPhoto, onChange }) {
       }
 
       const userData = { addedPhotos: photo }; // Ensure it's a string
-      const response = await axios.put("/api/update-profile", userData);
+      const response = await axios.put("/api/update-profile", userData); //request to update the user with a new photo
 
       if (response.status === 200) {
+        //200 OK on completion
         console.log("Image saved successfully:", response.data);
         window.location.reload();
       } else {
+        //on failure
         console.error("Unexpected response:", response.data);
         alert("Failed to save image. Unexpected response from server.");
       }
     } catch (error) {
+      //error handling
       console.error(
         "Error saving image:",
-        error.response ? error.response.data : error.message
+        error.response ? error.response.data : error.message //logs the error
       );
       alert("Failed to save image. Please try again.");
     }
   }
 
   async function addPhotoByLink(ev) {
-    ev.preventDefault();
+    ev.preventDefault(); //prevent the page from reloading while form is submitting
     if (!photoLink.trim()) {
-      alert("Please enter a photo link.");
+      alert("Please enter a photo link."); //validation of profile photo link
       return;
     }
 
@@ -52,20 +55,23 @@ export default function PhotosUploader({ addedPhoto, onChange }) {
   }
 
   async function uploadPhoto(ev) {
+    //function for uploading from device
     const files = ev.target.files;
     const data = new FormData();
 
     if (files.length > 0) {
+      //if there is a file, appent it to data
       data.append("photos", files[0]);
 
       try {
         const response = await axios.post("/api/upload", data, {
+          //post the photo to the db
           headers: { "Content-type": "multipart/form-data" },
         });
         const { data: filename } = response;
         await saveImage(filename); // Await saveImage to ensure it completes before proceeding
       } catch (error) {
-        console.error("Error uploading photo:", error);
+        console.error("Error uploading photo:", error); //error logging
         alert("Failed to upload photo. Please try again.");
       }
     }
@@ -86,7 +92,7 @@ export default function PhotosUploader({ addedPhoto, onChange }) {
           />
         ) : (
           <svg
-            xmlns="http://www.w3.org/2000/svg"
+            xmlns="http://www.w3.org/2000/svg" //else display the default
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -104,14 +110,14 @@ export default function PhotosUploader({ addedPhoto, onChange }) {
       <div className="flex gap-2 items-center">
         <input
           value={photoLink}
-          onChange={(ev) => setPhotoLink(ev.target.value)}
+          onChange={(ev) => setPhotoLink(ev.target.value)} //sets the photoLink to data
           type="text"
           placeholder="Add using a link....jpg"
           className="border px-2 py-1 rounded dark:text-black"
         />
         <div className="grid grid-flow-col gap-2">
           <button onClick={addPhotoByLink} className="primary">
-            Add&nbsp;Photo
+            Add&nbsp;Photo {/*non breaking space*/}
           </button>
           <label className="bg-emerald-600 p-2 w-full text-white rounded-2xl cursor-pointer flex justify-center">
             Add From Device
