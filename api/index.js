@@ -1,15 +1,17 @@
 /**
- * @file index.js [THE BACKEND]
+ * @file index.js [THE BACKEND] (It is an express server)
  * @execution nodemon index.js or node index.js
  * @description This file contains the server-side code for the API. The API provides endpoints for user registration, login, profile management, and campsite management. The API also provides endpoints for booking and renting campsites and gears, as well as reporting issues with campsites and gears. The API also provides endpoints for uploading and downloading images.
  */
 
-const express = require("express");
-const paths = require("path");
-const cors = require("cors");
+const express = require("express"); //express server to handle HTTP requests
+const paths = require("path"); //node paths for directory path handling
+const cors = require("cors"); // Cross-Origin Resource Sharing (allows backend on 4000 and front end on 3000)
 const mongoose = require("mongoose");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs"); //we used to hash passwords
+const jwt = require("jsonwebtoken"); //json web tokens used for authentication
+
+//database models
 const User = require("./models/user.js");
 const Place = require("./models/Place.js");
 const Report = require("./models/Report.js");
@@ -22,14 +24,15 @@ const imageDownloader = require("image-downloader"); //this library is used to d
 const multer = require("multer"); //used to handle file uploads
 const fs = require("fs"); //used to rename files.
 
-require("dotenv").config();
+require("dotenv").config(); //loads environment variables from .env to process env
 const app = express();
 
-const bcryptSalt = bcrypt.genSaltSync(10);
+const bcryptSalt = bcrypt.genSaltSync(10); //creates the salt for hashing passwords (with a complexity of 10)
 const jwtSecret = "fasefraw4r5r3wq45wdfgw34twdfg"; //this is the secret key used to sign the JWT token
 
+//middleware
 app.use(express.json());
-app.use(cookieParser());
+app.use(cookieParser()); //parses cookies in incoming HTTP requests
 app.use("/uploads", express.static("/api/uploads"));
 app.use("/uploads", express.static(paths.join(__dirname, "uploads")));
 
@@ -43,6 +46,7 @@ app.use(
 );
 
 function getUserDataFromReq(req) {
+  //function to extract and verify user data from a request
   return new Promise((resolve, reject) => {
     const { token } = req.cookies;
     if (!token) {
@@ -51,6 +55,7 @@ function getUserDataFromReq(req) {
     }
 
     jwt.verify(token, jwtSecret, {}, (err, userData) => {
+      //function used to verify the authenticity and validity of JWT
       if (err) {
         reject(err);
       } else {
@@ -61,24 +66,26 @@ function getUserDataFromReq(req) {
 }
 
 app.get("/api/test", (req, res) => {
+  //we used this to test if the server is running
   mongoose.connect(process.env.MONGO_URL);
   res.json("test ok");
 });
 
 app.post("/api/register", async (req, res) => {
+  //backend for user registration
   mongoose.connect(process.env.MONGO_URL);
 
-  const { name, email, password } = req.body;
+  const { name, email, password } = req.body; //extracting the data from the request
   try {
     const userDoc = await User.create({
       name,
       email,
       password: bcrypt.hashSync(password, bcryptSalt),
-    });
-    res.json(userDoc);
+    }); //created a new user
+    res.json(userDoc); //sends the new user document as json response to client
   } catch (e) {
     console.log("catched");
-    res.status(422).json(e);
+    res.status(422).json(e); //error handling and responding with HTTP status code
   }
 });
 
@@ -118,15 +125,16 @@ app.post("/api/login", async (req, res) => {
 });
 
 app.get("/api/profile", (req, res) => {
+  //backend for our profile page
   mongoose.connect(process.env.MONGO_URL);
-  const { token } = req.cookies;
+  const { token } = req.cookies; //retrieve the cookies for JWT verification
   if (token) {
     jwt.verify(token, jwtSecret, {}, async (err, userData) => {
       if (err) throw err;
       const { name, email, profileImages, _id } = await User.findById(
         userData.id
       );
-      res.json({ name, email, profileImages, _id });
+      res.json({ name, email, profileImages, _id }); //send a json response with user data
     });
   } else {
     res.json(null);
@@ -134,19 +142,13 @@ app.get("/api/profile", (req, res) => {
 });
 
 app.post("/api/logout", (req, res) => {
-  res.cookie("token", "").json(true);
+  res.cookie("token", "").json(true); //clears the cookie
 });
 
 app.put("/api/update-profile", async (req, res) => {
+  //function to edit the username and profile picture
   const { token } = req.cookies;
   const { name, addedPhotos } = req.body;
-
-  console.log(
-    "Received addedPhotos:",
-    addedPhotos,
-    "Type:",
-    typeof addedPhotos
-  ); // Log the value and its type
 
   try {
     const userData = await getUserDataFromReq(req);
@@ -179,8 +181,8 @@ app.delete("/api/delete-profile", async (req, res) => {
 
   try {
     const userData = await getUserDataFromReq(req);
-    await User.findByIdAndDelete(userData.id);
-    res.clearCookie("token"); // Optionally clear the token cookie
+    await User.findByIdAndDelete(userData.id); //find and deletes the logged in user
+    res.clearCookie("token"); // clear the token cookie
     res.status(200).json({ message: "Profile deleted successfully" });
   } catch (error) {
     res.status(500).json({ error: "Failed to delete profile" });
@@ -587,7 +589,7 @@ app.put("/api/rentings/:id", async (req, res) => {
 //REPORT
 app.get("/account/report/:id", async (req, res) => {
   //try /api/report/:id
-  const { id } = req.params;
+  const { id } = req.params; //extracts id parameter from the URL path
   res.json(await Report.findById(id));
 });
 
@@ -595,9 +597,10 @@ app.delete("/api/reports/:id", async (req, res) => {
   mongoose.connect(process.env.MONGO_URL);
   try {
     const userData = await getUserDataFromReq(req);
-    const { id } = req.params;
+    const { id } = req.params; //set the id to the selected report
 
     const report = await Report.findOneAndDelete({
+      //finds and deletes the selected report
       _id: id,
       owner: userData.id,
     });
@@ -617,6 +620,7 @@ app.delete("/api/reports/:id", async (req, res) => {
 });
 
 app.get("/api/reports/:id", async (req, res) => {
+  //finds a report by id
   const { id } = req.params;
   res.json(await Report.findById(id));
 });
@@ -625,10 +629,11 @@ app.put("/api/reports/:id", async (req, res) => {
   mongoose.connect(process.env.MONGO_URL);
   try {
     const userData = await getUserDataFromReq(req);
-    const { id } = req.params;
-    const { title, description } = req.body;
+    const { id } = req.params; //extracts the id parameter from URL path
+    const { title, description } = req.body; //extracts the report data from request
 
     const report = await Report.findOneAndUpdate(
+      //updates the selected report with new data
       { _id: id, owner: userData.id },
       { title, description },
       { new: true }
@@ -649,6 +654,7 @@ app.put("/api/reports/:id", async (req, res) => {
 });
 
 app.post("/account/reports", async (req, res) => {
+  //create report
   const { title, description } = req.body;
   const { token } = req.cookies;
 
