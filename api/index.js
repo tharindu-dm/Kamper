@@ -591,13 +591,28 @@ app.get("/account/report/:id", async (req, res) => {
   res.json(await Report.findById(id));
 });
 
-app.delete("/account/reports/:id", async (req, res) => {
+app.delete("/api/reports/:id", async (req, res) => {
+  mongoose.connect(process.env.MONGO_URL);
   try {
+    const userData = await getUserDataFromReq(req);
     const { id } = req.params;
-    await Report.findByIdAndDelete(id);
-    res.status(200).json({ message: "Place deleted successfully" });
+
+    const report = await Report.findOneAndDelete({
+      _id: id,
+      owner: userData.id,
+    });
+
+    if (!report) {
+      return res
+        .status(404)
+        .json({ error: "Report not found or unauthorized" });
+    }
+
+    res.json({ message: "Report deleted successfully" });
   } catch (error) {
-    res.status(500).json({ message: "Failed to delete place", error });
+    res
+      .status(500)
+      .json({ error: "Failed to delete report", details: error.message });
   }
 });
 
@@ -606,22 +621,31 @@ app.get("/api/reports/:id", async (req, res) => {
   res.json(await Report.findById(id));
 });
 
-app.put("/account/reports", async (req, res) => {
-  //try /api/reports
-  const { token } = req.cookies;
-  const { id, title, description } = req.body;
+app.put("/api/reports/:id", async (req, res) => {
+  mongoose.connect(process.env.MONGO_URL);
+  try {
+    const userData = await getUserDataFromReq(req);
+    const { id } = req.params;
+    const { title, description } = req.body;
 
-  jwt.verify(token, jwtSecret, {}, async (err, userData) => {
-    const reportDoc = await Report.findById(id);
-    if (userData.id === reportDoc.owner.toString()) {
-      reportDoc.set({
-        title,
-        description,
-      });
-      await reportDoc.save();
-      res.json("ok");
+    const report = await Report.findOneAndUpdate(
+      { _id: id, owner: userData.id },
+      { title, description },
+      { new: true }
+    );
+
+    if (!report) {
+      return res
+        .status(404)
+        .json({ error: "Report not found or unauthorized" });
     }
-  });
+
+    res.json(report);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: "Failed to update report", details: error.message });
+  }
 });
 
 app.post("/account/reports", async (req, res) => {

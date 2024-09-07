@@ -3,6 +3,7 @@
     "@emotion/react": "^11.13.0",
     "@emotion/styled": "^11.13.0",
     "@mui/material": "^5.16.7",
-    "date-fns": "^3.6.0"
+    "date-fns": "^3.6.0",
+    "react-modal": "^3.16.1"
   }
 }
