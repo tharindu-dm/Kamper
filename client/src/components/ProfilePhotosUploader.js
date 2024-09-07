@@ -8,11 +8,26 @@ export default function PhotosUploader({ addedPhoto, onChange }) {
 
   async function saveImage(photo) {
     try {
-      const userData = { addedPhotos: photo };
-      await axios.put("/api/update-profile", { ...userData });
-      window.location.reload(); // Refresh the page after saving the image
+      // Make sure photo is a string
+      if (Array.isArray(photo)) {
+        photo = photo[0]; // Get the first element if it's an array
+      }
+
+      const userData = { addedPhotos: photo }; // Ensure it's a string
+      const response = await axios.put("/api/update-profile", userData);
+
+      if (response.status === 200) {
+        console.log("Image saved successfully:", response.data);
+        window.location.reload();
+      } else {
+        console.error("Unexpected response:", response.data);
+        alert("Failed to save image. Unexpected response from server.");
+      }
     } catch (error) {
-      console.error("Error saving image:", error);
+      console.error(
+        "Error saving image:",
+        error.response ? error.response.data : error.message
+      );
       alert("Failed to save image. Please try again.");
     }
   }

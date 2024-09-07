@@ -34,7 +34,8 @@ app.use("/uploads", express.static("/api/uploads"));
 app.use("/uploads", express.static(paths.join(__dirname, "uploads")));
 
 app.use(
-  cors({ //cors is used to allow cross-origin requests
+  cors({
+    //cors is used to allow cross-origin requests
     credentials: true,
     origin: "http://localhost:3000",
     methods: ["GET", "POST", "PUT", "DELETE"],
@@ -122,7 +123,9 @@ app.get("/api/profile", (req, res) => {
   if (token) {
     jwt.verify(token, jwtSecret, {}, async (err, userData) => {
       if (err) throw err;
-      const { name, email, profileImages, _id } = await User.findById(userData.id);
+      const { name, email, profileImages, _id } = await User.findById(
+        userData.id
+      );
       res.json({ name, email, profileImages, _id });
     });
   } else {
@@ -136,21 +139,40 @@ app.post("/api/logout", (req, res) => {
 
 app.put("/api/update-profile", async (req, res) => {
   const { token } = req.cookies;
-  const { name, addedPhotos } = req.body; // Include the addedPhotos (or profileImages) field
+  const { name, addedPhotos } = req.body;
+
+  console.log(
+    "Received addedPhotos:",
+    addedPhotos,
+    "Type:",
+    typeof addedPhotos
+  ); // Log the value and its type
 
   try {
     const userData = await getUserDataFromReq(req);
+    if (!userData) {
+      return res.status(401).json({ error: "Unauthorized: Invalid token" });
+    }
+
+    // Ensure addedPhotos is a string
     const updatedUser = await User.findByIdAndUpdate(
       userData.id,
-      { name, profileImages: addedPhotos }, // Update the profileImages field with the uploaded image URL
+      { name, profileImages: addedPhotos }, // Expecting addedPhotos to be a string
       { new: true }
     );
-    res.json(updatedUser); // Return the updated user data, including the image URL
+
+    if (!updatedUser) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    res.json(updatedUser);
   } catch (error) {
-    res.status(500).json({ error: "Failed to update profile" });
+    console.error("Error updating profile:", error.message);
+    res
+      .status(500)
+      .json({ error: "Failed to update profile", details: error.message });
   }
 });
-
 
 app.delete("/api/delete-profile", async (req, res) => {
   const { token } = req.cookies;
@@ -185,7 +207,8 @@ const path = require("path");
 app.post("/api/upload", photosMiddleware.array("photos", 10), (req, res) => {
   const uploadedFiles = [];
 
-  for (let i = 0; i < req.files.length; i++) { //loop through the uploaded files
+  for (let i = 0; i < req.files.length; i++) {
+    //loop through the uploaded files
     //rename the file to include the original extension
     const { path, originalname } = req.files[i];
     const parts = originalname.split(".");
@@ -199,7 +222,8 @@ app.post("/api/upload", photosMiddleware.array("photos", 10), (req, res) => {
 });
 
 //PLACES
-app.post("/account/places", async (req, res) => { //create and update campsite
+app.post("/account/places", async (req, res) => {
+  //create and update campsite
   mongoose.connect(process.env.MONGO_URL);
   const { token } = req.cookies;
   const {
@@ -218,7 +242,8 @@ app.post("/account/places", async (req, res) => { //create and update campsite
   jwt.verify(token, jwtSecret, {}, async (err, userData) => {
     if (err) throw err;
 
-    const placeDoc = await Place.create({ //placeDoc is the new campsite
+    const placeDoc = await Place.create({
+      //placeDoc is the new campsite
       owner: userData.id,
       title,
       address,
@@ -243,7 +268,8 @@ app.get("/account/user-places", async (req, res) => {
 
   try {
     const userData = await getUserDataFromReq(req);
-    if (!userData || !userData.id) { // if the user data is invalid or missing
+    if (!userData || !userData.id) {
+      // if the user data is invalid or missing
       return res.status(401).json({ error: "Invalid user data" });
     }
 
@@ -261,12 +287,14 @@ app.get("/account/user-places", async (req, res) => {
   }
 });
 
-app.get("/account/places/:id", async (req, res) => { //get a single campsite from id related to the user
+app.get("/account/places/:id", async (req, res) => {
+  //get a single campsite from id related to the user
   const { id } = req.params;
   res.json(await Place.findById(id));
 });
 
-app.delete("/account/places/:id", async (req, res) => { //delete a campsite
+app.delete("/account/places/:id", async (req, res) => {
+  //delete a campsite
   try {
     const { id } = req.params;
     await Place.findByIdAndDelete(id);
@@ -276,12 +304,14 @@ app.delete("/account/places/:id", async (req, res) => { //delete a campsite
   }
 });
 
-app.get("/api/places/:id", async (req, res) => { //find a campsite by id
+app.get("/api/places/:id", async (req, res) => {
+  //find a campsite by id
   const { id } = req.params;
   res.json(await Place.findById(id));
 });
 
-app.put("/account/places", async (req, res) => { //update a campsite
+app.put("/account/places", async (req, res) => {
+  //update a campsite
   //try /api/places
   const { token } = req.cookies;
   const {
@@ -300,7 +330,7 @@ app.put("/account/places", async (req, res) => { //update a campsite
 
   jwt.verify(token, jwtSecret, {}, async (err, userData) => {
     const placeDoc = await Place.findById(id);
-    if (userData.id === placeDoc.owner.toString()) { 
+    if (userData.id === placeDoc.owner.toString()) {
       placeDoc.set({
         title,
         address,
@@ -319,7 +349,8 @@ app.put("/account/places", async (req, res) => { //update a campsite
   });
 });
 
-app.get("/api/place", async (req, res) => { //get all campsites
+app.get("/api/place", async (req, res) => {
+  //get all campsites
   res.json(await Place.find());
 });
 
@@ -373,8 +404,8 @@ app.post("/api/rentings", async (req, res) => {
 
 app.get("/api/bookings", async (req, res) => {
   mongoose.connect(process.env.MONGO_URL); //connect to the database
-  const userData = await getUserDataFromReq(req);  //get the user data
-  res.json(await Booking.find({ user: userData.id }).populate("place"));  //find the bookings related to the user
+  const userData = await getUserDataFromReq(req); //get the user data
+  res.json(await Booking.find({ user: userData.id }).populate("place")); //find the bookings related to the user
 });
 
 app.get("/api/rentings", async (req, res) => {
@@ -483,7 +514,7 @@ app.get("/api/gear", async (req, res) => {
 app.delete("/api/bookings/:id", async (req, res) => {
   mongoose.connect(process.env.MONGO_URL);
   try {
-    const bookingId = req.params.id; 
+    const bookingId = req.params.id;
     await Booking.findByIdAndDelete(bookingId); // delete the booking
     res.status(200).json({ message: "Booking deleted successfully" });
   } catch (err) {
@@ -516,7 +547,7 @@ app.get("/api/bookings/:id", async (req, res) => {
 
 app.put("/api/bookings/:id", async (req, res) => {
   mongoose.connect(process.env.MONGO_URL);
-  const { numberOfGuests, phone } = req.body;  // get the data from the request
+  const { numberOfGuests, phone } = req.body; // get the data from the request
   try {
     const booking = await Booking.findById(req.params.id);
     booking.numberOfGuests = numberOfGuests;
