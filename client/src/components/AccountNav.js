@@ -1,16 +1,18 @@
 import { Link, useLocation } from "react-router-dom";
 
 export default function AccountNavi() {
-  const { pathname } = useLocation();
-  let subpage = pathname.split("/")?.[2];
+  const { pathname } = useLocation(); //set the pathname variable to the current URL path
+  let subpage = pathname.split("/")?.[2]; //splits the pathname by / character. This creates an array of pathnames
 
   if (subpage === undefined) {
-    subpage = "profile";
+    subpage = "profile"; //if the subpage is not set, it defaults to profile
   }
 
   function linkClasses(type = null) {
-    let classes = " inline-flex gap-1 py-2 px-6 rounded-full";
+    //type is the type of the subpage (gear, rentings)
+    let classes = " inline-flex gap-1 py-2 px-6 rounded-full"; //displays the subpages
     if (type === subpage) {
+      //if we're in subpage, display it in white / grey
       classes += " bg-primary text-white ";
     } else {
       classes += " bg-gray-200 dark:bg-gray-600";
@@ -107,6 +109,8 @@ export default function AccountNavi() {
           My Gears
         </Link>
         <Link className={linkClasses("reports")} to={"/account/reports"}>
+          {" "}
+          {/*Links according to class*/}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
