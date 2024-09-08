@@ -149,6 +149,7 @@ export default function RentingWidget({ gear }) {
               type="tel"
               value={phone}
               onChange={(ev) => setPhone(ev.target.value)}
+              maxLength={10}
             />
           </div>
         )}
