@@ -46,13 +46,21 @@ function getUserDataFromReq(req) {
   return new Promise((resolve, reject) => {
     const { token } = req.cookies;
     if (!token) {
-      reject(new Error("No token provided"));
+      reject({
+        status: 401,
+        message: "No token provided",
+        redirectUrl: "/Kamper/login",
+      });
       return;
     }
 
     jwt.verify(token, jwtSecret, {}, (err, userData) => {
       if (err) {
-        reject(err);
+        reject({
+          status: 401,
+          message: "Invalid token",
+          redirectUrl: "/Kamper/login",
+        });
       } else {
         resolve(userData);
       }
@@ -221,6 +229,30 @@ app.post("/api/upload", photosMiddleware.array("photos", 10), (req, res) => {
   res.json(uploadedFiles); //send the uploaded files to the client and update the grid
 });
 
+app.delete("/api/delete-photo", async (req, res) => {
+  const { filename } = req.body;
+
+  // Define the path to the uploads directory
+  const filePath = path.join(__dirname, "uploads", filename);
+  const userData = await getUserDataFromReq(req);
+  try {
+    // Remove the file from the filesystem
+    fs.unlinkSync(filePath);
+
+    // Update the user's document in MongoDB to remove the photo reference
+    await User.updateOne(
+      
+      { _id: userData.id }, // Assuming you're passing the user's ID
+      { $unset: { profileImages: "" } }
+    );
+
+    res.status(200).send({ message: "Photo deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting photo:", error);
+    res.status(500).send({ error: "Failed to delete photo" });
+  }
+});
+
 //PLACES
 app.post("/account/places", async (req, res) => {
   //create and update campsite
@@ -356,50 +388,68 @@ app.get("/api/place", async (req, res) => {
 
 //BOOKINGS AND RENTINGS
 app.post("/api/bookings", async (req, res) => {
-  mongoose.connect(process.env.MONGO_URL);
-  const userData = await getUserDataFromReq(req); //get the user data
-  const { place, checkIn, checkOut, numberOfGuests, name, phone, price } =
-    req.body;
-  Booking.create({
-    place,
-    checkIn,
-    checkOut,
-    numberOfGuests,
-    name,
-    phone,
-    price,
-    user: userData.id,
-  })
-    .then((doc) => {
-      //if (err) throw err;
-      res.json(doc);
-    })
-    .catch((err) => {
-      throw err;
+  try {
+    mongoose.connect(process.env.MONGO_URL);
+    const userData = await getUserDataFromReq(req);
+    const { place, checkIn, checkOut, numberOfGuests, name, phone, price } =
+      req.body;
+
+    const doc = await Booking.create({
+      place,
+      checkIn,
+      checkOut,
+      numberOfGuests,
+      name,
+      phone,
+      price,
+      user: userData.id,
     });
+
+    res.json(doc);
+  } catch (err) {
+    if (err.status === 401) {
+      // Send a special response for authentication errors
+      res.status(401).json({
+        error: err.message,
+        redirectUrl: err.redirectUrl,
+      });
+    } else {
+      console.error("Booking error:", err);
+      res.status(500).json({ error: "Failed to create booking" });
+    }
+  }
 });
+
 app.post("/api/rentings", async (req, res) => {
-  mongoose.connect(process.env.MONGO_URL);
-  const userData = await getUserDataFromReq(req); //get the user data
-  const { gear, checkIn, checkOut, numberOfItems, name, phone, price } =
-    req.body;
-  Renting.create({
-    gear,
-    checkIn,
-    checkOut,
-    numberOfItems,
-    name,
-    phone,
-    price,
-    user: userData.id,
-  })
-    .then((doc) => {
-      //if (err) throw err;
-      res.json(doc);
-    })
-    .catch((err) => {
-      throw err;
+  try {
+    mongoose.connect(process.env.MONGO_URL);
+    const userData = await getUserDataFromReq(req); //get the user data
+    const { gear, checkIn, checkOut, numberOfItems, name, phone, price } =
+      req.body;
+
+    const doc = await Renting.create({
+      gear,
+      checkIn,
+      checkOut,
+      numberOfItems,
+      name,
+      phone,
+      price,
+      user: userData.id,
     });
+
+    res.json(doc);
+  } catch (err) {
+    if (err.status === 401) {
+      res.status(401).json({
+        error: err.message,
+        redirectUrl: err.redirectUrl,
+      });
+    } else {
+      console.error("Renting error:", err);
+      res.status(500).json({ error: "Failed to create a renting" });
+    }
+  }
 });
 
 app.get("/api/bookings", async (req, res) => {
