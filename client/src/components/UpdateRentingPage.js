@@ -78,6 +78,7 @@ export default function UpdateRentingPage() {
                     value={phone} 
                     onChange={(e) => setPhone(e.target.value)} 
                     className="border p-2 w-full" 
+                    maxLength={10}
                 />
             </div>
             <button 

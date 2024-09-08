@@ -111,6 +111,7 @@ export default function RentingWidget({ gear }) {
               type="date"
               value={checkIn}
               onChange={(ev) => setCheckIn(ev.target.value)}
+              min={new Date().toISOString().split("T")[0]} // Prevent past dates
             />
           </div>
           <div className="py-3 px-4 border-l">
@@ -120,6 +121,7 @@ export default function RentingWidget({ gear }) {
               type="date"
               value={checkOut}
               onChange={(ev) => setCheckOut(ev.target.value)}
+              min={checkIn} // Check-out cannot be before check-in
             />
           </div>
         </div>
@@ -149,6 +151,7 @@ export default function RentingWidget({ gear }) {
               type="tel"
               value={phone}
               onChange={(ev) => setPhone(ev.target.value)}
+              maxLength={10}
             />
           </div>
         )}

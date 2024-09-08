@@ -1,6 +1,7 @@
-import axios from "axios";
 import { useContext, useState } from "react";
+
 import { UserContext } from "../userContext";
+import axios from "axios";
 
 export default function PhotosUploader({ addedPhoto, onChange }) {
   const { user } = useContext(UserContext); //user state
@@ -123,14 +124,7 @@ export default function PhotosUploader({ addedPhoto, onChange }) {
             Add From Device
             <input type="file" onChange={uploadPhoto} className="hidden" />
           </label>
-          {user.profileImages && (
-            <button
-              onClick={removePhoto}
-              className="secondary px-2 rounded-2xl"
-            >
-              Delete Photo
-            </button>
-          )}
+          
         </div>
       </div>
     </>
