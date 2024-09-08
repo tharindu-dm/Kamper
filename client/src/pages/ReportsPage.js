@@ -23,12 +23,14 @@ export default function ReportsPage() {
   };
 
   const openModal = (report) => {
+    //opens the modal for the selected report
     setSelectedReport(report);
     setFormData({ title: report.title, description: report.description });
     setModalIsOpen(true);
   };
 
   const closeModal = () => {
+    //closes the modal and clears selected report
     setModalIsOpen(false);
     setSelectedReport(null);
   };
