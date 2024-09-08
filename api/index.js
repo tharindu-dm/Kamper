@@ -12,7 +12,7 @@ const bcrypt = require("bcryptjs"); //we used to hash passwords
 const jwt = require("jsonwebtoken"); //json web tokens used for authentication
 
 //database models
-const User = require("./models/user.js");
+const User = require("./models/User.js");
 const Place = require("./models/Place.js");
 const Report = require("./models/Report.js");
 const Booking = require("./models/Booking.js");
