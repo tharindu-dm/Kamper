@@ -79,32 +79,31 @@ export default function PhotosUploader({ addedPhoto, onChange }) {
   }
 
   // Updated removePhoto function
-async function removePhoto() {
-  if (!user.profileImages) return;
+  async function removePhoto() {
+    if (!user.profileImages) return;
 
-  try {
-    // Make a delete request to the backend to remove the file and update the database
-    const response = await axios.delete("/api/delete-photo", {
-      data: { filename: user.profileImages },
-    });
+    try {
+      // Make a delete request to the backend to remove the file and update the database
+      const response = await axios.delete("/api/delete-photo", {
+        data: { filename: user.profileImages },
+      });
 
-    if (response.status === 200) {
-      console.log("Photo deleted successfully:", response.data);
-      onChange(""); // Clear the current photo in the component state
-      window.location.reload(); // Optional: reload to update UI if needed
-    } else {
-      console.error("Failed to delete photo:", response.data);
-      alert("Failed to delete photo. Unexpected response from server.");
+      if (response.status === 200) {
+        console.log("Photo deleted successfully:", response.data);
+        onChange(""); // Clear the current photo in the component state
+        window.location.reload(); // Optional: reload to update UI if needed
+      } else {
+        console.error("Failed to delete photo:", response.data);
+        alert("Failed to delete photo. Unexpected response from server.");
+      }
+    } catch (error) {
+      console.error(
+        "Error deleting photo:",
+        error.response ? error.response.data : error.message
+      );
+      alert("Failed to delete photo. Please try again.");
     }
-  } catch (error) {
-    console.error(
-      "Error deleting photo:",
-      error.response ? error.response.data : error.message
-    );
-    alert("Failed to delete photo. Please try again.");
   }
-}
-
 
   return (
     <>
@@ -148,7 +147,14 @@ async function removePhoto() {
             Add From Device
             <input type="file" onChange={uploadPhoto} className="hidden" />
           </label>
-          
+          {user.profileImages && (
+            <button
+              onClick={removePhoto}
+              className="secondary px-2 rounded-2xl"
+            >
+              Delete Photo
+            </button>
+          )}
         </div>
       </div>
     </>

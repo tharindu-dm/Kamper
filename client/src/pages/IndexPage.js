@@ -55,7 +55,7 @@ export default function IndexPage() {
           What People Are Saying
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-6">
-          <div className="p-4 rounded-lg border border-emerald-600 shadow-lg">
+          <div className="p-4 rounded-lg border border-emerald-600 shadow-lg dark:bg-gray-900">
             <div className="flex justify-center mb-1">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -72,7 +72,7 @@ export default function IndexPage() {
                 />
               </svg>
             </div>
-            <p className="text-gray-700 dark:text-gray-200">
+            <p className="text-gray-700 dark:text-gray-200 ">
               "This website helped me find the perfect campsite for my family
               vacation. We had a blast!"
             </p>
@@ -80,7 +80,7 @@ export default function IndexPage() {
               - Kirigaya Kazuto
             </span>
           </div>
-          <div className="p-4 rounded-lg border border-emerald-600 shadow-lg">
+          <div className="p-4 rounded-lg border border-emerald-600 shadow-lg dark:bg-gray-900" >
             <div className="flex justify-center mb-1">
               <svg
                 xmlns="http://www.w3.org/2000/svg"

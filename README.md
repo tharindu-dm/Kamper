@@ -9,6 +9,7 @@ Kamper is a web application for discovering and booking campsites, as well as re
 - Rent camping gear
 - User accounts with profiles and bookings
 - Campsite owners can list and manage their properties
+- Dark Mode!
 
 ## Pages
 
@@ -32,9 +33,57 @@ Kamper is a web application for discovering and booking campsites, as well as re
 3. Set up environment variables
 4. Run the development server: `npm run start`
 
-## Contributing
+## Contribution Breakdown
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+### Tharindu
+    + Interfaces: 
+        Landing Page
+        Browse Campsites
+        Dark mode toggle
+        Campsite Details
+        Image Uploader
+    
+    + Features: 
+        Campsite CRUD operations
+            - Create a campsite and diplay on the browse page and single campsite details page
+            - Update a campsite using the same form as the create form
+            - Delete a campsite from the database
+            - Handle multiple images for a campsite and selecting a cover image
+            
+    + Database:
+        Creating a cloud hosted MongoDB database (Free)
+
+    + Other:
+        Utilizing GitHub for better Code-Team coordination and organization
+            
+
+### Naveen
+    + Interfaces:
+
+    + Features:
+
+    + Other:
+
+### Ravidu
+    + Interfaces:
+
+    + Features:
+
+    + Other:
+
+### Praneesh
+    + Interfaces:
+
+    + Features:
+
+    + Other:
+
+### Raheem
+    + Interfaces:
+
+    + Features:
+
+    + Other:
 
 ## License
 
