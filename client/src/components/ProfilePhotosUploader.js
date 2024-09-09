@@ -78,9 +78,33 @@ export default function PhotosUploader({ addedPhoto, onChange }) {
     }
   }
 
-  function removePhoto() {
-    onChange(""); // Clear the current photo
+  // Updated removePhoto function
+async function removePhoto() {
+  if (!user.profileImages) return;
+
+  try {
+    // Make a delete request to the backend to remove the file and update the database
+    const response = await axios.delete("/api/delete-photo", {
+      data: { filename: user.profileImages },
+    });
+
+    if (response.status === 200) {
+      console.log("Photo deleted successfully:", response.data);
+      onChange(""); // Clear the current photo in the component state
+      window.location.reload(); // Optional: reload to update UI if needed
+    } else {
+      console.error("Failed to delete photo:", response.data);
+      alert("Failed to delete photo. Unexpected response from server.");
+    }
+  } catch (error) {
+    console.error(
+      "Error deleting photo:",
+      error.response ? error.response.data : error.message
+    );
+    alert("Failed to delete photo. Please try again.");
   }
+}
+
 
   return (
     <>

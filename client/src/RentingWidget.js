@@ -86,10 +86,34 @@ export default function RentingWidget({ gear }) {
         gear: gear._id,
         price: totalPrice,
       });
+  
+      // Check if the response contains a redirectUrl (user not authenticated)
+      if (response.data.redirectUrl) {
+        // Redirect to login page
+        window.location.href = response.data.redirectUrl;
+        return;
+      }
+
       const rentingId = response.data._id;
       setRedirect(`/account/rents/${rentingId}`);
-    } catch (err) {
-      console.error("Error renting the item:", err);
+    } catch (error) {
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        if (error.response.status === 401 && error.response.data.redirectUrl) {
+          // Unauthorized, redirect to login
+          window.location.href = error.response.data.redirectUrl;
+          return;
+        }
+        setError(error.response.data.error || "Failed to rent the gear. Please try again later.");
+      } else if (error.request) {
+        // The request was made but no response was received
+        setError("No response received from the server. Please try again later.");
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        setError("An error occurred while renting. Please try again later.");
+      }
+      console.error("Renting error:", error);
     }
   }
 
@@ -150,6 +174,8 @@ export default function RentingWidget({ gear }) {
               className="dark:text-black"
               type="tel"
               value={phone}
+              maxLength={10}
+              size={10}
               onChange={(ev) => setPhone(ev.target.value)}
               maxLength={10}
             />

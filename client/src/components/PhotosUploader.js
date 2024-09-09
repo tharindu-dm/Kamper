@@ -43,7 +43,7 @@ export default function PhotosUploader({ addedPhotos, onChange }) {
   }
 
   function removePhoto(ev, filename) {
-    ev.prevenෆtDefault();
+    ev.preventDefault();
     onChange([...addedPhotos.filter((photo) => photo !== filename)]);
   }
 

@@ -94,7 +94,7 @@ export default function BookingWidget({ place }) {
     if (!validateInputs()) {
       return;
     }
-
+  
     try {
       const response = await axios.post("/api/bookings", {
         checkIn,
@@ -105,10 +105,34 @@ export default function BookingWidget({ place }) {
         place: place._id,
         price: totalPrice,
       });
+  
+      // Check if the response contains a redirectUrl (user not authenticated)
+      if (response.data.redirectUrl) {
+        // Redirect to login page
+        window.location.href = response.data.redirectUrl;
+        return;
+      }
+  
       const bookingId = response.data._id;
       setRedirect(`/account/bookings/${bookingId}`);
     } catch (error) {
-      setError("Failed to book the place. Please try again later.");
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        if (error.response.status === 401 && error.response.data.redirectUrl) {
+          // Unauthorized, redirect to login
+          window.location.href = error.response.data.redirectUrl;
+          return;
+        }
+        setError(error.response.data.error || "Failed to book the place. Please try again later.");
+      } else if (error.request) {
+        // The request was made but no response was received
+        setError("No response received from the server. Please try again later.");
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        setError("An error occurred while booking. Please try again later.");
+      }
+      console.error("Booking error:", error);
     }
   }
 
@@ -171,6 +195,7 @@ export default function BookingWidget({ place }) {
               value={phone}
               onChange={(ev) => setPhone(ev.target.value)}
               maxLength={10}
+              size={10}
             />
           </div>
         )}
