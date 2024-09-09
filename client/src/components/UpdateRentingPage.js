@@ -50,7 +50,7 @@ export default function UpdateRentingPage() {
                     type="text" 
                     value={renting.gear.type} 
                     readOnly 
-                    className="border p-2 w-full" 
+                    className="border p-2 w-full dark:text-black" 
                 />
             </div>
             <div className="mb-4">
@@ -59,7 +59,7 @@ export default function UpdateRentingPage() {
                     type="text" 
                     value={formattedCheckInDate} 
                     readOnly 
-                    className="border p-2 w-full" 
+                    className="border p-2 w-full dark:text-black" 
                 />
             </div>
             <div className="mb-4">
@@ -68,7 +68,7 @@ export default function UpdateRentingPage() {
                     type="text" 
                     value={formattedCheckOutDate} 
                     readOnly 
-                    className="border p-2 w-full" 
+                    className="border p-2 w-full dark:text-black" 
                 />
             </div>
             <div className="mb-4">
@@ -77,7 +77,7 @@ export default function UpdateRentingPage() {
                     type="text" 
                     value={phone} 
                     onChange={(e) => setPhone(e.target.value)} 
-                    className="border p-2 w-full" 
+                    className="border p-2 w-full dark:text-black" 
                     maxLength={10}
                 />
             </div>
