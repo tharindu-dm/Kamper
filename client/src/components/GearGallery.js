@@ -2,7 +2,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import CropOriginalIcon from "@mui/icons-material/CropOriginal";
 
 import { useState } from "react";
-export default function PlaceGallery({ gear }) {
+export default function GearGallery({ gear }) {
   const [showAllPhotos, setShowAllPhotos] = useState(false);
 
   if (showAllPhotos) {
