@@ -83,7 +83,7 @@ export default function UpdateBookingPage() {
           type="text"
           value={booking.place.title}
           readOnly
-          className="border p-2 w-full"
+          className="border p-2 w-full dark:text-black"
         />
       </div>
       <div className="mb-4">
@@ -92,7 +92,7 @@ export default function UpdateBookingPage() {
           type="text"
           value={formatDate(booking.checkIn)} // Display only date
           readOnly
-          className="border p-2 w-full"
+          className="border p-2 w-full dark:text-black"
         />
       </div>
       <div className="mb-4">
@@ -101,7 +101,7 @@ export default function UpdateBookingPage() {
           type="text"
           value={formatDate(booking.checkOut)} // Display only date
           readOnly
-          className="border p-2 w-full"
+          className="border p-2 w-full dark:text-black"
         />
       </div>
       <div className="mb-4">
@@ -110,7 +110,7 @@ export default function UpdateBookingPage() {
           type="number"
           value={numberOfGuests}
           onChange={(e) => setNumberOfGuests(parseInt(e.target.value))}
-          className="border p-2 w-full"
+          className="border p-2 w-full dark:text-black"
           min={1}
           max={booking.place.maxGuests}
         />
@@ -121,7 +121,7 @@ export default function UpdateBookingPage() {
           type="text"
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
-          className="border p-2 w-full"
+          className="border p-2 w-full dark:text-black"
           maxLength={10}
         />
       </div>

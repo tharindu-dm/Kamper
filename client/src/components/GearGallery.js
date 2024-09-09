@@ -2,7 +2,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import CropOriginalIcon from "@mui/icons-material/CropOriginal";
 
 import { useState } from "react";
-export default function PlaceGallery({ gear }) {
+export default function GearGallery({ gear }) {
   const [showAllPhotos, setShowAllPhotos] = useState(false);
 
   if (showAllPhotos) {
@@ -13,7 +13,7 @@ export default function PlaceGallery({ gear }) {
             <h2 className="text-3xl mr-48">Photos of {gear.type}</h2>
             <button
               onClick={() => setShowAllPhotos(false)}
-              className="fixed right-12 top-8 flex gap-1 py-2 px-4 rounded-2xl shadow-black bg-white dark:bg-gray-800 text-black dark:text-white"
+              className="fixed right-12 top-28 flex gap-1 py-2 px-4 rounded-2xl shadow-black bg-white dark:bg-gray-800 text-black dark:text-white"
             >
               <CloseIcon></CloseIcon>
               Close photos
