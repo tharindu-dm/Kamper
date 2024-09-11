@@ -59,17 +59,27 @@ Kamper is a web application for discovering and booking campsites, as well as re
 
 ### Naveen
     + Interfaces:
-
+        
     + Features:
 
     + Other:
 
 ### Ravidu
     + Interfaces:
+        Booking Page
+        Bookings Page
+        Booking Widget
+        Booking Dates Component
 
     + Features:
-
+        Booking Campsite CRUD operations
+            - Create a booking widget for placing bookings on campsites.
+            - Allow customers to update only their phone number and maximum number of guests.
+            - Enable deletion of booked campsites from the database.
+            - Display all bookings made by the logged-in user in the "My Bookings" section.
+            
     + Other:
+        Implement validation criteria to ensure users cannot book past dates, exceed the maximum number of guests, etc.
 
 ### Praneesh
     + Interfaces:
